@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget listTileInfo(BuildContext context, String image, String title) {
+Widget listTileInfo(BuildContext context, String image, String title, String text) {
   return ListTile(
     leading: Container(
       height: MediaQuery.of(context).size.height * 0.10,
@@ -21,7 +21,7 @@ Widget listTileInfo(BuildContext context, String image, String title) {
       width: MediaQuery.of(context).size.width * 0.2,
       child: Column(
         children: <Widget>[
-          
+          Text(text),
         ],
       ),
     ),

@@ -58,17 +58,22 @@ class Worker4SignUp extends StatelessWidget {
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-
-                    Text(
-                    'Attach a Photo of Yourself',
-                     style: TextStyle(
-                    color: Colors.black54, fontSize: 16, fontFamily: 'Raleway'),
-                    textAlign: TextAlign.center,
-              ),
+                  children: <Widget>[ 
+                    Expanded(
+                      child: Column(children: <Widget>[
+                      Text(
+                      'Attach a Photo of Yourself',
+                       style: TextStyle(
+                      color: Colors.black54, fontSize: 16, fontFamily: 'Raleway'),
+                      textAlign: TextAlign.center,
+                     ),
+                    
                     SizedBox(height: 20),
                      ImageInput1(_selectImage),
-                     SizedBox(height: 20),
+                      ],
+                      ),
+                    ),
+                   // SizedBox(height: 20),
                     GestureDetector(
                               onTap: () => workerSignUp(context),
                               child: Container(

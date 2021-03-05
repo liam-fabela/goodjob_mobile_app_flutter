@@ -67,7 +67,7 @@ class _SignUpModal3State extends State<SignUpModal3> {
                   label: Text(
                     'Take Photo',
                     style: TextStyle(
-                      fontSize: 14,
+                     // fontSize: 14,
                     ),
                   ),
                   textColor: Theme.of(context).primaryColor,
@@ -83,7 +83,7 @@ class _SignUpModal3State extends State<SignUpModal3> {
                   label: Text(
                     'Upload Photo',
                     style: TextStyle(
-                      fontSize: 14,
+                      //fontSize: 14,
                     ),
                   ),
                   textColor: Theme.of(context).primaryColor,

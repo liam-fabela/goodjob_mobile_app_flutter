@@ -53,10 +53,19 @@ class _Worker3SignUpState extends State<Worker3SignUp> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Center(
-                          child: Text('Some job categories'),
+                        Expanded(
+                          child: Column(children: <Widget>[
+                          Center(
+                            child: Text('Choose a category/categories',
+                            style: TextStyle(
+                            color: Colors.black54, fontSize: 16, fontFamily: 'Raleway'),
+                            ),
+                          ),
+                          
+                          ],
+                          ),
                         ),
-                        SizedBox(height: 30),
+                        //SizedBox(height: 30),
                         GestureDetector(
                               onTap: () => workerSignUp(context),
                               child: Container(

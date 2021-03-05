@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 
 import '../styles/style.dart';
-import 'worker3_sign_up.dart';
+//import 'worker3_sign_up.dart';
+import 'worker4_sign_up.dart';
 
 class Worker2SignUp extends StatefulWidget {
   static const routeName = '/worker2_signup';
@@ -18,7 +19,7 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
    void workerSignUp(BuildContext context) {
   if(formKey.currentState.validate()){
     Navigator.of(context).pushNamed(
-      Worker3SignUp.routeName
+      Worker4SignUp.routeName
     );
   }
   }

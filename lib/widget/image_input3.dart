@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'signup_modal3.dart';
+import 'information_modal.dart';
 
 class ImageInput3 extends StatefulWidget {
   final Function onSelectImage;
@@ -55,6 +56,19 @@ class _ImageInput3State extends State<ImageInput3> {
     );
   }
 
+  void _openInfo(BuildContext ctx, String image, String title, String text){
+     showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: InformationModal(image, title, text),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -71,7 +85,7 @@ class _ImageInput3State extends State<ImageInput3> {
 
             },
             activeColor: Theme.of(context).primaryColor,
-            secondary: IconButton(onPressed: (){}, icon: Icon(Icons.info),
+            secondary: IconButton(onPressed: ()=> _openInfo(context,'assets/images/good_job.png','Bronze Badge','You\'ll get a bronze badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
             color: Color.fromRGBO(62, 135, 148, 1),
           ),
          // selected: true,
@@ -86,7 +100,7 @@ class _ImageInput3State extends State<ImageInput3> {
 
         },
         activeColor: Theme.of(context).primaryColor,
-        secondary: IconButton(onPressed: (){}, icon: Icon(Icons.info),
+        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/good_job.png','Silver Badge','You\'ll get a silver badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
         color: Color.fromRGBO(62, 135, 148, 1),
       ),
       // selected: false,
@@ -101,7 +115,7 @@ class _ImageInput3State extends State<ImageInput3> {
 
         },
         activeColor: Theme.of(context).primaryColor,
-        secondary: IconButton(onPressed: (){}, icon: Icon(Icons.info),
+        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/good_job.png','Gold Badge','Congrats! You\'ll get a gold badge for credibility level. This is the highest level of credibility, which means customers would most likely to choose you as their worker.Credibility level means the measure of your trustworthiness as a person.'), icon: Icon(Icons.info),
         color: Color.fromRGBO(62, 135, 148, 1),
       ),
       // selected: false,
