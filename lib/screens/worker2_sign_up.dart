@@ -7,6 +7,12 @@ import 'worker4_sign_up.dart';
 
 class Worker2SignUp extends StatefulWidget {
   static const routeName = '/worker2_signup';
+  //final String fname;
+  //final String lname;
+  //final String bdate;
+
+  //Worker2SignUp(this.fname, this.lname, this.bdate);
+  
   @override
   _Worker2SignUpState createState() => _Worker2SignUpState();
 }
@@ -15,13 +21,39 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
     final TextEditingController _street = TextEditingController();
     final TextEditingController _barangay = TextEditingController();
      final TextEditingController _cityOrMuni = TextEditingController();
-   final formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
+    String lname;
+    String fname;
+    String bdate;
+
+
+    @override
+  void didChangeDependencies() {
+    final ws1 = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    lname = ws1['lname'];
+    fname = ws1['fname'];
+    bdate = ws1['bdate'];
+    
+    super.didChangeDependencies();
+  }
+
+   
    void workerSignUp(BuildContext context) {
   if(formKey.currentState.validate()){
     Navigator.of(context).pushNamed(
-      Worker4SignUp.routeName
+      Worker4SignUp.routeName,
+      arguments: {
+        'lname': lname,
+        'fname': fname,
+        'bdate': bdate,
+        'addr': _street.text + ' ' + _barangay.text + ' ' + _cityOrMuni.text,
+
+
+      }
     );
+    
   }
+    //print(lname2);
   }
 
   @override

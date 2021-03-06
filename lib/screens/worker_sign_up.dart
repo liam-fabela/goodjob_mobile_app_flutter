@@ -7,6 +7,7 @@ import 'worker2_sign_up.dart';
 
 class WorkerSignUp extends StatefulWidget {
   static const routeName = '/worker_signup';
+
   @override
   _WorkerSignUpState createState() => _WorkerSignUpState();
 }
@@ -17,6 +18,8 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
   final TextEditingController _dateController = TextEditingController();
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
+
+
 
   void _presentDatePicker() {
     showDatePicker(
@@ -41,7 +44,12 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
   void _workerSignUp(BuildContext context) {
     if(formKey.currentState.validate()){
        Navigator.of(context).pushNamed(
-      Worker2SignUp.routeName
+      Worker2SignUp.routeName,
+      arguments: {
+        'lname': _lastName.text,
+        'fname': _firstName.text,
+        'bdate': _dateController.text,
+      }
       );
     }
 

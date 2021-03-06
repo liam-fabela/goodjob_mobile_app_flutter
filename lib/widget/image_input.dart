@@ -11,6 +11,7 @@ class ImageInput1 extends StatefulWidget {
 
   final Function onSelectImage;
 
+
   ImageInput1(this.onSelectImage);
   @override
   _ImageInput1State createState() => _ImageInput1State();
@@ -20,10 +21,12 @@ class _ImageInput1State extends State<ImageInput1> {
   
   File _pickedImage;
   //File _storedImage;
+  String filePhoto;
 
   
 
-   void _selectImage(File pickedImage) {
+   void _selectImage(File pickedImage, String fileName) {
+     filePhoto = fileName;
      setState(() {
         _pickedImage = pickedImage;
      });

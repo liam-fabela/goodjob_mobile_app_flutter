@@ -33,6 +33,7 @@ class _ImageInput3State extends State<ImageInput3> {
   _setSelectedRadioTile(int val) {
     setState(() {
       selectedRadioTile = val;
+      print(selectedRadioTile);
       //selected = true;
     });
   }

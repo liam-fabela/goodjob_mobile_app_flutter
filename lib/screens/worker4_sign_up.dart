@@ -7,22 +7,57 @@ import 'worker5_sign_up.dart';
 
 
 
-class Worker4SignUp extends StatelessWidget {
+class Worker4SignUp extends StatefulWidget {
 
   static const routeName = '/worker4_signup';
- 
 
-  void _selectImage(File pickedImage) {
+  @override
+  _Worker4SignUpState createState() => _Worker4SignUpState();
+}
+
+class _Worker4SignUpState extends State<Worker4SignUp> {
+  String lname;
+
+  String fname;
+
+  String bdate;
+
+  String addr;
+
+  String filePhoto;
+
+  @override
+  void didChangeDependencies() {
+    final ws2 = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    lname = ws2['lname'];
+    fname = ws2['fname'];
+    bdate = ws2['bdate'];
+    addr = ws2['addr'];
+    super.didChangeDependencies();
+  }
+
+  void _selectImage(File pickedImage, String fileName) {
      File _pickedImage;
-
+    filePhoto = fileName;
     _pickedImage = pickedImage;
 
   }
 
   void workerSignUp(BuildContext context) {
     Navigator.of(context).pushNamed(
-      Worker5SignUp.routeName
+      Worker5SignUp.routeName,
+       arguments: {
+        'lname': lname,
+        'fname': fname,
+        'bdate': bdate,
+        'addr': addr,
+        'filePhoto': filePhoto,
+
+
+      }
+
     );
+     print(addr);
   }
 
   @override
