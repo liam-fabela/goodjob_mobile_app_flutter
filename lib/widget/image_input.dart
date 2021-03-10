@@ -30,6 +30,8 @@ class _ImageInput1State extends State<ImageInput1> {
      setState(() {
         _pickedImage = pickedImage;
      });
+     widget.onSelectImage(_pickedImage, filePhoto);
+
    
 
   }

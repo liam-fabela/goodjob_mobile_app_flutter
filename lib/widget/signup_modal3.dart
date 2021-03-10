@@ -46,7 +46,7 @@ class _SignUpModal3State extends State<SignUpModal3> {
     final appDir = await syspaths.getApplicationDocumentsDirectory();
    final fileName = path.basename(imageFile.path);
     final savedImage = await imageFile.copy('${appDir.path}/$fileName');
-   widget.onSelectImage(savedImage);
+   widget.onSelectImage(savedImage, fileName);
    //toggleSource();
    Navigator.of(context).pop();
     

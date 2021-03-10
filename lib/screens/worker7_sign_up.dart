@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../styles/style.dart';
+import '../services/services.dart';
 
 class Worker7SignUp extends StatefulWidget {
   static const routeName = '/worker7_signup';
@@ -10,11 +11,59 @@ class Worker7SignUp extends StatefulWidget {
 }
 
 class _Worker7SignUpState extends State<Worker7SignUp> {
+     String fileDoc;
+   String base64Doc;
+   String file1;
+   String file2;
+   String base64Front;
+   String base64Back;
+   String lname;
+   String fname;
+   String bdate;
+   String zone;
+   String barangay;
+   String base64Portrait;
+   String filePhoto;
+   String radioValue;
+   int docID;
+
     final TextEditingController _username = TextEditingController();
     final TextEditingController _email = TextEditingController();
     final TextEditingController _newpass = TextEditingController();
      //final TextEditingController _conpass = TextEditingController();
      final formKey = GlobalKey<FormState>();
+    
+
+    @override
+  void didChangeDependencies() {
+    final ws5 = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    lname = ws5['lname'];
+    fname = ws5['fname'];
+    bdate = ws5['bdate'];
+    zone = ws5['zone'];
+    barangay = ws5['barangay'];
+    base64Portrait = ws5['base64Portrait'];
+    filePhoto = ws5['filePhoto'];
+    base64Front = ws5['base64Front'];
+    file1 = ws5['file1'];
+    base64Back = ws5['base64Back'];
+    file2 = ws5['file2'];
+    fileDoc = ws5['fileDoc'];
+    base64Doc = ws5['base64Doc'];
+    radioValue = ws5['radioValue'];
+    docID = int.parse(radioValue);
+    super.didChangeDependencies();
+  }
+
+  
+   _addWorker() {
+     print(filePhoto);
+     print('working');
+    Services.addWorker(lname, fname, bdate, zone, barangay, filePhoto, base64Portrait, file1, base64Front, file2, base64Back, docID, fileDoc, base64Doc, _username.text, _email.text, _newpass.text);
+      
+  }
+
+
 
     void workerSignUp(BuildContext context) {
     if(formKey.currentState.validate()) {
@@ -128,7 +177,7 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                                             ),
                                           ),
                                            GestureDetector(
-                                              onTap: (){},
+                                              onTap:(){},
                                               child: Container(
                                                 height: 40,
                                                 width: 50,
@@ -144,8 +193,13 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                           ),
                         ),
                       ),
-                        GestureDetector(
-                              onTap: () => workerSignUp(context),
+                        
+                               
+                              
+                                GestureDetector(
+                              onTap:  (){
+                                   _addWorker();
+                                     },//() => workerSignUp(context),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.6,
@@ -163,6 +217,7 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                               ),
                   
                    ),
+                  
                     ],
                   ),
                 ),

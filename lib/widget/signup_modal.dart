@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
+import '../screens/worker4_sign_up.dart';
+
 class SignUpModal extends StatefulWidget {
   final Function onSelectImage;
 
@@ -15,6 +17,7 @@ class SignUpModal extends StatefulWidget {
 class _SignUpModalState extends State<SignUpModal> {
 
   var openCamera;
+  
 
  // File _storedImage;
 
@@ -46,6 +49,9 @@ class _SignUpModalState extends State<SignUpModal> {
    final fileName = path.basename(imageFile.path);
     final savedImage = await imageFile.copy('${appDir.path}/$fileName');
    widget.onSelectImage(savedImage,fileName);
+  
+   
+   
    //toggleSource();
    Navigator.of(context).pop();
     

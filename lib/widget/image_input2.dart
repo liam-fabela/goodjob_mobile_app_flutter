@@ -8,9 +8,10 @@ import '../widget/signup_back_modal.dart';
 
 class ImageInput2 extends StatefulWidget {
 
-  final Function onSelectImage;
+  final Function onSelectImage1;
+  final Function onSelectImage2;
 
-  ImageInput2(this.onSelectImage);
+  ImageInput2(this.onSelectImage1, this.onSelectImage2);
   @override
   _ImageInput2State createState() => _ImageInput2State();
 }
@@ -18,18 +19,24 @@ class ImageInput2 extends StatefulWidget {
 class _ImageInput2State extends State<ImageInput2> {
   File _pickedImage1;
   File _pickedImage2;
+  String filePhoto1;
+  String filePhoto2;
 
 
-  void _selectImage(File firstPickedImage) {
+  void _selectImage(File firstPickedImage, String fileName) {
+    filePhoto1 = fileName;
      setState(() {
         _pickedImage1 = firstPickedImage;
      });
+     widget.onSelectImage1(_pickedImage1, filePhoto1);
   }
 
-  void _selectImage2( File secondPickedImage) {
+  void _selectImage2( File secondPickedImage, String fileName2) {
+    filePhoto2 = fileName2;
      setState(() {
         _pickedImage2 = secondPickedImage;
      });
+     widget.onSelectImage2(_pickedImage2,filePhoto2);
   }
 
   void _startAddPhoto(BuildContext ctx, int choice) {

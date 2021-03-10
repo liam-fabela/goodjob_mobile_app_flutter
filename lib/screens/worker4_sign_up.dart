@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -17,14 +18,14 @@ class Worker4SignUp extends StatefulWidget {
 
 class _Worker4SignUpState extends State<Worker4SignUp> {
   String lname;
-
   String fname;
-
   String bdate;
-
-  String addr;
-
+  String zone;
+  String barangay;
   String filePhoto;
+  File _pickedImage;
+  String base64Portrait;
+
 
   @override
   void didChangeDependencies() {
@@ -32,14 +33,17 @@ class _Worker4SignUpState extends State<Worker4SignUp> {
     lname = ws2['lname'];
     fname = ws2['fname'];
     bdate = ws2['bdate'];
-    addr = ws2['addr'];
+    zone = ws2['zone'];
+    barangay = ws2['barangay'];
     super.didChangeDependencies();
   }
 
-  void _selectImage(File pickedImage, String fileName) {
-     File _pickedImage;
+  void selectImage(File pickedImage, String fileName) {
+     
     filePhoto = fileName;
     _pickedImage = pickedImage;
+    base64Portrait = base64Encode(_pickedImage.readAsBytesSync());
+
 
   }
 
@@ -50,14 +54,15 @@ class _Worker4SignUpState extends State<Worker4SignUp> {
         'lname': lname,
         'fname': fname,
         'bdate': bdate,
-        'addr': addr,
+        'zone': zone,
+        'barangay': barangay,
         'filePhoto': filePhoto,
-
-
+        'base64Portrait': base64Portrait,
       }
-
     );
-     print(addr);
+    print('PORTRAIT: $filePhoto');
+    //print('MAO NI: $base64Image');
+    // print(addr);
   }
 
   @override
@@ -104,7 +109,7 @@ class _Worker4SignUpState extends State<Worker4SignUp> {
                      ),
                     
                     SizedBox(height: 20),
-                     ImageInput1(_selectImage),
+                     ImageInput1(selectImage),
                       ],
                       ),
                     ),

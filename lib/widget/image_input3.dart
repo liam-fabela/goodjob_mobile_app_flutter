@@ -6,8 +6,8 @@ import 'information_modal.dart';
 
 class ImageInput3 extends StatefulWidget {
   final Function onSelectImage;
-
-  ImageInput3(this.onSelectImage);
+  final Function onSelectRadio;
+  ImageInput3(this.onSelectImage, this.onSelectRadio);
   @override
   _ImageInput3State createState() => _ImageInput3State();
 }
@@ -15,11 +15,14 @@ class ImageInput3 extends StatefulWidget {
 class _ImageInput3State extends State<ImageInput3> {
   int selectedRadioTile;
    File _pickedImage;
+   String filePhoto;
 
-   void _selectImage(File pickedImage) {
+   void _selectImage(File pickedImage, String fileName) {
+     filePhoto = fileName;
      setState(() {
         _pickedImage = pickedImage;
      });
+     widget.onSelectImage(_pickedImage, filePhoto);
    
 
   }
@@ -36,6 +39,7 @@ class _ImageInput3State extends State<ImageInput3> {
       print(selectedRadioTile);
       //selected = true;
     });
+    widget.onSelectRadio(selectedRadioTile);
   }
 
  // bool activeRadioTile(bool val) {

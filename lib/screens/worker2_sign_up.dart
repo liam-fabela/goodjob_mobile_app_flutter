@@ -46,7 +46,8 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
         'lname': lname,
         'fname': fname,
         'bdate': bdate,
-        'addr': _street.text + ' ' + _barangay.text + ' ' + _cityOrMuni.text,
+        'zone': _street.text,
+        'barangay': _barangay.text,
 
 
       }

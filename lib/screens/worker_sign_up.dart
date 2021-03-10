@@ -18,6 +18,7 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
   final TextEditingController _dateController = TextEditingController();
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
+  String formatted;
 
 
 
@@ -35,6 +36,9 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
          _selectedDate = pickedDate;
          var date = '${DateFormat.yMd().format(_selectedDate)}';
          _dateController.text = date;
+         final DateFormat formatter = DateFormat('yyyy-MM-dd');
+         formatted = formatter.format(_selectedDate);
+         print(formatted);
 
       });
      
@@ -48,7 +52,7 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
       arguments: {
         'lname': _lastName.text,
         'fname': _firstName.text,
-        'bdate': _dateController.text,
+        'bdate': formatted,
       }
       );
     }
