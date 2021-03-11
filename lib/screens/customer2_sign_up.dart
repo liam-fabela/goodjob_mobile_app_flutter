@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 
-
 import '../styles/style.dart';
-//import 'worker3_sign_up.dart';
-import 'worker4_sign_up.dart';
+import 'customer3_sign_up.dart';
 
-class Worker2SignUp extends StatefulWidget {
-  static const routeName = '/worker2_signup';
-  //final String fname;
-  //final String lname;
-  //final String bdate;
-
-  //Worker2SignUp(this.fname, this.lname, this.bdate);
-  
+class Customer2SignUpScreen extends StatefulWidget {
+   static const routeName = '/customer2_signup';
   @override
-  _Worker2SignUpState createState() => _Worker2SignUpState();
+  _Customer2SignUpScreenState createState() => _Customer2SignUpScreenState();
 }
 
-class _Worker2SignUpState extends State<Worker2SignUp> {
-    final TextEditingController _street = TextEditingController();
+class _Customer2SignUpScreenState extends State<Customer2SignUpScreen> {
+
+   final TextEditingController _street = TextEditingController();
     final TextEditingController _barangay = TextEditingController();
      final TextEditingController _cityOrMuni = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -36,20 +29,16 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
     
     super.didChangeDependencies();
   }
-
-   
-  void workerSignUp(BuildContext context) {
+void _customerSignUp(BuildContext context) {
   if(formKey.currentState.validate()){
     Navigator.of(context).pushNamed(
-      Worker4SignUp.routeName,
+      Customer3SignUpScreen.routeName,
       arguments: {
         'lname': lname,
         'fname': fname,
         'bdate': bdate,
         'zone': _street.text,
         'barangay': _barangay.text,
-
-
       }
     );
     
@@ -57,12 +46,13 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
     //print(lname2);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarSign(context, 'Worker Complete Address'),
-      body: SingleChildScrollView(
-        child: Column(
+       appBar: appBarSign(context, 'Customer Complete Address'),
+       body: SingleChildScrollView(
+         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
@@ -146,7 +136,7 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
                           )),
                         ),
                          GestureDetector(
-                              onTap: () => workerSignUp(context),
+                              onTap: () => _customerSignUp(context),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.6,
@@ -171,7 +161,8 @@ class _Worker2SignUpState extends State<Worker2SignUp> {
             ),
           ],
         ),
-      ),
+       ),
+      
     );
   }
 }

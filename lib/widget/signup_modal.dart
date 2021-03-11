@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
-import '../screens/worker4_sign_up.dart';
+
 
 class SignUpModal extends StatefulWidget {
   final Function onSelectImage;

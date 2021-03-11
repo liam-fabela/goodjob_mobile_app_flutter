@@ -4,16 +4,17 @@ import 'package:http/http.dart' as http;
 import '../models/worker_model.dart';
 
 class Services {
-  static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
+  static const url = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
 
   static const _ADD_WORKER_ACTION = 'ADD_WORKER';
   static const _GET_WORKER_ACTION = 'GET_WORKER';
 
-  static Future<List<Worker>> getWorker() async {
+  static Future<List<Worker>> getWorker(String email) async {
     try {
       var map = Map<String, dynamic>();
       map['action'] = _GET_WORKER_ACTION;
-      final response = await http.post(url, body:map);
+      map['searchKey'] = email;
+      final response = await http.post(url, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
       print('Get worker response: ${response.body}');
       if (200 == response.statusCode) {
         List<Worker> list = parseResponse(response.body);

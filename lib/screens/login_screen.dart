@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController login_email = TextEditingController();
   TextEditingController login_password = TextEditingController();
    final formKey = GlobalKey<FormState>();
+   var showPass = false;
+    var obscure = true;
 
   void _login() {
      if(formKey.currentState.validate()){
@@ -70,13 +72,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: textFieldInputDecoration('email'),
                     ),
                     Divider(),
-                    TextFormField(
-                     validator: (val) {
-                        return val.isEmpty ? 'Please Enter Password' : null ;
-                      },
-                      controller: login_password,
-                      obscureText: true,
-                      decoration: textFieldInputDecoration('password'),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                           validator: (val) {
+                              return val.isEmpty ? 'Please Enter Password' : null ;
+                            },
+                            controller: login_password,
+                            obscureText: obscure,
+                            decoration: textFieldInputDecoration('password'),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap:(){
+                             setState(() {
+                                showPass = !showPass;
+                                obscure = !obscure;
+
+                               });
+                              },
+                                              child: Container(
+                                                height: 40,
+                                                width: 50,
+                                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                              child: showPass ? Icon(Icons.remove_red_eye, color: Color.fromRGBO(62, 135, 148, 1),) : Icon(Icons.remove_red_eye),
+                                            ),
+                                          ),
+                      ],
                     ),
                     ]
                     ),

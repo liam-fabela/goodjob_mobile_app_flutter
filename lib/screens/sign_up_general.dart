@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import '../styles/style.dart';
+import 'customer_sign_up.dart';
 import 'worker_sign_up.dart';
 
 class SignUpGeneral extends StatefulWidget {
@@ -13,6 +14,13 @@ class SignUpGeneral extends StatefulWidget {
 }
 
 class _SignUpGeneralState extends State<SignUpGeneral> {
+
+  void customerSignUp(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      CustomerSignUpScreen.routeName
+    );
+
+  }
 
   void workerSignUp(BuildContext context) {
     Navigator.of(context).pushNamed(
@@ -28,7 +36,7 @@ class _SignUpGeneralState extends State<SignUpGeneral> {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            signUpCategory(context, 'Sign up as Customer', 'assets/images/good_job.png', ()=>workerSignUp(context)),
+            signUpCategory(context, 'Sign up as Customer', 'assets/images/good_job.png', ()=>customerSignUp(context)),
             SizedBox(height: 12),
             signUpCategory(context, 'Sign up as Worker', 'assets/images/good_job.png', ()=>workerSignUp(context)),
             SizedBox(height: 16),
