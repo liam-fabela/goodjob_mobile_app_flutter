@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:email_auth/email_auth.dart';
 
 import '../styles/style.dart';
-import '../services/services.dart';
+//import '../services/services.dart';
+import 'worker_OTP_screen.dart';
 
 class Worker7SignUp extends StatefulWidget {
   static const routeName = '/worker7_signup';
@@ -11,7 +13,8 @@ class Worker7SignUp extends StatefulWidget {
 }
 
 class _Worker7SignUpState extends State<Worker7SignUp> {
-     String fileDoc;
+
+   String fileDoc;
    String base64Doc;
    String file1;
    String file2;
@@ -26,14 +29,18 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
    String filePhoto;
    String radioValue;
    int docID;
+   String userName;
+   String email;
+   String password;
 
     final TextEditingController _username = TextEditingController();
     final TextEditingController _email = TextEditingController();
     final TextEditingController _newpass = TextEditingController();
      //final TextEditingController _conpass = TextEditingController();
      final formKey = GlobalKey<FormState>();
+    var showPass = false;
+    var obscure = true;
     
-
     @override
   void didChangeDependencies() {
     final ws5 = ModalRoute.of(context).settings.arguments as Map<String, String>;
@@ -55,20 +62,42 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
     super.didChangeDependencies();
   }
 
+   
+
+    void _sendOTP(String email) async {
+    EmailAuth.sessionName = "GoodJOB!";
+    var response = await EmailAuth.sendOtp(receiverMail: email);
+    if(response) {
+      print('OTP send');
+    }
+    }
+
   
-   _addWorker() {
-     print(filePhoto);
-     print('working');
-    Services.addWorker(lname, fname, bdate, zone, barangay, filePhoto, base64Portrait, file1, base64Front, file2, base64Back, docID, fileDoc, base64Doc, _username.text, _email.text, _newpass.text);
-      
-  }
-
-
-
-    void workerSignUp(BuildContext context) {
+    void workerSignUp(BuildContext context, String mail) {
     if(formKey.currentState.validate()) {
+    _sendOTP(mail);
     Navigator.of(context).pushNamed(
-      Worker7SignUp.routeName
+      WorkerOTPScreen.routeName,
+      arguments: {
+        "lname": lname,
+        "fname": fname,
+        "bdate": bdate,
+        "zone": zone,
+        "barangay": barangay,
+        "base64Portrait": base64Portrait,
+        "filePhoto": filePhoto,
+        "base64Front": base64Front,
+        "file1": file1,
+        "base64Back": base64Back,
+        "file2": file2,
+        "fileDoc": fileDoc,
+        "base64Doc": base64Doc,
+        "radioValue": radioValue,
+        "userName": _username.text,
+        "email": _email.text,
+        "password": _newpass.text
+        
+      }
     );
     }
   }
@@ -173,16 +202,22 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                                               controller: _newpass,
                                               decoration:
                                                   textFieldInputDecoration('Enter Password'),
-                                                  obscureText: true,
+                                                  obscureText: obscure,
                                             ),
                                           ),
                                            GestureDetector(
-                                              onTap:(){},
+                                              onTap:(){
+                                                setState(() {
+                                                  showPass = !showPass;
+                                                  obscure = !obscure;
+
+                                                });
+                                              },
                                               child: Container(
                                                 height: 40,
                                                 width: 50,
                                                 padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                              child: Icon(Icons.remove_red_eye),
+                                              child: showPass ? Icon(Icons.remove_red_eye, color: Color.fromRGBO(62, 135, 148, 1),) : Icon(Icons.remove_red_eye),
                                             ),
                                           ),
                                         ],
@@ -197,9 +232,7 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                                
                               
                                 GestureDetector(
-                              onTap:  (){
-                                   _addWorker();
-                                     },//() => workerSignUp(context),
+                              onTap: () => workerSignUp(context, _email.text),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.6,
@@ -215,7 +248,6 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
                                   style: mediumTextStyle(),
                                 ),
                               ),
-                  
                    ),
                   
                     ],

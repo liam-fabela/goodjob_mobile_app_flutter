@@ -11,6 +11,7 @@ import './screens/worker4_sign_up.dart';
 import './screens/worker5_sign_up.dart';
 import './screens/worker6_sign_up.dart';
 import './screens/worker7_sign_up.dart';
+import './screens/worker_OTP_screen.dart';
 import './screens/worker_home_screen.dart';
 
 
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         Worker5SignUp.routeName : (ctx) => Worker5SignUp(),
         Worker6SignUp.routeName : (ctx) => Worker6SignUp(),
         Worker7SignUp.routeName : (ctx) => Worker7SignUp(),
+        WorkerOTPScreen.routeName: (ctx) => WorkerOTPScreen(),
       }
     );
   }
