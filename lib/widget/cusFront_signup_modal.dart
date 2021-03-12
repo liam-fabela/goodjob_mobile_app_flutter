@@ -3,16 +3,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
-class SignUpBackModal extends StatefulWidget {
-  final Function onSelectImage;
-
-  SignUpBackModal(this.onSelectImage);
-
+class CustomerFrontSignUpModal extends StatefulWidget {
+   final Function onSelectImage;
+   CustomerFrontSignUpModal(this.onSelectImage);
   @override
-  _SignUpBackModalState createState() => _SignUpBackModalState();
+  _CustomerFrontSignUpModalState createState() => _CustomerFrontSignUpModalState();
 }
 
-class _SignUpBackModalState extends State<SignUpBackModal> {
+class _CustomerFrontSignUpModalState extends State<CustomerFrontSignUpModal> {
 
    var openCamera;
 
@@ -48,13 +46,15 @@ class _SignUpBackModalState extends State<SignUpBackModal> {
    widget.onSelectImage(savedImage, fileName);
    Navigator.of(context).pop();
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Container(
+             Container(
               padding: EdgeInsets.all(5),
               child: FlatButton.icon(
                   icon: Icon(Icons.camera),
@@ -69,7 +69,7 @@ class _SignUpBackModalState extends State<SignUpBackModal> {
                   
                   ),
             ),
-             Container(
+            Container(
               padding: EdgeInsets.all(5),
               child: FlatButton.icon(
                   icon: Icon(Icons.folder),

@@ -4,10 +4,11 @@ import 'package:http/http.dart' as http;
 import '../models/worker_model.dart';
 
 class Services {
-  static const url = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
 
   static const _ADD_WORKER_ACTION = 'ADD_WORKER';
-  static const _GET_WORKER_ACTION = 'GET_WORKER';
+  static const _ADD_CUSTOMER_ACTION = 'ADD_CUSTOMER';
+  static const _GET_WORKER_ACTION =  'GET_WORKER';
 
   static Future<List<Worker>> getWorker(String email) async {
     try {
@@ -41,7 +42,7 @@ class Services {
       print('gisulod dne');
       var map = Map<String, dynamic>();
 
-      //map['action'] =  _ADD_WORKER_ACTION;
+      map['action'] =  _ADD_WORKER_ACTION;
       map["lastname"] = lname;
       map["firstname"] = fname;
       map["birthdate"] = bdate;
@@ -79,6 +80,36 @@ class Services {
      
     }
   }
+
+   static Future<void> addCustomer(String lname, String fname, String bdate, String street, String brgy, String usrname, String eml, String pass) async{
+     try{
+
+      var map = Map<String, dynamic>();
+      map['action'] =  _ADD_CUSTOMER_ACTION;
+      map["lastname"] = lname;
+      map["firstname"] = fname;
+      map["birthdate"] = bdate;
+      map["zone"] = street;
+      map["barangay"] = brgy;
+      map["username"] = usrname;
+      map["email"] = eml;
+      map["password"] = pass;
+
+       http.Response response = await http.post(url, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+      print('Add worker Response: ${response.body}');
+      if (200 == response.statusCode) {
+        print(response.body);
+      } else {
+       return "error";
+    }
+    } catch (e) {
+      print(e);
+      
+     
+     
+    }
+      
+   }
 
   static void _printVal(String val) {
     print('ang sulod: $val');

@@ -3,17 +3,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
-class SignUpBackModal extends StatefulWidget {
+class CustomerBackSignUpModal extends StatefulWidget {
   final Function onSelectImage;
-
-  SignUpBackModal(this.onSelectImage);
+  CustomerBackSignUpModal(this.onSelectImage);
 
   @override
-  _SignUpBackModalState createState() => _SignUpBackModalState();
+  _CustomerBackSignUpModalState createState() => _CustomerBackSignUpModalState();
 }
 
-class _SignUpBackModalState extends State<SignUpBackModal> {
-
+class _CustomerBackSignUpModalState extends State<CustomerBackSignUpModal> {
    var openCamera;
 
 

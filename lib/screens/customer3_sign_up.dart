@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import '../styles/style.dart';
 import '../widget/customer_imageinput.dart';
-import 'customer4_sign_up.dart';
+import 'customer5_sign_up.dart';
 
 class Customer3SignUpScreen extends StatefulWidget {
   static const routeName = '/customer3_signup';
@@ -42,15 +42,13 @@ class _Customer3SignUpScreenState extends State<Customer3SignUpScreen> {
 
    void _customerSignUp(BuildContext context) {
     Navigator.of(context).pushNamed(
-      Customer4SignUpScreen.routeName,
+      Customer5SignUpScreen.routeName,
        arguments: {
         'lname': lname,
         'fname': fname,
         'bdate': bdate,
         'zone': zone,
         'barangay': barangay,
-        'filePhoto': filePhoto,
-        'base64Portrait': base64Portrait,
       }
     );
     print('PORTRAIT: $filePhoto');

@@ -16,10 +16,12 @@ import './screens/worker_OTP_screen.dart';
 import './screens/worker_home_screen.dart';
 import './screens/customer_sign_up.dart';
 import './screens/customer2_sign_up.dart';
-import './screens/customer3_sign_up.dart';
-import './screens/customer4_sign_up.dart';
+//import './screens/customer3_sign_up.dart';
+//import './screens/customer4_sign_up.dart';
+import './screens/customer5_sign_up.dart';
+import './screens/customer_otp.dart';
 import './providers/worker.dart';
-
+import './screens/customer_home_screen.dart';
 
 
 
@@ -71,8 +73,11 @@ class MyApp extends StatelessWidget {
           WorkerOTPScreen.routeName: (ctx) => WorkerOTPScreen(),
           CustomerSignUpScreen.routeName: (ctx) => CustomerSignUpScreen(),
           Customer2SignUpScreen.routeName: (ctx) => Customer2SignUpScreen(),
-          Customer3SignUpScreen.routeName: (ctx) => Customer3SignUpScreen(),
-          Customer4SignUpScreen.routeName: (ctx) => Customer4SignUpScreen(),
+         // Customer3SignUpScreen.routeName: (ctx) => Customer3SignUpScreen(),
+         //Customer4SignUpScreen.routeName: (ctx) => Customer4SignUpScreen(),
+          Customer5SignUpScreen.routeName: (ctx) => Customer5SignUpScreen(),
+          CustomerOTP.routeName: (ctx) => CustomerOTP(),
+      
         }
       ),
     );
