@@ -3,18 +3,24 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/worker_model.dart';
+import '../models/customer_model.dart';
 
-class WorkerProvider with ChangeNotifier {
+class DataProvider with ChangeNotifier {
 
-  List<Worker> _person = [];
+  List<Worker> _worker = [];
+  List<Customer> _customer = [];
   static const url = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
 
 
-  List<Worker> get person {
-    return [..._person];
+  List<Worker> get worker {
+    return [..._worker];
   }
 
-   static Future<List<Worker>> getWorker(String email, String pass) async {
+  List<Customer> get customer {
+    return [..._customer];
+  }
+
+   Future<void> getWorker(String email, String pass) async {
     try {
       var map = Map<String, dynamic>();
      // map['action'] = _GET_WORKER_ACTION;
@@ -25,12 +31,13 @@ class WorkerProvider with ChangeNotifier {
       print('Get worker response: ${response.body}');
       if (200 == response.statusCode) {
         List<Worker> list = parseResponse(response.body);
-        return list;
+        _worker = list;
+       
       }else{
-       return List<Worker>(); 
+       print("Empty result"); 
       }
     }catch(e) {
-      return List<Worker>();
+      print(e);
     }
 
   }

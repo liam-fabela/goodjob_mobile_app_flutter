@@ -3,6 +3,9 @@ class Worker {
   String workerLastname;
   String workerFirstname;
   String workerBirthdate;
+  String workerZone;
+  String workerBarangay;
+  String workerCity;
   String workerPortrait;
   String workerFrontID;
   String workerBackID;
@@ -10,6 +13,7 @@ class Worker {
   String workerReqr;
   String workerUsername;
   String workerEmail;
+  String workerPassword;
 
 
   Worker({
@@ -17,13 +21,12 @@ class Worker {
     this.workerLastname,
     this.workerFirstname,
     this.workerBirthdate,
-    this.workerPortrait,
-    this.workerFrontID,
-    this.workerBackID,
+    this.workerZone,
+    this.workerBarangay,
+    this.workerCity,
     this.workerDocID,
-    this.workerReqr,
     this.workerUsername,
-    this.workerEmail,
+   
 
   });
 
@@ -33,13 +36,9 @@ class Worker {
       workerLastname: json['worker_lname'] as String,
       workerFirstname: json['worker_fname'] as String,
       workerBirthdate: json['worker_dob'] as String,
-      workerPortrait: json['worker_photo'] as String,
-      workerFrontID: json['worker_validIDfront'] as String,
-      workerBackID: json['worker_validIDback'] as String,
-      workerDocID: json['doc_id'] as String,
-      workerReqr: json['worker_docurqr'] as String,
-      workerUsername: json['worker_username'] as String,
-      workerEmail: json['worker_email'] as String,
+      workerZone: json['worker_zone'] as String,
+      workerBarangay: json['worker_barangay'] as String,
+      workerCity: json['worker_city'] as String,
     );
   }
 }

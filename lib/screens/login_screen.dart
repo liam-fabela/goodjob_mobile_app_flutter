@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import '../styles/style.dart';
 import 'worker_home_screen.dart';
+import 'customer_home_screen.dart';
+import 'worker_holding_screen.dart';
+//import '../services/services.dart';
+
+
 
 
 
@@ -17,19 +23,97 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController login_email = TextEditingController();
-  TextEditingController login_password = TextEditingController();
+  TextEditingController loginEmail = TextEditingController();
+  TextEditingController loginPassword = TextEditingController();
    final formKey = GlobalKey<FormState>();
    var showPass = false;
     var obscure = true;
+   var isLoading = false;
+  static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  String utype;
+  String valid;
+  String userId;
+  String lname;
+  String fname;
+  String bday;
+  String zone;
+  String brgy;
+  String city;
+  String docId;
+  String usrname;
+  Future<void> _loginUser() async {
+     try{
 
-  void _login() {
-     if(formKey.currentState.validate()){
-        Navigator.of(context).pushReplacementNamed(
-      WorkerHomeScreen.routeName
-    );
+       
+       print("gisulod dne");
+       var map = Map<String, dynamic>();
+        map["searchEmail"] = loginEmail.text;
+        map["searchPassword"] = loginPassword.text;
+
+        
+       http.Response response = await http.post(url2, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+       print('Login Response: ${response.body}');
+
+      if (200 == response.statusCode) {
+        print(response.body);
+        var data = json.decode(response.body);
+       
+        if(data["error"] && data["error2"]){
+          print("NARA KO");
+          if(data["message"] == "No email or username found." && data["message2"] ==  "No email or username found." ){
+            print(data["message"]);
+          } 
+          if(data["message"] == "No email or username found." && data["message2"] ==   "Your Password is incorrect."){
+            print(data["message2"]);
+          }
+          if(data["message"] == "Your Password is incorrect." && data["message2"] == "No email or username found.") {
+            print(data["message"]);
+          }
+
+        
+        }
+
+        utype = data["usertype"];
+        valid = data["validate"];
+        userId = data["uid"];
+        lname = data["lastname"];
+        fname = data["firstname"];
+        bday = data["birthdate"];
+        zone = data["zone"];
+        brgy= data["barangay"];
+        city  = data["city"];
+        docId = data["docId"];
+        usrname = data["username"];
+        int type = int.parse(utype);
+        int validity = int.parse(valid);
+        if(type == 1){
+          if(validity == 1){
+             Navigator.of(context).pushReplacementNamed(
+            WorkerHomeScreen.routeName
+          );
+          }else{
+             Navigator.of(context).pushReplacementNamed(
+            WorkerHoldingScreen.routeName
+          );
+          }
+           
+        }else{
+           Navigator.of(context).pushReplacementNamed(
+          CustomerHomeScreen.routeName
+          );
+        }
+       
+        
+       
+      } else {
+      return "error";
+    }
+     }catch(e){
+       print(e);
+       throw(e);
      }
   }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return val.isEmpty ? 'Please Enter Email' : null ;                 
                         },
 
-                      controller: login_email,
+                      controller: loginEmail,
                       decoration: textFieldInputDecoration('email'),
                     ),
                     Divider(),
@@ -79,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                            validator: (val) {
                               return val.isEmpty ? 'Please Enter Password' : null ;
                             },
-                            controller: login_password,
+                            controller: loginPassword,
                             obscureText: obscure,
                             decoration: textFieldInputDecoration('password'),
                           ),
@@ -125,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 16,
                       ),
                       GestureDetector(
-                        onTap: ()=> _login(),
+                        onTap: ()=> _loginUser(),
                             child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width,

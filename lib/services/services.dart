@@ -2,13 +2,18 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/worker_model.dart';
-
+import '../models/http_exception.dart';
 class Services {
   static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
+  static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  
 
   static const _ADD_WORKER_ACTION = 'ADD_WORKER';
   static const _ADD_CUSTOMER_ACTION = 'ADD_CUSTOMER';
   static const _GET_WORKER_ACTION =  'GET_WORKER';
+
+  static Map loginData;
+  
 
   static Future<List<Worker>> getWorker(String email) async {
     try {
@@ -111,16 +116,71 @@ class Services {
       
    }
 
-  static void _printVal(String val) {
-    print('ang sulod: $val');
-  }
+   static Future<Map> loginUser(String user, String password) async {
+     try{
+       print("gisulod dne");
+       var map = Map<String, dynamic>();
+        map["searchEmail"] = user;
+        map["searchPassword"] = password;
 
-  static void _isEmp(Map map) {
-    if(map.isEmpty){
-      print('true');
-    }else{
-      print('NAAY SULOD!');
+        
+       http.Response response = await http.post(url2, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+       print('Login Response: ${response.body}');
+      if (200 == response.statusCode) {
+        print(response.body);
+        var data = json.decode(response.body);
+       
+        if(data["error"] && data["error2"]){
+          print("NARA KO");
+          if(data["message"] == "No email or username found." && data["message2"] ==  "No email or username found." ){
+            loginData["loginError"] = data["message"];
+            print(data["message"]);
+            return loginData["loginError"];
+          } 
+          if(data["message"] == "No email or username found." && data["message2"] ==   "Your Password is incorrect."){
+            loginData["loginError"] = data["message2"];
+            print(data["message2"]);
+            return loginData["loginError"];
+          }
+          if(data["message"] == "Your Password is incorrect." && data["message2"] == "No email or username found.") {
+            loginData["loginError"] = data["message"];
+            print(data["message"]);
+            return loginData["loginError"];
+          }
+
+        
+        }
+        loginData["utype"] = data["usertype"];
+        loginData["valid"] = data["validate"];
+        loginData["userID"] = data["uid"];
+        loginData["lname"] = data["lastname"];
+        loginData["fname"] = data["firstname"];
+        loginData["bday"] = data["birthdate"];
+        loginData["zon"] = data["zone"];
+        loginData["brgy"] = data["barangay"];
+        loginData["cty"] = data["city"];
+        loginData["usrname"] = data["username"];
+        return loginData;
+       
+      } else {
+       return loginData["error"];
     }
-  }
+     }catch(e){
+       print(e);
+       throw(e);
+     }
+   }
+
+ // static void _printVal(String val) {
+  //  print('ang sulod: $val');
+  //}
+
+  //static void _isEmp(Map map) {
+   // if(map.isEmpty){
+   //   print('true');
+  //  }else{
+  //    print('NAAY SULOD!');
+  //  }
+  //}
 
 }

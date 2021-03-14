@@ -5,9 +5,7 @@ import '../helper/authenticate.dart';
 
 class WorkerHoldingScreen extends StatelessWidget {
  
-  void toggleView(){
-     print('go back');
-  }
+ static var routeName = '/worker_holding';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

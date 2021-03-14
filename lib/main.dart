@@ -20,9 +20,9 @@ import './screens/customer2_sign_up.dart';
 //import './screens/customer4_sign_up.dart';
 import './screens/customer5_sign_up.dart';
 import './screens/customer_otp.dart';
-import './providers/worker.dart';
+import 'providers/data.dart';
 import './screens/customer_home_screen.dart';
-
+import './screens/worker_holding_screen.dart';
 
 
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(
-            value: WorkerProvider(),
+            value: DataProvider(),
           )
         ],
         child: MaterialApp(
@@ -77,6 +77,8 @@ class MyApp extends StatelessWidget {
          //Customer4SignUpScreen.routeName: (ctx) => Customer4SignUpScreen(),
           Customer5SignUpScreen.routeName: (ctx) => Customer5SignUpScreen(),
           CustomerOTP.routeName: (ctx) => CustomerOTP(),
+          CustomerHomeScreen.routeName: (ctx) => CustomerHomeScreen(),
+          WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
       
         }
       ),
