@@ -89,11 +89,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
     return Scaffold(
       appBar:appBarSign(context, 'Email Verification'),
       body: _isLoading
-          ? Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )  
+          ? loadingScreen(context, "Signing up...")
           : SingleChildScrollView(
               child: Column(
                 children: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../styles/style.dart';
 import 'worker_home_screen.dart';
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
    final formKey = GlobalKey<FormState>();
    var showPass = false;
     var obscure = true;
-   var isLoading = false;
+   var _isLoading = false;
   static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
   String utype;
   String valid;
@@ -41,16 +42,21 @@ class _LoginScreenState extends State<LoginScreen> {
   String city;
   String docId;
   String usrname;
+
+  
   Future<void> _loginUser() async {
+     if(formKey.currentState.validate()){
      try{
 
-       
+        setState(() {
+      _isLoading = true;
+    });
        print("gisulod dne");
        var map = Map<String, dynamic>();
         map["searchEmail"] = loginEmail.text;
         map["searchPassword"] = loginPassword.text;
 
-        
+      
        http.Response response = await http.post(url2, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
        print('Login Response: ${response.body}');
 
@@ -59,15 +65,45 @@ class _LoginScreenState extends State<LoginScreen> {
         var data = json.decode(response.body);
        
         if(data["error"] && data["error2"]){
+           setState(() {
+          _isLoading = false;
+        });
           print("NARA KO");
           if(data["message"] == "No email or username found." && data["message2"] ==  "No email or username found." ){
             print(data["message"]);
+            Fluttertoast.showToast(
+              msg: data["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 14
+            );
           } 
           if(data["message"] == "No email or username found." && data["message2"] ==   "Your Password is incorrect."){
             print(data["message2"]);
+             Fluttertoast.showToast(
+              msg: data["message2"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 14
+            );
           }
           if(data["message"] == "Your Password is incorrect." && data["message2"] == "No email or username found.") {
             print(data["message"]);
+             Fluttertoast.showToast(
+              msg: data["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 14
+            );
           }
 
         
@@ -113,14 +149,19 @@ class _LoginScreenState extends State<LoginScreen> {
        throw(e);
      }
   }
+  }
  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: _isLoading ? loadingScreen(context,"Signing in...") :
+          SingleChildScrollView(
           child: Column(
+            
           children: <Widget>[
+
             Container(
+            margin: EdgeInsets.all(20),
             height: MediaQuery.of(context).size.height * 0.35,
             child: Image.asset(
             'assets/images/good_job.png',
@@ -153,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
 
                       controller: loginEmail,
-                      decoration: textFieldInputDecoration('email'),
+                      decoration: textFieldInputDecoration('email/username'),
                     ),
                     Divider(),
                     Row(

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:email_auth/email_auth.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 import '../styles/style.dart';
 import 'customer_otp.dart';
@@ -27,6 +31,8 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
      final formKey = GlobalKey<FormState>();
     var showPass = false;
     var obscure = true;
+    var _isLoading = false;
+     static const url = 'https://goodjob-mobile-app.000webhostapp.com/customer_email_validate.php';
 
     @override
   void didChangeDependencies() {
@@ -49,9 +55,55 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
     }
     }
 
-     void _customerSignUp(BuildContext context, String mail) {
-    if(formKey.currentState.validate()) {
-    _sendOTP(mail);
+     Future<void> _checkUser(String mail) async {
+     if(formKey.currentState.validate()){
+     try{
+       
+        setState(() {
+      _isLoading = true;
+    });
+       print("gisulod dne");
+       var map = Map<String, dynamic>();
+        map["searchEmail"] = _email.text;
+        map["searchUsername"] = _username.text;
+
+      
+       http.Response response = await http.post(url, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+       print('Login Response: ${response.body}');
+
+      if (200 == response.statusCode) {
+        print(response.body);
+        var data = json.decode(response.body);
+       if(data["error"] || data["error2"]) {
+         setState(() {
+          _isLoading = false;
+        });
+        if(data["message"] == "email address already in use."){ 
+          print("NARA KO");
+            Fluttertoast.showToast(
+              msg: data["message"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 14
+            );
+        }
+          if(data["message2"] == "username already in use."){
+            print(data["message2"]);
+             Fluttertoast.showToast(
+              msg: data["message2"],
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 14
+            );
+          }
+       }else{
+      _sendOTP(mail);
     Navigator.of(context).pushNamed(
       CustomerOTP.routeName,
       arguments: {
@@ -66,12 +118,45 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
         
       }
     );
+
+       }
+         
+       
+      } else {
+      return "error";
     }
+     }catch(e){
+       print(e);
+       throw(e);
+     }
   }
+   }
+ 
+
+
+//     void _customerSignUp(BuildContext context, String mail) {
+//    if(formKey.currentState.validate()) {
+//    _sendOTP(mail);
+//    Navigator.of(context).pushNamed(
+//      CustomerOTP.routeName,
+//      arguments: {
+//        "lname": lname,
+//        "fname": fname,
+//        "bdate": bdate,
+//        "zone": zone,
+//        "barangay": barangay,
+//        "userName": _username.text,
+//        "email": _email.text,
+//        "password": _newpass.text
+        
+//      }
+//    );
+//    }
+ // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _isLoading ? loadingScreen(context, "checking email and username...") : Scaffold(
        appBar: appBarSign(context, 'Customer Account Details'),
       body: SingleChildScrollView(
         child: Column(
@@ -199,7 +284,7 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
                                
                               
                                 GestureDetector(
-                              onTap: () => _customerSignUp(context, _email.text),
+                              onTap: () => _checkUser(_email.text),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.6,

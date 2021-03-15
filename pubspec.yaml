@@ -27,7 +27,7 @@ dependencies:
   email_auth:
   provider: ^3.0.0
   fluttertoast: ^7.1.8
-
+  flutter_spinkit: ^4.0.0
 
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 
@@ -94,3 +95,26 @@ Image appLogo = new Image(
   width: 200.0,
   fit: BoxFit.cover,
 );
+
+
+Widget loadingScreen(BuildContext context,String text) {
+  return Scaffold(
+    backgroundColor: Color.fromRGBO(75, 210, 178, 1),
+    body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: SpinKitFadingCube(
+          color: Colors.white,
+          size: 50.0
+        ),
+
+        ),
+        SizedBox(height: 35),
+        Center(child: Text(text, style: TextStyle(color: Colors.white54,
+    fontFamily: 'Raleway',
+    fontSize: 17,)),),
+      ],
+    ),
+  );
+}

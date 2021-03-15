@@ -35,6 +35,7 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
   TextEditingController _otp = TextEditingController();
   var _isLoading = false;
 
+ 
   @override
   void didChangeDependencies() {
     final ws6 =
@@ -57,10 +58,10 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
     email = ws6['email'];
     pass = ws6['password'];
     docID = int.parse(radioValue);
-
+    
     super.didChangeDependencies();
   }
-
+   
   _circleProg() {
     setState(() {
       _isLoading = true;
@@ -122,15 +123,11 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  _isLoading
+          ? loadingScreen(context, "Submitting application...") 
+          : Scaffold(
       appBar:appBarSign(context, 'Email Verification'),
-      body: _isLoading
-          ? Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )  
-          : SingleChildScrollView(
+      body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
