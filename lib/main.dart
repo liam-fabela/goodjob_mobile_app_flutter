@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/' : (ctx) => Authenticate(),
+          '/' : (ctx) => CustomerHomeScreen(),//Authenticate(),
           WorkerHomeScreen.routeName : (ctx) => WorkerHomeScreen(),
           WorkerSignUp.routeName : (ctx) => WorkerSignUp(),
           Worker2SignUp.routeName : (ctx) => Worker2SignUp(),

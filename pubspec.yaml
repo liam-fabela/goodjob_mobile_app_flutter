@@ -59,9 +59,12 @@ flutter:
   assets:
     - assets/images/good_job.png
     - assets/images/calendar.png
-    - assets/images/good_job_v2.png
-    - assets/images/good_job_v3.png
+   # - assets/images/good_job_v2.png
+   # - assets/images/good_job_v3.png
     - assets/images/worker3.jpg
+    - assets/images/beauty.jpg
+    - assets/images/errand.jpg
+    - assets/images/home_repair.jpg
     
 
 

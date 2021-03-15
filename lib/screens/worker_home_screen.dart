@@ -51,10 +51,11 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
       body:
        _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           onTap: _selectPage,
-          backgroundColor: Theme.of(context).primaryColor,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.white,
+          backgroundColor:  Color.fromRGBO(75, 210, 178, 1),//Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Theme.of(context).primaryColor,
           currentIndex: _selectedPageIndex,
           items: [
             BottomNavigationBarItem(
