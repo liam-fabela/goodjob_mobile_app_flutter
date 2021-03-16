@@ -23,6 +23,7 @@ import './screens/customer_otp.dart';
 import 'providers/data.dart';
 import './screens/customer_home_screen.dart';
 import './screens/worker_holding_screen.dart';
+import './screens/create_post.dart';
 
 
 
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
           CustomerOTP.routeName: (ctx) => CustomerOTP(),
           CustomerHomeScreen.routeName: (ctx) => CustomerHomeScreen(),
           WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
+          CreatePostModal.routeName: (ctx)=> CreatePostModal(),
       
         }
       ),
