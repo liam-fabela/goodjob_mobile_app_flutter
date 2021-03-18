@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../pages/cus_home_page.dart';
 import '../pages/cus_profile_page.dart';
 import '../pages/cus_request_page.dart';
 import '../pages/cus_message_page.dart';
+
 
 class CustomerHomeScreen extends StatefulWidget {
   static const routeName = '/customer_home';
@@ -32,7 +35,22 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     },
   ];
 
+  
+
   int _selectedPageIndex = 0;
+  int userOfApp;
+
+  @override
+  void initState() {
+   _getData();
+    super.initState();
+  }
+
+   _getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userOfApp = prefs.getInt('user');
+    print(userOfApp);
+  }
 
    void _selectPage(int index) {
     setState(() {

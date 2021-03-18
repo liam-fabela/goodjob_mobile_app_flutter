@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/cust_profile.dart';
+
 class CustomerProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
+    return Container(
         height: MediaQuery.of(context).size.height,
          color: Color.fromRGBO(170, 225, 227, 0.3),
         child: Column(
@@ -12,8 +13,8 @@ class CustomerProfilePage extends StatelessWidget {
             Container(
                padding: EdgeInsets.only(
                 top: 10,
-                left: 15,
-                right: 15,
+                left: 20,
+                right: 20,
                ),
               height: MediaQuery.of(context).size.height * 0.25,
               child: Row(children: [
@@ -43,12 +44,12 @@ class CustomerProfilePage extends StatelessWidget {
                ),
                      decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),  
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),  
                     ),
                      color: Color.fromRGBO(62, 135, 148, 1)
                   ),
-                      height: MediaQuery.of(context).size.height*0.65,
+                      height: MediaQuery.of(context).size.height*0.66,
                     child: Container(
 
                         decoration: BoxDecoration(
@@ -59,8 +60,18 @@ class CustomerProfilePage extends StatelessWidget {
                      
                        color: Color.fromRGBO(75, 210, 178, 1),
                   ),
-                      height: MediaQuery.of(context).size.height*0.30,
-                      child: Center(child: Text('contents'),),
+                      height: MediaQuery.of(context).size.height*0.35,
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 5.0,
+                          mainAxisSpacing: 10.0,
+                          children: List.generate(choices.length, (index) {
+
+                          });
+                        ),
+                      ),
                     ),
                     ),
                     
@@ -72,7 +83,7 @@ class CustomerProfilePage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+  
   }
 }

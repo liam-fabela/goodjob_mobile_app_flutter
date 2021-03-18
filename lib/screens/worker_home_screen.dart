@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../pages/worker_home_page.dart';
 import '../pages/worker_message_page.dart';
@@ -15,6 +17,7 @@ class WorkerHomeScreen extends StatefulWidget {
 }
 
 class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
+
    List<Map<String, Object>> _pages = [
     {
      'page': WorkerHomePage(),
@@ -35,6 +38,18 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
   ];
 
   int _selectedPageIndex = 0;
+  int userOfApp;
+
+  @override
+  void initState() {
+     _getData();
+    super.initState();
+  }
+
+   _getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userOfApp = prefs.getInt('user');
+  }
 
    void _selectPage(int index) {
     setState(() {

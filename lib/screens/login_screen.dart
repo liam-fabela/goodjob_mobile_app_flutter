@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../styles/style.dart';
 import 'worker_home_screen.dart';
@@ -9,6 +10,8 @@ import 'customer_home_screen.dart';
 import 'worker_holding_screen.dart';
 import 'worker_categories_screen.dart';
 //import '../services/services.dart';
+import '../helper/shared_preferences.dart';
+
 
 
 
@@ -129,8 +132,11 @@ class _LoginScreenState extends State<LoginScreen> {
         int first = int.parse(firsTime);
         if(type == 1){
           if(validity == 1 && first == 1){
+            SharedPrefUtils.setPref('user', type);
+           // SharedPreferences prefs = await SharedPreferences.getInstance();
+           // prefs.setInt('user', type);
              Navigator.of(context).pushReplacementNamed(
-            WorkerCategoryScreen.routeName,
+           '/worker_home',
             arguments: {
               "workerId": userId,
               "username": usrname,
@@ -139,6 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
           print(userId);
           }
           else if(validity == 1 && first == 0){
+             SharedPrefUtils.setPref('user', type);
+            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            //prefs.setInt('user', type);
              Navigator.of(context).pushReplacementNamed(
             WorkerHomeScreen.routeName,
             arguments: {
@@ -153,7 +162,11 @@ class _LoginScreenState extends State<LoginScreen> {
           );
           }
            
-        }else{
+        }
+        if(type ==2){
+           SharedPrefUtils.setPref('user', type);
+           //SharedPreferences prefs = await SharedPreferences.getInstance();
+            //prefs.setInt('user', type);
            Navigator.of(context).pushReplacementNamed(
           CustomerHomeScreen.routeName
           );

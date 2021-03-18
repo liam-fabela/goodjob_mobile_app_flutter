@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
@@ -26,6 +27,13 @@ class _WorkerCategoryScreenState extends State<WorkerCategoryScreen> {
   String username;
   int wId;
   var _isLoading = false;
+  int userOfApp;
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -34,6 +42,11 @@ class _WorkerCategoryScreenState extends State<WorkerCategoryScreen> {
     username = data['username'];
     wId = int.parse(uId);
     super.didChangeDependencies();
+  }
+
+  _getData()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userOfApp = prefs.getInt('user');
   }
 
 

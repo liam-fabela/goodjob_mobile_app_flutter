@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 import './helper/authenticate.dart';
@@ -25,11 +27,22 @@ import './screens/customer_home_screen.dart';
 import './screens/worker_holding_screen.dart';
 import './screens/create_post.dart';
 import 'screens/worker_categories_screen.dart';
+import './helper/shared_preferences.dart';
+
+var initScreen;
 
 
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() => runApp(MyApp());
+ //SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen =  await SharedPrefUtils.getPref('user');
+  print('FROM MAIN: $initScreen');
+  runApp(MyApp());
+  
+ 
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -61,10 +74,10 @@ class MyApp extends StatelessWidget {
                 ),
         ),
         ),
-        initialRoute: '/',
+        initialRoute: initScreen == null ? '/' : initScreen == 1 ? '/worker_home' :  '/customer_home',
         routes: {
           '/' : (ctx) => Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
-          WorkerHomeScreen.routeName : (ctx) => WorkerHomeScreen(),
+          '/worker_home': (ctx) => WorkerHomeScreen(),
           WorkerSignUp.routeName : (ctx) => WorkerSignUp(),
           Worker2SignUp.routeName : (ctx) => Worker2SignUp(),
           Worker3SignUp.routeName : (ctx) => Worker3SignUp(),
@@ -79,7 +92,7 @@ class MyApp extends StatelessWidget {
          //Customer4SignUpScreen.routeName: (ctx) => Customer4SignUpScreen(),
           Customer5SignUpScreen.routeName: (ctx) => Customer5SignUpScreen(),
           CustomerOTP.routeName: (ctx) => CustomerOTP(),
-          CustomerHomeScreen.routeName: (ctx) => CustomerHomeScreen(),
+         '/customer_home': (ctx) => CustomerHomeScreen(),
           WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
           CreatePostModal.routeName: (ctx)=> CreatePostModal(),
           WorkerCategoryScreen.routeName : (ctx)=> WorkerCategoryScreen(),
