@@ -32,7 +32,8 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
     var showPass = false;
     var obscure = true;
     var _isLoading = false;
-     static const url = 'https://goodjob-mobile-app.000webhostapp.com/customer_email_validate.php';
+    // static const url = 'https://goodjob-mobile-app.000webhostapp.com/customer_email_validate.php';
+      static const url = 'http://192.168.43.250/db_php/worker_email_validate.php';
 
     @override
   void didChangeDependencies() {

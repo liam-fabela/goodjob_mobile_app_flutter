@@ -44,7 +44,8 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
     var showPass = false;
     var obscure = true;
     var _isLoading = false;
-    static const url = 'https://goodjob-mobile-app.000webhostapp.com/worker_email_validate.php';
+    //static const url = 'https://goodjob-mobile-app.000webhostapp.com/worker_email_validate.php';
+    static const url = 'http://192.168.43.250/db_php/worker_email_validate.php';
   @override
   void didChangeDependencies() {
     final ws5 = ModalRoute.of(context).settings.arguments as Map<String, String>;

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
-
 Widget appBarSign(BuildContext context, String title) {
   return AppBar(
     title: Text(
-        title,
-        style: mediumTextStyle(),
-      ),
-  
+      title,
+      style: mediumTextStyle(),
+    ),
   );
 }
 
@@ -96,8 +93,7 @@ Image appLogo = new Image(
   fit: BoxFit.cover,
 );
 
-
-Widget loadingScreen(BuildContext context,String text) {
+Widget loadingScreen(BuildContext context, String text) {
   return Scaffold(
     backgroundColor: Color.fromRGBO(75, 210, 178, 1),
     body: Column(
@@ -105,15 +101,24 @@ Widget loadingScreen(BuildContext context,String text) {
       children: [
         Center(
           child: SpinKitFadingCube(
-          color: Colors.white,
-          size: 50.0
-        ),
-
+              color: Color.fromRGBO(62, 135, 148, 1), size: 50.0),
         ),
         SizedBox(height: 35),
-        Center(child: Text(text, style: TextStyle(color: Colors.white54,
-    fontFamily: 'Raleway',
-    fontSize: 17,)),),
+        Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white54,
+                  fontFamily: 'Raleway',
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            
+          ],
+        ),
       ],
     ),
   );

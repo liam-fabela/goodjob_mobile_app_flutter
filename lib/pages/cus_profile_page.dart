@@ -6,6 +6,7 @@ class CustomerProfilePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
+         color: Color.fromRGBO(170, 225, 227, 0.3),
         child: Column(
           children: [
             Container(
@@ -42,10 +43,10 @@ class CustomerProfilePage extends StatelessWidget {
                ),
                      decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),  
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),  
                     ),
-                      color: Color.fromRGBO(170, 225, 227, 0.3),
+                     color: Color.fromRGBO(62, 135, 148, 1)
                   ),
                       height: MediaQuery.of(context).size.height*0.65,
                     child: Container(
@@ -56,7 +57,7 @@ class CustomerProfilePage extends StatelessWidget {
                       topRight: Radius.circular(15),  
                     ),
                      
-                       color: Color.fromRGBO(62, 135, 148, 1),
+                       color: Color.fromRGBO(75, 210, 178, 1),
                   ),
                       height: MediaQuery.of(context).size.height*0.30,
                       child: Center(child: Text('contents'),),

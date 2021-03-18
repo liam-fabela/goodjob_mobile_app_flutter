@@ -4,8 +4,13 @@ import 'package:http/http.dart' as http;
 import '../models/worker_model.dart';
 import '../models/http_exception.dart';
 class Services {
-  static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
-  static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+ // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
+ // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+
+  static const url = 'http://192.168.43.250/db_php/db_actions.php';
+  static const url2 = 'http://192.168.43.250/db_php/login.php';
+  static const url3 = 'http://192.168.43.250/db_php/insert_category.php';
+  
   
 
   static const _ADD_WORKER_ACTION = 'ADD_WORKER';
@@ -116,60 +121,7 @@ class Services {
       
    }
 
-   static Future<Map> loginUser(String user, String password) async {
-     try{
-       print("gisulod dne");
-       var map = Map<String, dynamic>();
-        map["searchEmail"] = user;
-        map["searchPassword"] = password;
-
-        
-       http.Response response = await http.post(url2, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
-       print('Login Response: ${response.body}');
-      if (200 == response.statusCode) {
-        print(response.body);
-        var data = json.decode(response.body);
-       
-        if(data["error"] && data["error2"]){
-          print("NARA KO");
-          if(data["message"] == "No email or username found." && data["message2"] ==  "No email or username found." ){
-            loginData["loginError"] = data["message"];
-            print(data["message"]);
-            return loginData["loginError"];
-          } 
-          if(data["message"] == "No email or username found." && data["message2"] ==   "Your Password is incorrect."){
-            loginData["loginError"] = data["message2"];
-            print(data["message2"]);
-            return loginData["loginError"];
-          }
-          if(data["message"] == "Your Password is incorrect." && data["message2"] == "No email or username found.") {
-            loginData["loginError"] = data["message"];
-            print(data["message"]);
-            return loginData["loginError"];
-          }
-
-        
-        }
-        loginData["utype"] = data["usertype"];
-        loginData["valid"] = data["validate"];
-        loginData["userID"] = data["uid"];
-        loginData["lname"] = data["lastname"];
-        loginData["fname"] = data["firstname"];
-        loginData["bday"] = data["birthdate"];
-        loginData["zon"] = data["zone"];
-        loginData["brgy"] = data["barangay"];
-        loginData["cty"] = data["city"];
-        loginData["usrname"] = data["username"];
-        return loginData;
-       
-      } else {
-       return loginData["error"];
-    }
-     }catch(e){
-       print(e);
-       throw(e);
-     }
-   }
+  
 
  // static void _printVal(String val) {
   //  print('ang sulod: $val');
@@ -182,5 +134,33 @@ class Services {
   //    print('NAAY SULOD!');
   //  }
   //}
+
+  static Future<void> insertCategory(int workerId, int cat, int cat2, int cat3, int cat4) async{
+     var map = Map<String, dynamic>();
+     try{
+       map["id"] = workerId;
+       map["cat"] = cat;
+       map["cat2"] = cat2;
+       map["cat3"] = cat3;
+       map["cat4"] = cat4;
+      print(map["id"]);
+      print(map["cat"]);
+      print(map["cat2"]);
+       print(map["cat3"]);
+       print(map["cat4"]);
+      http.Response response = await http.post(url3, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+      print('Add category Response: ${response.body}');
+      if (200 == response.statusCode) {
+        print(response.body);
+      } else {
+       return "error";
+    }
+
+     }catch(e){
+       print(e);
+       throw(e);
+     }
+    
+  }
 
 }

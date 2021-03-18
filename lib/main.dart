@@ -24,6 +24,7 @@ import 'providers/data.dart';
 import './screens/customer_home_screen.dart';
 import './screens/worker_holding_screen.dart';
 import './screens/create_post.dart';
+import 'screens/worker_categories_screen.dart';
 
 
 
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/' : (ctx) => CustomerHomeScreen(),//Authenticate(),
+          '/' : (ctx) => Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
           WorkerHomeScreen.routeName : (ctx) => WorkerHomeScreen(),
           WorkerSignUp.routeName : (ctx) => WorkerSignUp(),
           Worker2SignUp.routeName : (ctx) => Worker2SignUp(),
@@ -81,6 +82,8 @@ class MyApp extends StatelessWidget {
           CustomerHomeScreen.routeName: (ctx) => CustomerHomeScreen(),
           WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
           CreatePostModal.routeName: (ctx)=> CreatePostModal(),
+          WorkerCategoryScreen.routeName : (ctx)=> WorkerCategoryScreen(),
+          
       
         }
       ),

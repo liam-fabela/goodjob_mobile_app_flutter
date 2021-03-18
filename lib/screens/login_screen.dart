@@ -7,6 +7,7 @@ import '../styles/style.dart';
 import 'worker_home_screen.dart';
 import 'customer_home_screen.dart';
 import 'worker_holding_screen.dart';
+import 'worker_categories_screen.dart';
 //import '../services/services.dart';
 
 
@@ -30,10 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
    var showPass = false;
     var obscure = true;
    var _isLoading = false;
-  static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  static const url2 ='http://192.168.43.250/db_php/login.php';
   String utype;
   String valid;
   String userId;
+  String firsTime;
   String lname;
   String fname;
   String bday;
@@ -112,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
         utype = data["usertype"];
         valid = data["validate"];
         userId = data["uid"];
+        firsTime = data["first"];
         lname = data["lastname"];
         fname = data["firstname"];
         bday = data["birthdate"];
@@ -120,14 +123,31 @@ class _LoginScreenState extends State<LoginScreen> {
         city  = data["city"];
         docId = data["docId"];
         usrname = data["username"];
+       // int workerId = int.parse(userId);
         int type = int.parse(utype);
         int validity = int.parse(valid);
+        int first = int.parse(firsTime);
         if(type == 1){
-          if(validity == 1){
+          if(validity == 1 && first == 1){
              Navigator.of(context).pushReplacementNamed(
-            WorkerHomeScreen.routeName
+            WorkerCategoryScreen.routeName,
+            arguments: {
+              "workerId": userId,
+              "username": usrname,
+            }
           );
-          }else{
+          print(userId);
+          }
+          else if(validity == 1 && first == 0){
+             Navigator.of(context).pushReplacementNamed(
+            WorkerHomeScreen.routeName,
+            arguments: {
+              "workerId": userId,
+              "username": usrname,
+            }
+          );
+          }
+          else{
              Navigator.of(context).pushReplacementNamed(
             WorkerHoldingScreen.routeName
           );
