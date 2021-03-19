@@ -104,20 +104,23 @@ Widget loadingScreen(BuildContext context, String text) {
               color: Color.fromRGBO(62, 135, 148, 1), size: 50.0),
         ),
         SizedBox(height: 35),
-        Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-             Text(
-                text,
-                style: TextStyle(
-                  color: Colors.white54,
-                  fontFamily: 'Raleway',
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
+        Container(
+          alignment: Alignment.center,
+          child: Column(
+           //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontFamily: 'Raleway',
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            
-          ],
+              
+            ],
+          ),
         ),
       ],
     ),

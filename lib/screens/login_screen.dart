@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
            // SharedPreferences prefs = await SharedPreferences.getInstance();
            // prefs.setInt('user', type);
              Navigator.of(context).pushReplacementNamed(
-           '/worker_home',
+               WorkerCategoryScreen.routeName,
             arguments: {
               "workerId": userId,
               "username": usrname,
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
             // SharedPreferences prefs = await SharedPreferences.getInstance();
             //prefs.setInt('user', type);
              Navigator.of(context).pushReplacementNamed(
-            WorkerHomeScreen.routeName,
+            '/worker_home',
             arguments: {
               "workerId": userId,
               "username": usrname,

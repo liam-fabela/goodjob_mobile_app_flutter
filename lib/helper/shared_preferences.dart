@@ -11,4 +11,9 @@ class SharedPrefUtils {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.getInt(key);
   }
+
+  static Future<void> removePref(String key) async{
+     final SharedPreferences pref = await SharedPreferences.getInstance();
+     pref.remove(key);
+  }
 }

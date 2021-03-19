@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/cust_profile.dart';
+import '../models/widget_data.dart';
+import '../widget/cust_profile_grid.dart';
 
 class CustomerProfilePage extends StatelessWidget {
   @override
@@ -61,17 +63,30 @@ class CustomerProfilePage extends StatelessWidget {
                        color: Color.fromRGBO(75, 210, 178, 1),
                   ),
                       height: MediaQuery.of(context).size.height*0.35,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 10.0,
-                          children: List.generate(choices.length, (index) {
-
-                          });
-                        ),
+                      child:  Container(
+              height: MediaQuery.of(context).size.height * 0.30,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(20),
+              // color: Colors.grey,
+              child: GridView(
+                padding: const EdgeInsets.all(10),
+                children: PROFILE_GRID
+                    .map(
+                      (gridData) =>  CustomerGridItem(
+                        gridData.id,
+                        gridData.title,
+                        gridData.icon,
                       ),
+                    )
+                    .toList(),
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                ),
+              ),
+            ),
                     ),
                     ),
                     
