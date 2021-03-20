@@ -6,22 +6,22 @@ const CATEGORY_DATA = const [
   WorkCategory(
     id: '1',
     title: 'House Chores',
-    img: 'assets/images/good_job.png',
+    img: 'assets/images/housechore.jpg',
   ),
   WorkCategory(
     id: '2',
     title: 'Personal Errands',
-    img: 'assets/images/errand.jpg',
+    img: 'assets/images/personal_errand.jpg',
   ),
   WorkCategory(
     id: '3',
     title: 'Beauty&Grooming',
-    img: 'assets/images/beauty.jpg',
+    img: 'assets/images/beauty&grooming.jpg',
   ),
   WorkCategory(
     id: '4',
     title: 'Home Repair',
-    img: 'assets/images/home_repair.jpg',
+    img: 'assets/images/houserepair.jpg',
   ),
 ];
 

@@ -107,7 +107,7 @@ Widget loadingScreen(BuildContext context, String text) {
         Container(
           alignment: Alignment.center,
           child: Column(
-           //mainAxisAlignment: MainAxisAlignment.center,
+           crossAxisAlignment: CrossAxisAlignment.center,
             children: [
                Text(
                   text,

@@ -81,7 +81,7 @@ class _ImageInput3State extends State<ImageInput3> {
       Column(
         children: <Widget>[
           RadioListTile(
-            value: 1,
+            value: 3,
             groupValue: 
             selectedRadioTile,
             title: Text('Barangay Clearance'),
@@ -90,7 +90,7 @@ class _ImageInput3State extends State<ImageInput3> {
 
             },
             activeColor: Theme.of(context).primaryColor,
-            secondary: IconButton(onPressed: ()=> _openInfo(context,'assets/images/good_job.png','Bronze Badge','You\'ll get a bronze badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
+            secondary: IconButton(onPressed: ()=> _openInfo(context,'assets/images/bronze.png','Bronze Badge','You\'ll get a bronze badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
             color: Color.fromRGBO(62, 135, 148, 1),
           ),
          // selected: true,
@@ -105,13 +105,13 @@ class _ImageInput3State extends State<ImageInput3> {
 
         },
         activeColor: Theme.of(context).primaryColor,
-        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/good_job.png','Silver Badge','You\'ll get a silver badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
+        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/silver.png','Silver Badge','You\'ll get a silver badge for credibility level. Credibility level means the measure of your trustworthiness as a person. Level up your credibility level to attract more customers!'), icon: Icon(Icons.info),
         color: Color.fromRGBO(62, 135, 148, 1),
       ),
       // selected: false,
       ),
        RadioListTile(
-        value: 3,
+        value: 1,
         groupValue: 
         selectedRadioTile,
         title: Text('NBI Clearance'),
@@ -120,7 +120,7 @@ class _ImageInput3State extends State<ImageInput3> {
 
         },
         activeColor: Theme.of(context).primaryColor,
-        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/good_job.png','Gold Badge','Congrats! You\'ll get a gold badge for credibility level. This is the highest level of credibility, which means customers would most likely to choose you as their worker.Credibility level means the measure of your trustworthiness as a person.'), icon: Icon(Icons.info),
+        secondary: IconButton(onPressed: ()=>_openInfo(context,'assets/images/gold.png','Gold Badge','Congrats! You\'ll get a gold badge for credibility level. This is the highest level of credibility, which means customers would most likely to choose you as their worker.Credibility level means the measure of your trustworthiness as a person.'), icon: Icon(Icons.info),
         color: Color.fromRGBO(62, 135, 148, 1),
       ),
       // selected: false,

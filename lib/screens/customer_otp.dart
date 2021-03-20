@@ -40,14 +40,15 @@ class _CustomerOTPState extends State<CustomerOTP> {
     super.didChangeDependencies();
   }
 
-   _verifyOTP() {
-    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+   _verifyOTP() async {
+    var response = await EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
       _isLoading = true;
     });
     if (response) {
       print('OTP verified');
-      Services.addCustomer(
+      try{
+        await Services.addCustomer(
               lname,
               fname,
               bdate,
@@ -60,11 +61,33 @@ class _CustomerOTPState extends State<CustomerOTP> {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => CustomerHomeScreen(),),);
       });
-    }else{
-      showDialog(
+    }catch(error){
+      await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Wrong Code!', style: TextStyle(color: Colors.black),),
+                title: Text('Connection error.',style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your connection and try again.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+    }
+    }else{
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Code does not match!', style: TextStyle(color: Colors.black),),
                 content: SingleChildScrollView(child:ListBody(children: [
                    Text('Please enter the code sent to your email.'),
                 ],)),
@@ -121,7 +144,10 @@ class _CustomerOTPState extends State<CustomerOTP> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                               Form(
-                                child: Container(
+                                child: Expanded(
+                                  child: Column(
+                                    children: [
+                                  Container(
                                   alignment: Alignment.center,
                                   width: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.fromLTRB(
@@ -134,6 +160,15 @@ class _CustomerOTPState extends State<CustomerOTP> {
                                     controller: _otp,
                                     decoration:
                                         textFieldInputDecoration('Enter Code'),
+                                  ),
+                                ),
+                               
+                             SizedBox(height:10),
+                            Text('A code was sent to your email, please enter the code sent.', style: TextStyle( color: Color.fromRGBO(62, 135, 148, 1),
+                                      fontSize: 14,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.bold,),),
+                                   ],
                                   ),
                                 ),
                               ),

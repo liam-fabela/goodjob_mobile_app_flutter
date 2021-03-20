@@ -48,12 +48,10 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
 
    
 
-    void _sendOTP(String email) async {
+     Future<bool> _sendOTP(String email) async {
     EmailAuth.sessionName = "GoodJOB!";
     var response = await EmailAuth.sendOtp(receiverMail: email);
-    if(response) {
-      print('OTP send');
-    }
+    return response;
     }
 
      Future<void> _checkUser(String mail) async {
@@ -104,8 +102,12 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
             );
           }
        }else{
-      _sendOTP(mail);
-    Navigator.of(context).pushNamed(
+        setState(() {
+      _isLoading = false;
+    });
+      _sendOTP(mail).then((response){
+        if(response){
+            Navigator.of(context).pushNamed(
       CustomerOTP.routeName,
       arguments: {
         "lname": lname,
@@ -119,6 +121,30 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
         
       }
     );
+        }else{
+          showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your internet connection.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+        }
+      });
+  
 
        }
          

@@ -115,8 +115,13 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
             );
           }
        }else{
-      _sendOTP(mail);
-    Navigator.of(context).pushNamed(
+        
+      _sendOTP(mail).then((response){
+         setState(() {
+      _isLoading = false;
+    });
+      if(response){
+        Navigator.of(context).pushNamed(
       WorkerOTPScreen.routeName,
       arguments: {
         "lname": lname,
@@ -139,6 +144,30 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
         
       }
     );
+     }else{
+       showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your internet connection.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+       );
+      }
+      });
+    
 
        }
          
@@ -147,19 +176,39 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
       return "error";
     }
      }catch(e){
+        setState(() {
+      _isLoading = false;
+    });
        print(e);
-       throw(e);
+       await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your internet connection.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
      }
   }
    }
  
 
-    void _sendOTP(String email) async {
+    Future<bool> _sendOTP(String email) async {
     EmailAuth.sessionName = "GoodJOB!";
     var response = await EmailAuth.sendOtp(receiverMail: email);
-    if(response) {
-      print('OTP send');
-    }
+    return response;
     }
 
     

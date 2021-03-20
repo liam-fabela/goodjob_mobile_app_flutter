@@ -85,6 +85,7 @@ class Services {
     }
     } catch (e) {
       print(e);
+      throw(e);
       
      
      
@@ -114,6 +115,7 @@ class Services {
     }
     } catch (e) {
       print(e);
+      throw(e);
       
      
      

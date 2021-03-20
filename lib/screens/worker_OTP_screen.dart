@@ -68,14 +68,15 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
     });
   }
 
-  _verifyOTP() {
-    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+  _verifyOTP() async {
+    var response = await EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
       _isLoading = true;
     });
     if (response) {
       print('OTP verified');
-      Services.addWorker(
+      try{
+        await Services.addWorker(
               lname,
               fname,
               bdate,
@@ -97,11 +98,33 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => WorkerHoldingScreen(),),);
       });
+      }catch(error) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Something Went Wrong.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your connection and try again.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+      }
     }else{
       showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Wrong Code!', style: TextStyle(color: Colors.black),),
+                title: Text('Code does not match!', style: TextStyle(color: Colors.black),),
                 content: SingleChildScrollView(child:ListBody(children: [
                    Text('Please enter the code sent to your email.'),
                 ],)),
@@ -157,6 +180,9 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
+                            Expanded(
+                              child:Column(
+                                children: [
                               Form(
                                 child: Container(
                                   alignment: Alignment.center,
@@ -174,7 +200,15 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                                   ),
                                 ),
                               ),
-                            SizedBox(height: 20),
+                            SizedBox(height:10),
+                            Text('A code was sent to your email, please enter the code sent.', style: TextStyle( color: Color.fromRGBO(62, 135, 148, 1),
+                                      fontSize: 14,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.bold,),),
+                                ],
+                              ),
+                            ),
+                           // SizedBox(height: 20),
                             GestureDetector(
                               onTap: () {
                                 //_circleProg();
