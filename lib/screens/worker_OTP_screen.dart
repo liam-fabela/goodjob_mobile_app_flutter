@@ -102,7 +102,7 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
         await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Something Went Wrong.', style: TextStyle(color: Colors.black),),
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
                 content: SingleChildScrollView(child:ListBody(children: [
                    Text('Please check your connection and try again.'),
                 ],)),

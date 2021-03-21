@@ -41,7 +41,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
   }
 
    _verifyOTP() async {
-    var response = await EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
       _isLoading = true;
     });

@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
    var showPass = false;
     var obscure = true;
    var _isLoading = false;
-  static const url2 ='http://192.168.43.250/db_php/login.php';
+  static const url2 ='http://192.168.43.152/db_php/login.php';
   String utype;
   String valid;
   String userId;
@@ -178,8 +178,27 @@ class _LoginScreenState extends State<LoginScreen> {
       return "error";
     }
      }catch(e){
-       print(e);
-       throw(e);
+       await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your connection and try again.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+      
      }
   }
   }

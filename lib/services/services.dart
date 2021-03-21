@@ -7,9 +7,9 @@ class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
 
-  static const url = 'http://192.168.43.250/db_php/db_actions.php';
-  static const url2 = 'http://192.168.43.250/db_php/login.php';
-  static const url3 = 'http://192.168.43.250/db_php/insert_category.php';
+  static const url = 'http://192.168.43.152/db_php/db_actions.php';
+  static const url2 = 'http://192.168.43.152/db_php/login.php';
+  static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
   
   
 
