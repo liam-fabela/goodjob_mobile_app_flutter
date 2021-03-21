@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 
+import '../screens/workers_list.dart';
+
 class CategoryItem extends StatelessWidget {
+  final int id;
   final String title;
   final String img;
 
-  CategoryItem(this.title, this.img);
+  CategoryItem(this.id,this.title, this.img);
+
+void toWorkerList(BuildContext context){
+   Navigator.push(context,
+   MaterialPageRoute(builder: (context) => WorkersList(id,title),),);
+}
+
+  
 
   @override
   Widget build(BuildContext context) {
     return  InkWell(
       onTap: () {
+        toWorkerList(context);
       },
       child: Card(
           shape: RoundedRectangleBorder(

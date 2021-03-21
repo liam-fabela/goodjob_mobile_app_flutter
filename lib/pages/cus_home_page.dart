@@ -114,6 +114,7 @@ class CustomerHomePage extends StatelessWidget {
                 children: CATEGORY_DATA
                     .map(
                       (catData) => CategoryItem(
+                        catData.id,
                         catData.title,
                         catData.img,
                       ),

@@ -8,7 +8,7 @@ class WorkerProfiles {
   String badge;
   String profile;
   String catType;
-  String rating;
+ // String rating;
 
   WorkerProfiles ({
     this.id,
@@ -20,7 +20,7 @@ class WorkerProfiles {
     this.badge,
     this.profile,
     this.catType,
-    this.rating,
+   // this.rating,
   });
 
   factory WorkerProfiles.fromJson(Map<String,dynamic>jsonData) {
@@ -31,10 +31,10 @@ class WorkerProfiles {
       zone: jsonData['zone'],
       barangay: jsonData['barangay'],
       city: jsonData['city'],
-      badge: jsonData['doc_img'],
+      badge: "http://192.168.43.152/db_php/doc_img/"+jsonData['doc_img'],
       profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['display_photo'],
       catType: jsonData['category_type'],
-      rating: jsonData['rating'],
+     // rating: jsonData['rating'],
     );
   }
 }

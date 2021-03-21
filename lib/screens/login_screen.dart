@@ -175,29 +175,30 @@ class _LoginScreenState extends State<LoginScreen> {
         
        
       } else {
-      return "error";
+       // print("error");
     }
      }catch(e){
-       await showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please check your connection and try again.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                       setState(() {
-                       _isLoading = false;
-                     });
-                    },
-                  ),
-                ],
-          ),
-          );
+      print('catch part: $e');
+//       await showDialog(
+//          context: context,
+//          builder: (BuildContext context) => AlertDialog(
+//                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+//                content: SingleChildScrollView(child:ListBody(children: [
+//                   Text('Please check your connection and try again.'),
+//                ],)),
+//                actions: <Widget>[
+//                  TextButton(
+//                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+//                    onPressed: () {
+//                      Navigator.of(context).pop();
+//                       setState(() {
+//                       _isLoading = false;
+//                     });
+//                    },
+//                  ),
+//                ],
+//          ),
+ //         );
       
      }
   }
