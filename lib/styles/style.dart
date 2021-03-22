@@ -100,7 +100,7 @@ Widget loadingScreen(BuildContext context, String text) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
-          child: SpinKitWanderingCubes(
+          child: SpinKitSquareCircle(
               color: Color.fromRGBO(62, 135, 148, 1), size: 50.0),
         ),
         SizedBox(height: 35),

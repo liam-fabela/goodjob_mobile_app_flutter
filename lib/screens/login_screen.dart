@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 import '../styles/style.dart';
-import 'worker_home_screen.dart';
+//import 'worker_home_screen.dart';
 import 'customer_home_screen.dart';
 import 'worker_holding_screen.dart';
 import 'worker_categories_screen.dart';
@@ -39,14 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
   String valid;
   String userId;
   String firsTime;
-  String lname;
-  String fname;
-  String bday;
-  String zone;
-  String brgy;
-  String city;
-  String docId;
-  String usrname;
+//  String lname;
+//  String fname;
+//  String bday;
+//  String zone;
+//  String brgy;
+//  String city;
+//  String docId;
+//  String usrname;
 
   
   Future<void> _loginUser() async {
@@ -118,14 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
         valid = data["validate"];
         userId = data["uid"];
         firsTime = data["first"];
-        lname = data["lastname"];
-        fname = data["firstname"];
-        bday = data["birthdate"];
-        zone = data["zone"];
-        brgy= data["barangay"];
-        city  = data["city"];
-        docId = data["docId"];
-        usrname = data["username"];
+       
        // int workerId = int.parse(userId);
         int type = int.parse(utype);
         int validity = int.parse(valid);
@@ -139,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                WorkerCategoryScreen.routeName,
             arguments: {
               "workerId": userId,
-              "username": usrname,
+             // "username": usrname,
             }
           );
           print(userId);
@@ -152,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
             '/worker_home',
             arguments: {
               "workerId": userId,
-              "username": usrname,
+            //  "username": usrname,
             }
           );
           }
@@ -175,30 +168,30 @@ class _LoginScreenState extends State<LoginScreen> {
         
        
       } else {
-       // print("error");
+       print("error");
     }
      }catch(e){
       print('catch part: $e');
-//       await showDialog(
-//          context: context,
-//          builder: (BuildContext context) => AlertDialog(
-//                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
-//                content: SingleChildScrollView(child:ListBody(children: [
-//                   Text('Please check your connection and try again.'),
-//                ],)),
-//                actions: <Widget>[
-//                  TextButton(
-//                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-//                    onPressed: () {
-//                      Navigator.of(context).pop();
-//                       setState(() {
-//                       _isLoading = false;
-//                     });
-//                    },
-//                  ),
-//                ],
-//          ),
- //         );
+       await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your connection and try again.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+         );
       
      }
   }
@@ -223,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 30),
            Container(
-              height: MediaQuery.of(context).size.height - 70,
+              height: MediaQuery.of(context).size.height* 0.65,
               alignment: Alignment.bottomCenter,
                padding: EdgeInsets.symmetric(horizontal: 24),
               child: Column(

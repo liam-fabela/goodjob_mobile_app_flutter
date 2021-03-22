@@ -8,6 +8,7 @@ class WorkerProfiles {
   String badge;
   String profile;
   String catType;
+  String empty;
  // String rating;
 
   WorkerProfiles ({
@@ -20,6 +21,7 @@ class WorkerProfiles {
     this.badge,
     this.profile,
     this.catType,
+    this.empty,
    // this.rating,
   });
 
@@ -34,6 +36,7 @@ class WorkerProfiles {
       badge: "http://192.168.43.152/db_php/doc_img/"+jsonData['doc_img'],
       profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['display_photo'],
       catType: jsonData['category_type'],
+      empty: jsonData['empty'],
      // rating: jsonData['rating'],
     );
   }

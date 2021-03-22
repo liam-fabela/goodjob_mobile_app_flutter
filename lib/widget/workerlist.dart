@@ -16,15 +16,14 @@ class WorkerListView extends StatelessWidget {
       ),
      // padding: EdgeInsets.all(10),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(15),
         child: ListTile(
                  leading: CircleAvatar(
                         radius: 30,
+                        backgroundImage: NetworkImage(workerProfiles.profile), 
+                        backgroundColor:  Color.fromRGBO(75, 210, 178, 1),
                         child: Padding(
                           padding: EdgeInsets.all(6),
-                          child: FittedBox(
-                            child: Image.network(workerProfiles.profile), 
-                          ),
                         ),
                       ),
                   title: Row(children: [
@@ -71,12 +70,35 @@ class WorkerListView extends StatelessWidget {
 
                   ]),
                   trailing: 
-                      Container(
-                        //padding: EdgeInsets.all(10),
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.10,
-                        child: Image.network(workerProfiles.badge),
-                        
+                      Stack(
+                        children: [
+                          Container(
+                            //padding: EdgeInsets.all(10),
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.10,
+                            child: Image.network(workerProfiles.badge),
+                            
+                          ),
+                            Positioned(
+                    bottom: 10,
+                    right: 5,
+                    child: Container(
+                     // width: MediaQuery.of(context).size.width * 0.6,
+                      color: Color.fromRGBO(29, 171, 145, 0.7),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 3, horizontal:5),
+                      child: Text(
+                        'credibility',
+                        style: TextStyle(
+                         fontSize: 8,
+                          color: Colors.white,
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+                        ],
                       ),
 
         ),

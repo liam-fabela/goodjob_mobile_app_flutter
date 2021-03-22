@@ -182,12 +182,12 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
      .map((workerProfiles) => new WorkerProfiles.fromJson(workerProfiles))
      .toList();
    }else{
-     print('error');
+     print("error");
    }
 
     }catch(e){
       print(e);
-      throw (e);
+      throw(e);
 
     }
   

@@ -14,40 +14,89 @@ class WorkersList extends StatefulWidget {
 }
 
 class _WorkersListState extends State<WorkersList> {
+  
+  Future<void> _refreshData(int wid) async {
+    return Services.getWorker(wid);
+   
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarSign(context, widget.title),
-      body: Center(
-        child: FutureBuilder<List<WorkerProfiles>>(
-          future: Services.getWorker(widget.id),
-          builder: (context,snapshot) {
-            if(snapshot.hasData) {
-              List<WorkerProfiles> workerProfiles = snapshot.data;
-              return WorkerListView(workerProfiles);
-            }else if(snapshot.hasError){
-          showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please check your connection and try again.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-          ),
-          );
-            }
-            return loadingScreen(context,'Loading...');
-          }
+      body:  RefreshIndicator(
+              onRefresh: ()=> _refreshData(widget.id),
+             
+              child: Center(
+          child: FutureBuilder<List<WorkerProfiles>>(
+            future: Services.getWorker(widget.id),
+            builder: (context,snapshot) {
+              if(snapshot.hasData) {
+                //int dataLength = snapshot.data.length;
+                List<WorkerProfiles> workerProfiles = snapshot.data;
+                if(workerProfiles.isEmpty){
+                   return Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person,size:50, color: Colors.white,),
+                  SizedBox(height:15),
+                      Text('No workers yet.',style: TextStyle(
+                            color: Color.fromRGBO(62, 135, 148, 1),
+                             fontSize: 12,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.bold,
+                          ),
+                             textAlign: TextAlign.center,
+                      ),
+                    ],
+                  );
 
-        )
+                }else{
+                List<WorkerProfiles> workerProfiles = snapshot.data;
+                return WorkerListView(workerProfiles);
+                }
+               
+              }else if(snapshot.hasError){
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Icon(Icons.error,size:50, color: Colors.white,),
+                  SizedBox(height:15),
+                  Text('Something went wrong.',style: TextStyle(
+                                        color: Color.fromRGBO(62, 135, 148, 1),
+                                        fontSize: 12,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.bold,
+                                        ),
+                                    textAlign: TextAlign.center,
+                                  ), 
+                    SizedBox(height:15),
+                    GestureDetector(
+                                onTap: (){
+                              
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(62, 135, 148, 1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Try Again',
+                                    style: mediumTextStyle(),
+                                  ),
+                                ),
+                     ),
+                ],);
+              }
+              return loadingScreen(context,'Loading...');
+            }
+
+          )
+        ),
       ),
 
       
