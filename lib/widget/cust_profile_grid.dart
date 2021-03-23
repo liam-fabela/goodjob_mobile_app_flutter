@@ -15,8 +15,33 @@ class CustomerGridItem extends StatelessWidget {
 
   Future<void> _logOut(BuildContext context) async {
    // var data = SharedPrefUtils.getPref('user');
-    SharedPrefUtils.removePref('user');
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> Authenticate()));
+    showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please check your connection and try again.'),
+                ],)),
+                actions: <Widget>[
+                 
+                  TextButton(
+                    child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      SharedPrefUtils.removePref('user');
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Authenticate()));
+                      
+                    },
+                  ),
+                   TextButton(
+                    child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                       Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+          ),
+         );
+   
 
   }
 

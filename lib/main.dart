@@ -28,6 +28,7 @@ import './screens/worker_holding_screen.dart';
 import './screens/create_post.dart';
 import 'screens/worker_categories_screen.dart';
 import './helper/shared_preferences.dart';
+import './screens/worker_details.dart';
 
 var initScreen;
 
@@ -74,9 +75,9 @@ class MyApp extends StatelessWidget {
                 ),
         ),
         ),
-        initialRoute: initScreen == null ? '/' : initScreen == 1 ? '/worker_home' :  '/customer_home',
+        initialRoute: '/' ,//initScreen == null ? '/' : initScreen == 1 ? '/worker_home' :  '/customer_home',
         routes: {
-          '/' : (ctx) => Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
+          '/' : (ctx) => WorkerDetails(),//Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
           '/worker_home': (ctx) => WorkerHomeScreen(),
           WorkerSignUp.routeName : (ctx) => WorkerSignUp(),
           Worker2SignUp.routeName : (ctx) => Worker2SignUp(),
