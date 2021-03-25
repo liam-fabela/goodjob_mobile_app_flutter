@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/worker_profile.dart';
+import '../models/worker_individual.dart';
 //import '../models/worker_model.dart';
 //import '../models/http_exception.dart';
 class Services {
@@ -12,6 +13,7 @@ class Services {
   static const url2 = 'http://192.168.43.152/db_php/login.php';
   static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
    static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
+   static const url5 = 'http://192.168.43.152/db_php/profile.php';
   
   
   
@@ -192,7 +194,28 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
     }
   
 }
- 
+
+
+ static Future<List<WorkerIndividual>> getProfile(int wid) async{
+    var map = Map<String, dynamic>();
+   try{
+   map['wid'] = wid;
+  final response = await http.post(url5, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get profile response: ${response.body}');
+   if(response.statusCode == 200) {
+    List workerIndividual = json.decode(response.body);
+    return workerIndividual
+      .map((workerIndividual)=> new WorkerIndividual.fromJson(workerIndividual))
+      .toList();
+   }else{
+     print("error");
+   }
+   }catch(e){
+     print(e);
+     throw(e);
+   }
+
+ }
 
 }
 

@@ -26,10 +26,9 @@ import 'providers/data.dart';
 import './screens/customer_home_screen.dart';
 import './screens/worker_holding_screen.dart';
 import './screens/create_post.dart';
-import 'screens/worker_categories_screen.dart';
+import './screens/worker_categories_screen.dart';
 import './helper/shared_preferences.dart';
-import './screens/worker_details.dart';
-
+import './screens/worker_profile_details.dart';
 var initScreen;
 
 
@@ -37,7 +36,7 @@ var initScreen;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
- //SharedPreferences prefs = await SharedPreferences.getInstance();
+ SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen =  await SharedPrefUtils.getPref('user');
   print('FROM MAIN: $initScreen');
   runApp(MyApp());
@@ -75,9 +74,9 @@ class MyApp extends StatelessWidget {
                 ),
         ),
         ),
-        initialRoute: '/' ,//initScreen == null ? '/' : initScreen == 1 ? '/worker_home' :  '/customer_home',
+        initialRoute: initScreen == null ? '/' : initScreen == 1 ? '/worker_home' :  '/customer_home',
         routes: {
-          '/' : (ctx) => WorkerDetails(),//Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
+          '/' : (ctx) =>Authenticate(),//CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
           '/worker_home': (ctx) => WorkerHomeScreen(),
           WorkerSignUp.routeName : (ctx) => WorkerSignUp(),
           Worker2SignUp.routeName : (ctx) => Worker2SignUp(),
@@ -97,7 +96,7 @@ class MyApp extends StatelessWidget {
           WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
           CreatePostModal.routeName: (ctx)=> CreatePostModal(),
           WorkerCategoryScreen.routeName : (ctx)=> WorkerCategoryScreen(),
-          
+          ProfileDetails.routeName : (ctx) => ProfileDetails(),
       
         }
       ),

@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../models/worker_profile.dart';
+import '../screens/worker_profile_details.dart';
+import '../styles/style.dart';
+//import '../services/services.dart';
+//import '../models/worker_rating.dart';
 
-class WorkerListView extends StatelessWidget {
+class WorkerListView extends StatefulWidget {
   final List<WorkerProfiles> workerProfiles;
 
   WorkerListView(this.workerProfiles);
+
+  @override
+  _WorkerListViewState createState() => _WorkerListViewState();
+}
+
+class _WorkerListViewState extends State<WorkerListView> {
+   
+  var _isLoading = false; 
+ 
+  
+
 
   Widget workerViewItem(BuildContext context, WorkerProfiles workerProfiles) {
     return Card(
@@ -27,19 +42,9 @@ class WorkerListView extends StatelessWidget {
                         ),
                       ),
                   title: Row(children: [
-                          Text(workerProfiles.fname, style:  TextStyle(
-                                        color: Color.fromRGBO(62, 135, 148, 1),
-                                        fontSize: 16,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        ),),
+                          Text(workerProfiles.fname, style: profileName()),
                           SizedBox(width: 10),
-                           Text(workerProfiles.lname, style:  TextStyle(
-                                        color: Color.fromRGBO(62, 135, 148, 1),
-                                        fontSize: 16,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        ),),
+                           Text(workerProfiles.lname, style: profileName()),
 
                   ],),
                   subtitle: Column(
@@ -53,20 +58,10 @@ class WorkerListView extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         ),),
                           SizedBox(width: 10),
-                           Text(workerProfiles.barangay, style:  TextStyle(
-                                        color: Color.fromRGBO(62, 135, 148, 1),
-                                        fontSize: 12,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        ),),
+                           Text(workerProfiles.barangay, style: addressStyle()),
                            
                   ],),
-                   Text(workerProfiles.city, style:  TextStyle(
-                                        color: Color.fromRGBO(62, 135, 148, 1),
-                                        fontSize: 12,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        ),),
+                   Text(workerProfiles.city, style: addressStyle()),
 
                   ]),
                   trailing: 
@@ -100,18 +95,31 @@ class WorkerListView extends StatelessWidget {
                   ),
                         ],
                       ),
-
+        onTap: (){
+        // id = int.parse(workerProfiles.id);
+          
+      //  List data = Services.getRatings(wid);
+      
+           Navigator.pushNamed(context, ProfileDetails.routeName,
+         arguments:{
+           'id': workerProfiles.id,
+           }
+         );
+     
+        
+        },
         ),
       ),
+      
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: workerProfiles.length,
+      itemCount: widget.workerProfiles.length,
       itemBuilder: (context, int currentIndex) {
-        return workerViewItem(context, workerProfiles[currentIndex],);
+        return workerViewItem(context, widget.workerProfiles[currentIndex],);
       }
       
     );

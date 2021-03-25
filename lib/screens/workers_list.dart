@@ -72,7 +72,7 @@ class _WorkersListState extends State<WorkersList> {
                     SizedBox(height:15),
                     GestureDetector(
                                 onTap: (){
-                              
+                                  _refreshData(widget.id);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

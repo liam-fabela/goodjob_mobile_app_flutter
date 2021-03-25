@@ -86,6 +86,24 @@ TextStyle mediumTextStyle() {
   );
 }
 
+ TextStyle profileName() {
+      return TextStyle(  
+        color: const Color.fromRGBO(62, 135, 148, 1),
+        fontSize: 16,
+        fontFamily: 'Raleway',
+        fontWeight: FontWeight.bold,
+  );
+ }
+
+ TextStyle addressStyle() {
+   return TextStyle(
+        color: const Color.fromRGBO(62, 135, 148, 1),
+         fontSize: 12,
+         fontFamily: 'Raleway',
+         fontWeight: FontWeight.bold,
+         );
+ }
+
 Image appLogo = new Image(
   image: new ExactAssetImage('assets/images/good_job.png'),
   height: 200.0,

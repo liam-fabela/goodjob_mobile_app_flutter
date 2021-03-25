@@ -17,7 +17,7 @@ class CustomerHomePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
           height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 25),
         child: Column(
           children: [
             Container(
@@ -93,14 +93,15 @@ class CustomerHomePage extends StatelessWidget {
               ),
             ),
             Divider(),
-            SizedBox(height: 10),
+          //  SizedBox(height: 5),
             Center(
               child: Text(
                 'Categories',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Raleway',
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
