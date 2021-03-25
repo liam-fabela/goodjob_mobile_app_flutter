@@ -29,6 +29,7 @@ dependencies:
   fluttertoast: ^7.1.8
   flutter_spinkit: ^4.0.0
   shared_preferences: ^0.5.12+4
+  expandable_text: ^0.1.0
 
 
 

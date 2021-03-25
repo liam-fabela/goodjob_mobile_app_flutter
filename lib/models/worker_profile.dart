@@ -35,7 +35,7 @@ class WorkerProfiles {
       city: jsonData['city'],
       badge: "http://192.168.43.152/db_php/doc_img/"+jsonData['doc_img'],
       profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['display_photo'],
-      catType: jsonData['category_type'],
+      catType: jsonData['cat_type'],
       bio: jsonData['bio'],
      // rating: jsonData['rating'],
     );

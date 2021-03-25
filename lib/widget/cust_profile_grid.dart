@@ -18,9 +18,9 @@ class CustomerGridItem extends StatelessWidget {
     showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
+                title: Text('Log out.', style: TextStyle(color: Colors.black),),
                 content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please check your connection and try again.'),
+                   Text('Are you sure you want to logout?.'),
                 ],)),
                 actions: <Widget>[
                  

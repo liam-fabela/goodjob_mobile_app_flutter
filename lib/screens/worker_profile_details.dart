@@ -14,9 +14,11 @@ class ProfileDetails extends StatefulWidget {
 class _ProfileDetailsState extends State<ProfileDetails> {
    int wid;
     String id;
+    String cat;
   void didChangeDependencies() {
    final worker = ModalRoute.of(context).settings.arguments as Map<String, String>;
    id = worker['id'];
+    cat = worker['category'];
     wid = int.parse(id);
     super.didChangeDependencies();
   }
@@ -24,7 +26,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  appBarSign(context, ''),   
+      appBar:  appBarSign(context,cat),   
       body: Center(
         child: FutureBuilder<List<WorkerIndividual>>(
           future: Services.getProfile(wid),

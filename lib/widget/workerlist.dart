@@ -103,6 +103,7 @@ class _WorkerListViewState extends State<WorkerListView> {
            Navigator.pushNamed(context, ProfileDetails.routeName,
          arguments:{
            'id': workerProfiles.id,
+           'category': workerProfiles.catType,
            }
          );
      
