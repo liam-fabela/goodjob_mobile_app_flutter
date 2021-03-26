@@ -5,6 +5,7 @@ import '../models/worker_profile.dart';
 import '../models/worker_individual.dart';
 //import '../models/worker_model.dart';
 //import '../models/http_exception.dart';
+import '../models/customer_reviews.dart';
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
@@ -14,6 +15,7 @@ class Services {
   static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
    static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
    static const url5 = 'http://192.168.43.152/db_php/profile.php';
+   static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
   
   
   
@@ -215,6 +217,26 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
      throw(e);
    }
 
+ }
+
+ static Future<List<CustomerReviews>> getReviews(int wid) async{
+    var map = Map<String, dynamic>();
+   try{
+      map['wid'] = wid;
+  final response = await http.post(url6, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get reviews response: ${response.body}');
+   if(response.statusCode == 200) {
+    List customerReviews = json.decode(response.body);
+    return customerReviews
+      .map((customerReviews)=> new CustomerReviews.fromJson(customerReviews))
+      .toList();
+   }else{
+     print("error");
+   }
+   }catch(e){
+     print(e);
+     throw (e);
+   }
  }
 
 }

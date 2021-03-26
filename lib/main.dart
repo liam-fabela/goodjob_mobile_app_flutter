@@ -26,6 +26,7 @@ import './screens/create_post.dart';
 import './screens/worker_categories_screen.dart';
 import './helper/shared_preferences.dart';
 import './screens/worker_profile_details.dart';
+import './screens/customer_reviews.dart';
 
 var initScreen;
 
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
             CreatePostModal.routeName: (ctx) => CreatePostModal(),
             WorkerCategoryScreen.routeName: (ctx) => WorkerCategoryScreen(),
             ProfileDetails.routeName: (ctx) => ProfileDetails(),
+            CustomerReviewScreen.routeName: (ctx) => CustomerReviewScreen(),
           }),
     );
   }

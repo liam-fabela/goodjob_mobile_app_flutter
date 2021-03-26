@@ -24,63 +24,73 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     super.didChangeDependencies();
   }
 
+   Future<void> _refreshData(int wid) async {
+    setState(() {
+      
+    });
+    return Services.getReviews(wid);
+    
+   
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarSign(context, cat),
-      body: Center(
-        child: FutureBuilder<List<WorkerIndividual>>(
-            future: Services.getProfile(wid),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<WorkerIndividual> workerIndividual = snapshot.data;
-                return WorkerDetails(workerIndividual);
-              } else if (snapshot.hasError) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.error,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Something went wrong.',
-                      style: TextStyle(
-                        color: Color.fromRGBO(62, 135, 148, 1),
-                        fontSize: 12,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+            onRefresh: ()=> _refreshData(wid),
+              child: Center(
+          child: FutureBuilder<List<WorkerIndividual>>(
+              future: Services.getProfile(wid),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<WorkerIndividual> workerIndividual = snapshot.data;
+                  return WorkerDetails(workerIndividual,id);
+                } else if (snapshot.hasError) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.wifi_off_outlined,
+                        size: 50,
+                        color: Colors.white,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 15),
-                    GestureDetector(
-                      onTap: () {
-                        //  _refreshData(widget.id);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
+                      SizedBox(height: 15),
+                      Text(
+                        'Connection Error.',
+                        style: TextStyle(
                           color: Color.fromRGBO(62, 135, 148, 1),
-                          borderRadius: BorderRadius.circular(10),
+                          fontSize: 12,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
                         ),
-                        child: Text(
-                          'Try Again',
-                          style: mediumTextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 15),
+                      GestureDetector(
+                        onTap: ()=> _refreshData(wid),
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(62, 135, 148, 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            'Try Again',
+                            style: mediumTextStyle(),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              }
-              return loadingScreen(context, 'Loading...');
-            }),
+                    ],
+                  );
+                }
+                return loadingScreen(context, 'Loading...');
+              }),
+        ),
       ),
     );
   }

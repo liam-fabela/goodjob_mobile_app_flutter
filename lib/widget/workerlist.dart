@@ -17,16 +17,14 @@ class WorkerListView extends StatefulWidget {
 
 class _WorkerListViewState extends State<WorkerListView> {
    
-  var _isLoading = false; 
  
-  
 
 
   Widget workerViewItem(BuildContext context, WorkerProfiles workerProfiles) {
     return Card(
        elevation: 5,
                   margin: EdgeInsets.symmetric(
-                    vertical: 5,
+                    vertical: 1,
                     horizontal: 5,
       ),
      // padding: EdgeInsets.all(10),

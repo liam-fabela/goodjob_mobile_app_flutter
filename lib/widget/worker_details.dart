@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:expandable_text/expandable_text.dart';
+//import 'package:expandable_text/expandable_text.dart';
 
 import '../styles/style.dart';
-import 'worker_listbuilder.dart';
+//import 'worker_listbuilder.dart';
 import '../models/worker_individual.dart';
+import '../screens/customer_reviews.dart';
 
 class WorkerDetails extends StatefulWidget {
   static const routeName = '/worker_details';
   final List<WorkerIndividual> workerIndividual;
+  final String wid;
 
-  WorkerDetails(this.workerIndividual);
+  WorkerDetails(this.workerIndividual, this.wid);
 
   @override
   _WorkerDetailsState createState() => _WorkerDetailsState();
 }
 
 class _WorkerDetailsState extends State<WorkerDetails> {
+
+  void navigateReview(BuildContext context, String id){
+    Navigator.of(context).pushNamed(CustomerReviewScreen.routeName, arguments: {
+      'id': id,
+
+    });
+  }
+
   Widget workerProfile(
       BuildContext context, WorkerIndividual workerIndividual) {
     return SingleChildScrollView(
@@ -297,7 +307,9 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                               child: Column(
                             children: [
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: (){
+                                    navigateReview(context,widget.wid);
+                                  },
                                   child: Icon(
                                     Icons.star_outline_outlined,
                                     size: MediaQuery.of(context).size.width *

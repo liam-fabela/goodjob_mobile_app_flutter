@@ -49,7 +49,7 @@ void toWorkerList(BuildContext context){
                     //right: 10,
                     child: Container(
                      // width: MediaQuery.of(context).size.width * 0.6,
-                      color: Color.fromRGBO(29, 171, 145, 0.5),
+                      color: Color.fromRGBO(29, 171, 145, 0.8),
                       padding:
                           EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                       child: Text(

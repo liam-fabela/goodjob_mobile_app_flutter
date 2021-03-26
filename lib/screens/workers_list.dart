@@ -16,7 +16,11 @@ class WorkersList extends StatefulWidget {
 class _WorkersListState extends State<WorkersList> {
   
   Future<void> _refreshData(int wid) async {
+    setState(() {
+      
+    });
     return Services.getWorker(wid);
+    
    
   }
   @override
@@ -59,9 +63,9 @@ class _WorkersListState extends State<WorkersList> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  Icon(Icons.error,size:50, color: Colors.white,),
+                  Icon(Icons.wifi_off_outlined,size:50, color: Colors.white,),
                   SizedBox(height:15),
-                  Text('Something went wrong.',style: TextStyle(
+                  Text('Connection error.',style: TextStyle(
                                         color: Color.fromRGBO(62, 135, 148, 1),
                                         fontSize: 12,
                                         fontFamily: 'Raleway',

@@ -44,7 +44,7 @@ Widget signUpCategory(
                     right: 10,
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.6,
-                      color: Color.fromRGBO(29, 171, 145, 0.5),
+                      color: Color.fromRGBO(29, 171, 145, 0.7),
                       padding:
                           EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       child: Text(
@@ -71,6 +71,18 @@ InputDecoration textFieldInputDecoration(String hintText) {
       color: Colors.black54,
     ),
     border: InputBorder.none,
+  );
+}
+
+InputDecoration inputDeco(String labelText) {
+  return InputDecoration(
+    labelText: labelText,
+    labelStyle: TextStyle(
+       color: Colors.black54,
+       fontSize: 14,
+       fontFamily: 'Raleway'
+    ),
+    //border: InputBorder.,
   );
 }
 
@@ -103,6 +115,27 @@ TextStyle mediumTextStyle() {
          fontWeight: FontWeight.bold,
          );
  }
+
+ 
+ TextStyle addressStyle2() {
+   return TextStyle(
+        color: Colors.white,
+         fontSize: 10,
+         fontFamily: 'Raleway',
+         fontWeight: FontWeight.bold,
+         );
+ }
+
+ TextStyle reviewStyle() {
+   return TextStyle(
+        color: const Color.fromRGBO(62, 135, 148, 1),
+         fontSize: 12,
+         fontFamily: 'Raleway',
+         fontWeight: FontWeight.bold,
+         );
+ }
+
+
  
 
 Image appLogo = new Image(
@@ -145,3 +178,5 @@ Widget loadingScreen(BuildContext context, String text) {
     ),
   );
 }
+
+  

@@ -28,7 +28,7 @@ class CustomerGridItem extends StatelessWidget {
                     child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
                     onPressed: () {
                       SharedPrefUtils.removePref('user');
-                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Authenticate()));
+                       Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                       
                     },
                   ),
