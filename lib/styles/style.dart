@@ -103,6 +103,7 @@ TextStyle mediumTextStyle() {
          fontWeight: FontWeight.bold,
          );
  }
+ 
 
 Image appLogo = new Image(
   image: new ExactAssetImage('assets/images/good_job.png'),

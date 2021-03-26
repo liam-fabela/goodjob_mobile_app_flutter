@@ -12,12 +12,13 @@ class ProfileDetails extends StatefulWidget {
 }
 
 class _ProfileDetailsState extends State<ProfileDetails> {
-   int wid;
-    String id;
-    String cat;
+  int wid;
+  String id;
+  String cat;
   void didChangeDependencies() {
-   final worker = ModalRoute.of(context).settings.arguments as Map<String, String>;
-   id = worker['id'];
+    final worker =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    id = worker['id'];
     cat = worker['category'];
     wid = int.parse(id);
     super.didChangeDependencies();
@@ -26,57 +27,61 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  appBarSign(context,cat),   
+      appBar: appBarSign(context, cat),
       body: Center(
         child: FutureBuilder<List<WorkerIndividual>>(
-          future: Services.getProfile(wid),
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              List<WorkerIndividual> workerIndividual = snapshot.data;
-              return WorkerDetails(workerIndividual);
-            }else if(snapshot.hasError){
-               return Column(
+            future: Services.getProfile(wid),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<WorkerIndividual> workerIndividual = snapshot.data;
+                return WorkerDetails(workerIndividual);
+              } else if (snapshot.hasError) {
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  Icon(Icons.error,size:50, color: Colors.white,),
-                  SizedBox(height:15),
-                  Text('Something went wrong.',style: TextStyle(
-                                        color: Color.fromRGBO(62, 135, 148, 1),
-                                        fontSize: 12,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.bold,
-                                        ),
-                                    textAlign: TextAlign.center,
-                                  ), 
-                    SizedBox(height:15),
+                    Icon(
+                      Icons.error,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      'Something went wrong.',
+                      style: TextStyle(
+                        color: Color.fromRGBO(62, 135, 148, 1),
+                        fontSize: 12,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15),
                     GestureDetector(
-                                onTap: (){
-                                //  _refreshData(widget.id);
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width * 0.3,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(62, 135, 148, 1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'Try Again',
-                                    style: mediumTextStyle(),
-                                  ),
-                                ),
-                     ),
-                ],);
-
-            }
-           return loadingScreen(context,'Loading...');
-          }
-        ),
+                      onTap: () {
+                        //  _refreshData(widget.id);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(62, 135, 148, 1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'Try Again',
+                          style: mediumTextStyle(),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return loadingScreen(context, 'Loading...');
+            }),
       ),
-      
     );
   }
 }

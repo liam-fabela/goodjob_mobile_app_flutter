@@ -8,6 +8,7 @@ class WorkerIndividual {
   String about;
   String badge;
   String rating;
+  String review;
 
   WorkerIndividual({
     this.lname,
@@ -19,6 +20,7 @@ class WorkerIndividual {
     this.about,
     this.badge,
     this.rating,
+    this.review,
 
   });
 
@@ -33,6 +35,7 @@ class WorkerIndividual {
       about: jsonData['bio'],
       badge:  "http://192.168.43.152/db_php/doc_img/" + jsonData['docImg'],
       rating: jsonData['rating'],
+      review: jsonData['review'],
     );
   }
 }

@@ -12,11 +12,6 @@ import 'worker_categories_screen.dart';
 //import '../services/services.dart';
 import '../helper/shared_preferences.dart';
 
-
-
-
-
-
 class LoginScreen extends StatefulWidget {
   // static const routeName = '/login';
   final Function toggle;
@@ -30,11 +25,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController loginEmail = TextEditingController();
   TextEditingController loginPassword = TextEditingController();
-   final formKey = GlobalKey<FormState>();
-   var showPass = false;
-    var obscure = true;
-   var _isLoading = false;
-  static const url2 ='http://192.168.43.152/db_php/login.php';
+  final formKey = GlobalKey<FormState>();
+  var showPass = false;
+  var obscure = true;
+  var _isLoading = false;
+  static const url2 = 'http://192.168.43.152/db_php/login.php';
   String utype;
   String valid;
   String userId;
@@ -48,301 +43,319 @@ class _LoginScreenState extends State<LoginScreen> {
 //  String docId;
 //  String usrname;
 
-  
   Future<void> _loginUser() async {
-     if(formKey.currentState.validate()){
-     try{
-
+    if (formKey.currentState.validate()) {
+      try {
         setState(() {
-      _isLoading = true;
-    });
-       print("gisulod dne");
-       var map = Map<String, dynamic>();
+          _isLoading = true;
+        });
+        print("gisulod dne");
+        var map = Map<String, dynamic>();
         map["searchEmail"] = loginEmail.text;
         map["searchPassword"] = loginPassword.text;
 
-      
-       http.Response response = await http.post(url2, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
-       print('Login Response: ${response.body}');
+        http.Response response = await http.post(url2,
+            body: jsonEncode(map),
+            headers: {'Content-type': 'application/json'});
+        print('Login Response: ${response.body}');
 
-      if (200 == response.statusCode) {
-        print(response.body);
-        var data = json.decode(response.body);
-       
-        if(data["error"] && data["error2"]){
-           setState(() {
-          _isLoading = false;
-        });
-          print("NARA KO");
-          if(data["message"] == "No email or username found." && data["message2"] ==  "No email or username found." ){
-            print(data["message"]);
-            Fluttertoast.showToast(
-              msg: data["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.grey,
-              textColor: Colors.white,
-              fontSize: 14
-            );
-          } 
-          if(data["message"] == "No email or username found." && data["message2"] ==   "Your Password is incorrect."){
-            print(data["message2"]);
-             Fluttertoast.showToast(
-              msg: data["message2"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.grey,
-              textColor: Colors.white,
-              fontSize: 14
-            );
+        if (200 == response.statusCode) {
+          print(response.body);
+          var data = json.decode(response.body);
+
+          if (data["error"] && data["error2"]) {
+            setState(() {
+              _isLoading = false;
+            });
+            print("NARA KO");
+            if (data["message"] == "No email or username found." &&
+                data["message2"] == "No email or username found.") {
+              print(data["message"]);
+              Fluttertoast.showToast(
+                  msg: data["message"],
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.grey,
+                  textColor: Colors.white,
+                  fontSize: 14);
+            }
+            if (data["message"] == "No email or username found." &&
+                data["message2"] == "Your Password is incorrect.") {
+              print(data["message2"]);
+              Fluttertoast.showToast(
+                  msg: data["message2"],
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.grey,
+                  textColor: Colors.white,
+                  fontSize: 14);
+            }
+            if (data["message"] == "Your Password is incorrect." &&
+                data["message2"] == "No email or username found.") {
+              print(data["message"]);
+              Fluttertoast.showToast(
+                  msg: data["message"],
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.grey,
+                  textColor: Colors.white,
+                  fontSize: 14);
+            }
           }
-          if(data["message"] == "Your Password is incorrect." && data["message2"] == "No email or username found.") {
-            print(data["message"]);
-             Fluttertoast.showToast(
-              msg: data["message"],
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.grey,
-              textColor: Colors.white,
-              fontSize: 14
-            );
+
+          utype = data["usertype"];
+          valid = data["validate"];
+          userId = data["uid"];
+          firsTime = data["first"];
+
+          // int workerId = int.parse(userId);
+          int type = int.parse(utype);
+          int validity = int.parse(valid);
+          int first = int.parse(firsTime);
+          if (type == 1) {
+            if (validity == 1 && first == 1) {
+              SharedPrefUtils.setPref('user', type);
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              // prefs.setInt('user', type);
+              Navigator.of(context).pushReplacementNamed(
+                  WorkerCategoryScreen.routeName,
+                  arguments: {
+                    "workerId": userId,
+                    // "username": usrname,
+                  });
+              print(userId);
+            } else if (validity == 1 && first == 0) {
+              SharedPrefUtils.setPref('user', type);
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              //prefs.setInt('user', type);
+              Navigator.of(context)
+                  .pushReplacementNamed('/worker_home', arguments: {
+                "workerId": userId,
+                //  "username": usrname,
+              });
+            } else {
+              Navigator.of(context)
+                  .pushReplacementNamed(WorkerHoldingScreen.routeName);
+            }
           }
-
-        
-        }
-
-        utype = data["usertype"];
-        valid = data["validate"];
-        userId = data["uid"];
-        firsTime = data["first"];
-       
-       // int workerId = int.parse(userId);
-        int type = int.parse(utype);
-        int validity = int.parse(valid);
-        int first = int.parse(firsTime);
-        if(type == 1){
-          if(validity == 1 && first == 1){
+          if (type == 2) {
             SharedPrefUtils.setPref('user', type);
-           // SharedPreferences prefs = await SharedPreferences.getInstance();
-           // prefs.setInt('user', type);
-             Navigator.of(context).pushReplacementNamed(
-               WorkerCategoryScreen.routeName,
-            arguments: {
-              "workerId": userId,
-             // "username": usrname,
-            }
-          );
-          print(userId);
-          }
-          else if(validity == 1 && first == 0){
-             SharedPrefUtils.setPref('user', type);
-            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            //SharedPreferences prefs = await SharedPreferences.getInstance();
             //prefs.setInt('user', type);
-             Navigator.of(context).pushReplacementNamed(
-            '/worker_home',
-            arguments: {
-              "workerId": userId,
-            //  "username": usrname,
-            }
-          );
+            Navigator.of(context)
+                .pushReplacementNamed(CustomerHomeScreen.routeName);
           }
-          else{
-             Navigator.of(context).pushReplacementNamed(
-            WorkerHoldingScreen.routeName
-          );
-          }
-           
+        } else {
+          print("error");
         }
-        if(type ==2){
-           SharedPrefUtils.setPref('user', type);
-           //SharedPreferences prefs = await SharedPreferences.getInstance();
-            //prefs.setInt('user', type);
-           Navigator.of(context).pushReplacementNamed(
-          CustomerHomeScreen.routeName
-          );
-        }
-       
-        
-       
-      } else {
-       print("error");
-    }
-     }catch(e){
-      print('catch part: $e');
-       await showDialog(
+      } catch (e) {
+        print('catch part: $e');
+        await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please check your connection and try again.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                       setState(() {
-                       _isLoading = false;
-                     });
-                    },
+            title: Text(
+              'Connection Error.',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: SingleChildScrollView(
+                child: ListBody(
+              children: [
+                Text('Please check your connection and try again.'),
+              ],
+            )),
+            actions: <Widget>[
+              TextButton(
+                child: Center(
+                  child: Text(
+                    'Ok',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                ],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _isLoading = false;
+                  });
+                },
+              ),
+            ],
           ),
-         );
-      
-     }
+        );
+      }
+    }
   }
-  }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading ? loadingScreen(context,"Signing in...") :
-          SingleChildScrollView(
-          child: Column(
-            
-          children: <Widget>[
-
-            Container(
-            margin: EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: Image.asset(
-            'assets/images/good_job.png',
-             fit: BoxFit.cover,
-            ),
-            ),
-            SizedBox(height: 30),
-           Container(
-              height: MediaQuery.of(context).size.height* 0.65,
-              alignment: Alignment.bottomCenter,
-               padding: EdgeInsets.symmetric(horizontal: 24),
+      body: _isLoading
+          ? loadingScreen(context, "Signing in...")
+          : SingleChildScrollView(
               child: Column(
-                children: [
-                Form(
-                   key: formKey,
-                  child: Column(children: <Widget>[
-                    Container(
-                     alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                    child: Column(
-                    children: <Widget>[
-                    TextFormField(
-                       validator: (val) {
-                        return val.isEmpty ? 'Please Enter Email' : null ;                 
-                        },
-
-                      controller: loginEmail,
-                      decoration: textFieldInputDecoration('email/username'),
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: Image.asset(
+                      'assets/images/good_job.png',
+                      fit: BoxFit.cover,
                     ),
-                    Divider(),
-                    Row(
+                  ),
+                  SizedBox(height: 30),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.65,
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: TextFormField(
-                           validator: (val) {
-                              return val.isEmpty ? 'Please Enter Password' : null ;
-                            },
-                            controller: loginPassword,
-                            obscureText: obscure,
-                            decoration: textFieldInputDecoration('password'),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                padding:
+                                    EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(children: <Widget>[
+                                  TextFormField(
+                                    validator: (val) {
+                                      return val.isEmpty
+                                          ? 'Please Enter Email'
+                                          : null;
+                                    },
+                                    controller: loginEmail,
+                                    decoration: textFieldInputDecoration(
+                                        'email/username'),
+                                  ),
+                                  Divider(),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          validator: (val) {
+                                            return val.isEmpty
+                                                ? 'Please Enter Password'
+                                                : null;
+                                          },
+                                          controller: loginPassword,
+                                          obscureText: obscure,
+                                          decoration: textFieldInputDecoration(
+                                              'password'),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            showPass = !showPass;
+                                            obscure = !obscure;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          width: 50,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          child: showPass
+                                              ? Icon(
+                                                  Icons.remove_red_eye,
+                                                  color: Color.fromRGBO(
+                                                      62, 135, 148, 1),
+                                                )
+                                              : Icon(Icons.remove_red_eye),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              GestureDetector(
+                                onTap: () => _loginUser(),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(62, 135, 148, 1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Sign in',
+                                    style: mediumTextStyle(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Don\'t have an account? ',
+                                    style: mediumTextStyle(),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      widget.toggle();
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 8),
+                                      child: Text(
+                                        'Register now',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                            ],
                           ),
                         ),
-                        GestureDetector(
-                          onTap:(){
-                             setState(() {
-                                showPass = !showPass;
-                                obscure = !obscure;
-
-                               });
-                              },
-                                              child: Container(
-                                                height: 40,
-                                                width: 50,
-                                                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                              child: showPass ? Icon(Icons.remove_red_eye, color: Color.fromRGBO(62, 135, 148, 1),) : Icon(Icons.remove_red_eye),
-                                            ),
-                                          ),
                       ],
                     ),
-                    ]
-                    ),
-                    ),
-                     SizedBox(
-                        height: 8,
-                      ),
-                       Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        'Forgot Password?',
-                       style:  TextStyle(
-                                  color: Colors.white, 
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,),
-                      ),
-                    ),
-                    SizedBox(
-                        height: 16,
-                      ),
-                      GestureDetector(
-                        onTap: ()=> _loginUser(),
-                            child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.symmetric(vertical: 20,),
-                            decoration: BoxDecoration(
-                             color: Color.fromRGBO(62, 135, 148, 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'Sign in',
-                              style: mediumTextStyle(),
-                            ),
-                          ),
-                      ),
-                       SizedBox(height: 16,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                        Text('Don\'t have an account? ', style:  mediumTextStyle(),),
-                        GestureDetector(
-                          onTap: () {
-                            widget.toggle();
-                          },
-                            child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text('Register now', style:  TextStyle(
-                                  color: Colors.white, 
-                                  fontSize: 17,
-                                  decoration: TextDecoration.underline,
-                            ),),
-                          ),
-                        ),
-                      ],),
-                      SizedBox(height: 50,),
-                  ],
-                ),
-                ),
-                ], 
+                  ),
+                ],
               ),
-          ),
-           
-           ],
-        ),
-      ),
-      );
-      
-    
+            ),
+    );
   }
 }

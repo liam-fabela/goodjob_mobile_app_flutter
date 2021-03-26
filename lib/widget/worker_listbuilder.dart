@@ -10,6 +10,8 @@ class ProfileListBuilder extends StatelessWidget {
 
           onTap: (){},
           child: Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            width:  MediaQuery.of(context).size.width * 0.8,
         child: ListView.builder(
         itemCount: data.length,
         itemBuilder: (BuildContext context, int index) {
