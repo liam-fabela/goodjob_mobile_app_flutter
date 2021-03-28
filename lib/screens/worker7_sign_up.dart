@@ -326,6 +326,7 @@ class _Worker7SignUpState extends State<Worker7SignUp> {
 
                                         },
                                         controller: _email,
+                                        keyboardType: TextInputType.emailAddress,
                                         decoration:
                                             textFieldInputDecoration('Email Address'),
                                       ),

@@ -6,6 +6,8 @@ import '../models/worker_individual.dart';
 //import '../models/worker_model.dart';
 //import '../models/http_exception.dart';
 import '../models/customer_reviews.dart';
+import '../models/cus_display_profile.dart';
+
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';

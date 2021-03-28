@@ -11,8 +11,8 @@ class CustomerSignUpScreen extends StatefulWidget {
 }
 
 class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
-   final TextEditingController _firstName = TextEditingController();
-  final  TextEditingController _lastName = TextEditingController();
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
@@ -29,30 +29,25 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
         return;
       }
       setState(() {
-         _selectedDate = pickedDate;
-         var date = '${DateFormat.yMd().format(_selectedDate)}';
-         _dateController.text = date;
-         final DateFormat formatter = DateFormat('yyyy-MM-dd');
-         formatted = formatter.format(_selectedDate);
-         print(formatted);
-
+        _selectedDate = pickedDate;
+        var date = '${DateFormat.yMd().format(_selectedDate)}';
+        _dateController.text = date;
+        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+        formatted = formatter.format(_selectedDate);
+        print(formatted);
       });
-     
     });
   }
 
   void _customerSignUp(BuildContext context) {
-    if(formKey.currentState.validate()){
-       Navigator.of(context).pushNamed(
-      Customer2SignUpScreen.routeName,
-      arguments: {
+    if (formKey.currentState.validate()) {
+      Navigator.of(context)
+          .pushNamed(Customer2SignUpScreen.routeName, arguments: {
         'lname': _lastName.text,
         'fname': _firstName.text,
         'bdate': formatted,
-      }
-      );
+      });
     }
-
   }
 
   @override
@@ -91,100 +86,105 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(
-                            child: Form(
-                                 key: formKey,
-                              child: Column(  
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width,
-                                padding:
-                                    EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child:  Column(
-                                   
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.fromLTRB(
+                                      20.0, 10.0, 20.0, 20.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
                                     children: <Widget>[
-                                    
                                       TextFormField(
-                                       validator: (val) {
-                                        return val.isEmpty ? 'Please Enter a Value' : null ;                 
-                                       },
+                                        validator: (val) {
+                                          return val.isEmpty
+                                              ? 'Please Enter a Value'
+                                              : null;
+                                        },
                                         controller: _firstName,
-                                        decoration:
-                                            textFieldInputDecoration('First Name'),
+                                        decoration: textFieldInputDecoration(
+                                            'First Name'),
                                       ),
                                       Divider(),
                                       TextFormField(
-                                         validator: (val) {
-                                        return val.isEmpty ? 'Please Enter a Value' : null ;                 
-                                       },
-                                         controller: _lastName,
-                                        decoration:
-                                            textFieldInputDecoration('Last Name'),
+                                        validator: (val) {
+                                          return val.isEmpty
+                                              ? 'Please Enter a Value'
+                                              : null;
+                                        },
+                                        controller: _lastName,
+                                        decoration: textFieldInputDecoration(
+                                            'Last Name'),
                                       ),
                                       Divider(),
                                       Row(
                                         children: <Widget>[
                                           Expanded(
                                             child: TextFormField(
-                                               validator: (val) {
-                                               return val.isEmpty ? 'Please Enter a Value' : null ;                 
-                                            },
+                                              validator: (val) {
+                                                return val.isEmpty
+                                                    ? 'Please Enter a Value'
+                                                    : null;
+                                              },
                                               controller: _dateController,
-                                              decoration: textFieldInputDecoration(
-                                                  'Date of Birth'),
+                                              decoration:
+                                                  textFieldInputDecoration(
+                                                      'Date of Birth'),
                                               //keyboardType: TextInputType.datetime,
                                               readOnly: true,
                                               onTap: _presentDatePicker,
                                             ),
                                           ),
                                           GestureDetector(
-                                              onTap: _presentDatePicker,
-                                              child: Container(
-                                                height: 40,
-                                                width: 50,
-                                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                            onTap: _presentDatePicker,
+                                            child: Container(
+                                              height: 40,
+                                              width: 50,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10.0),
                                               child: Image.asset(
-                                             'assets/images/calendar.png',
-                                               fit: BoxFit.cover,
-                                          ),
+                                                'assets/images/calendar.png',
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      
                                     ],
                                   ),
-                               
-                              ),
-                            ],
-                          ),),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                         GestureDetector(
-                              onTap:(){
-                              _customerSignUp(context);
-                             },
-                             child: Container(
-                               
-                              alignment: Alignment.center,
-                             width: MediaQuery.of(context).size.width *0.6,
-                              padding: EdgeInsets.symmetric(vertical: 20,),
-                              decoration: BoxDecoration(
+                        GestureDetector(
+                          onTap: () {
+                            _customerSignUp(context);
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 20,
+                            ),
+                            decoration: BoxDecoration(
                               color: Color.fromRGBO(62, 135, 148, 1),
                               borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Next',
+                              style: mediumTextStyle(),
+                            ),
                           ),
-                          child: Text(
-                            'Next',
-                            style: mediumTextStyle(),
-                          ),
+                          //     ),
                         ),
-                                //     ),
-                                       ),
                       ],
-
                     ),
                   ),
                 ),
@@ -193,7 +193,6 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
           ],
         ),
       ),
-      
     );
   }
 }
