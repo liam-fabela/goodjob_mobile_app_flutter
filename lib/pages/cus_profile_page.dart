@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 //import '../models/cust_profile.dart';
 import '../models/widget_data.dart';
 import '../widget/cust_profile_grid.dart';
+import '../models/cus_display_profile.dart';
+import '../widget/customer_display.dart';
+import '../services/services.dart';
 
-class CustomerProfilePage extends StatelessWidget {
+class CustomerProfilePage extends StatefulWidget {
+  final int id;
+  CustomerProfilePage(this.id);
+  @override
+  _CustomerProfilePageState createState() => _CustomerProfilePageState();
+}
+
+class _CustomerProfilePageState extends State<CustomerProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,24 +29,8 @@ class CustomerProfilePage extends StatelessWidget {
               right: 20,
             ),
             height: MediaQuery.of(context).size.height * 0.25,
-            child: Row(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color.fromRGBO(1, 101, 105, 1),
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.0),
-                      ),
-                      color: Color.fromRGBO(170, 225, 227, 1),
-                    ),
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Icon(Icons.person)),
-                SizedBox(width: 10),
-                Text('Customer name'),
-              ],
+            child: FutureBuilder<List<CustomerProfile>>(
+              future: Services.getCustomerDisplay(widget.id),
             ),
           ),
           SingleChildScrollView(

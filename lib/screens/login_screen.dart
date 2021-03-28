@@ -115,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
           int type = int.parse(utype);
           int validity = int.parse(valid);
           int first = int.parse(firsTime);
+          int uId = int.parse(userId);
           if (type == 1) {
             if (validity == 1 && first == 1) {
               SharedPrefUtils.setPref('user', type);
@@ -129,13 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
               print(userId);
             } else if (validity == 1 && first == 0) {
               SharedPrefUtils.setPref('user', type);
+              SharedPrefUtils.setUserId('userId', uId);
               // SharedPreferences prefs = await SharedPreferences.getInstance();
               //prefs.setInt('user', type);
               Navigator.of(context)
-                  .pushReplacementNamed('/worker_home', arguments: {
-                "workerId": userId,
-                //  "username": usrname,
-              });
+                  .pushReplacementNamed('/worker_home');
             } else {
               Navigator.of(context)
                   .pushReplacementNamed(WorkerHoldingScreen.routeName);
@@ -143,10 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if (type == 2) {
             SharedPrefUtils.setPref('user', type);
+            SharedPrefUtils.setUserId('userId', uId);
             //SharedPreferences prefs = await SharedPreferences.getInstance();
             //prefs.setInt('user', type);
             Navigator.of(context)
-                .pushReplacementNamed(CustomerHomeScreen.routeName);
+                .pushReplacementNamed('/customer_home');
           }
         } else {
           print("error");

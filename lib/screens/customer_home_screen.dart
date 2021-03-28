@@ -6,6 +6,7 @@ import '../pages/cus_home_page.dart';
 import '../pages/cus_profile_page.dart';
 import '../pages/cus_request_page.dart';
 import '../pages/cus_message_page.dart';
+import '../helper/shared_preferences.dart';
 
 
 class CustomerHomeScreen extends StatefulWidget {
@@ -16,13 +17,14 @@ class CustomerHomeScreen extends StatefulWidget {
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
+  
    List<Map<String, Object>> _pages = [
     {
      'page': CustomerHomePage(),
      'title': 'Home',
     },
     {
-    'page': CustomerProfilePage(),
+    'page': CustomerProfilePage(SharedPrefUtils.getUser('userId')),
     'title': 'Profile',
     },
     {
@@ -39,6 +41,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   int _selectedPageIndex = 0;
   int userOfApp;
+  String id;
+  int cid;
+
 
   @override
   void initState() {
@@ -46,17 +51,22 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     super.initState();
   }
 
+  
    _getData()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userOfApp = prefs.getInt('user');
     print(userOfApp);
   }
+  
+  
 
    void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
     });
+    
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

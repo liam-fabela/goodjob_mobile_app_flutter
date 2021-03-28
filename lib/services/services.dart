@@ -18,6 +18,12 @@ class Services {
    static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
    static const url5 = 'http://192.168.43.152/db_php/profile.php';
    static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
+  static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
+   
+  
+  
+  
+  
   
   
   
@@ -224,8 +230,8 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
  static Future<List<CustomerReviews>> getReviews(int wid) async{
     var map = Map<String, dynamic>();
    try{
-      map['wid'] = wid;
-  final response = await http.post(url6, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+    map['wid'] = wid;
+    final response = await http.post(url6, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get reviews response: ${response.body}');
    if(response.statusCode == 200) {
     List customerReviews = json.decode(response.body);
@@ -240,6 +246,29 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
      throw (e);
    }
  }
+
+ static Future<List<CustomerProfile>> getCustomerDisplay(int cid) async{
+   var map = Map<String, dynamic>();
+   try{
+    map['wid'] = cid;
+    final response = await http.post(url7, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get customer response: ${response.body}');
+   if(response.statusCode == 200) {
+    List customerProfile = json.decode(response.body);
+    return customerProfile
+      .map((customerProfile)=> new CustomerProfile.fromJson(customerProfile))
+      .toList();
+   }else{
+     print("error");
+   }
+
+   }catch(e){
+     print(e);
+     throw (e);
+   }
+ }
+
+ 
 
 }
 
