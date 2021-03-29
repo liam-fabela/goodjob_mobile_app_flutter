@@ -27,7 +27,7 @@ class CustomerGridItem extends StatelessWidget {
                   TextButton(
                     child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
                     onPressed: () {
-                      SharedPrefUtils.removePref('user');
+                      SharedPrefUtils.removePref();
                        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                       
                     },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../styles/style.dart';
 //import 'worker_home_screen.dart';
@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String valid;
   String userId;
   String firsTime;
-//  String lname;
-//  String fname;
+  String lname;
+  String fname;
 //  String bday;
 //  String zone;
 //  String brgy;
@@ -110,12 +110,15 @@ class _LoginScreenState extends State<LoginScreen> {
           valid = data["validate"];
           userId = data["uid"];
           firsTime = data["first"];
+          lname = data["lastname"];
+          fname = data["firstname"];
 
           // int workerId = int.parse(userId);
           int type = int.parse(utype);
           int validity = int.parse(valid);
           int first = int.parse(firsTime);
           int uId = int.parse(userId);
+          String userName = fname + " " + lname;
           if (type == 1) {
             if (validity == 1 && first == 1) {
               SharedPrefUtils.setPref('user', type);
@@ -131,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
             } else if (validity == 1 && first == 0) {
               SharedPrefUtils.setPref('user', type);
               SharedPrefUtils.setUserId('userId', uId);
+              SharedPrefUtils.setUserName('userName', userName);
               // SharedPreferences prefs = await SharedPreferences.getInstance();
               //prefs.setInt('user', type);
               Navigator.of(context)
@@ -143,8 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
           if (type == 2) {
             SharedPrefUtils.setPref('user', type);
             SharedPrefUtils.setUserId('userId', uId);
-            //SharedPreferences prefs = await SharedPreferences.getInstance();
-            //prefs.setInt('user', type);
+           // SharedPreferences prefs = await SharedPreferences.getInstance();
+           // prefs.setInt('userId', type);
             Navigator.of(context)
                 .pushReplacementNamed('/customer_home');
           }

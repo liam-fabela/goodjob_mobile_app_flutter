@@ -30,6 +30,9 @@ dependencies:
   flutter_spinkit: ^4.0.0
   shared_preferences: ^0.5.12+4
   expandable_text: ^0.1.0
+  shimmer:
+  geocoding: ^1.0.5
+  geolocator: ^6.1.1
 
 
 

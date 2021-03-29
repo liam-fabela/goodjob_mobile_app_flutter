@@ -32,7 +32,6 @@ var initScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await SharedPrefUtils.getPref('user');
   print('FROM MAIN: $initScreen');

@@ -24,7 +24,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
      'title': 'Home',
     },
     {
-    'page': CustomerProfilePage(SharedPrefUtils.getUser('userId')),
+    'page': CustomerProfilePage(),
     'title': 'Profile',
     },
     {
@@ -41,24 +41,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   int _selectedPageIndex = 0;
   int userOfApp;
-  String id;
-  int cid;
+ 
 
 
-  @override
-  void initState() {
-   _getData();
-    super.initState();
-  }
-
-  
-   _getData()async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userOfApp = prefs.getInt('user');
-    print(userOfApp);
-  }
-  
-  
 
    void _selectPage(int index) {
     setState(() {

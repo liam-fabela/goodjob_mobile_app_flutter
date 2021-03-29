@@ -7,7 +7,7 @@ import '../models/worker_individual.dart';
 //import '../models/http_exception.dart';
 import '../models/customer_reviews.dart';
 import '../models/cus_display_profile.dart';
-
+import '../helper/shared_preferences.dart';
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
@@ -19,6 +19,9 @@ class Services {
    static const url5 = 'http://192.168.43.152/db_php/profile.php';
    static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
   static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
+  static var cid;
+  static int id;
+  static String cus;
    
   
   
@@ -228,6 +231,7 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
  }
 
  static Future<List<CustomerReviews>> getReviews(int wid) async{
+
     var map = Map<String, dynamic>();
    try{
     map['wid'] = wid;
@@ -247,10 +251,21 @@ static Future<List<WorkerProfiles>> getWorker(int cat) async {
    }
  }
 
- static Future<List<CustomerProfile>> getCustomerDisplay(int cid) async{
+
+
+static getData()async{
+    cid = await SharedPrefUtils.getUser('userId');
+    cus = cid.toString();
+    id = int.parse(cus);
+    print('FROM GET DATA: $id');
+   
+  }
+ static Future<List<CustomerProfile>> getCustomerDisplay(int id) async{
+  
    var map = Map<String, dynamic>();
    try{
-    map['wid'] = cid;
+    map['cid'] = id;
+    print ('FROM SERVICES: $id');
     final response = await http.post(url7, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get customer response: ${response.body}');
    if(response.statusCode == 200) {

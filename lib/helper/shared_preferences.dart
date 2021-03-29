@@ -12,9 +12,9 @@ class SharedPrefUtils {
     return pref.getInt(key);
   }
 
-  static Future<void> removePref(String key) async{
+  static Future<void> removePref() async{
      final SharedPreferences pref = await SharedPreferences.getInstance();
-     pref.remove(key);
+    await pref.clear();
   }
 
   static Future<void> setUserId(String key, int val) async{
@@ -27,9 +27,16 @@ class SharedPrefUtils {
     return pref.getInt(key);
   }
 
-  static int getUserId(String key) async{
-    int user = await getUser(key);
-
+  static Future<void> setUserName(String key, String name) async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(key,name);
   }
+
+  static Future<String> getUserName(String key) async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString(key);
+  }
+
+ 
 
 }
