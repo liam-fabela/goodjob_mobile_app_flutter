@@ -44,79 +44,82 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      color: Color.fromRGBO(170, 225, 227, 0.3),
-      child: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: FutureBuilder(
-                future: tem,
-                builder: (context, snapshot){
-                  if(snapshot.connectionState != ConnectionState.done){
-                     return shimmerEffect(context);
-                  }
-                  final cust = snapshot.data.toString();
-                  final custId = int.parse(cust);
-                  return CustomerDisplay(custId);
-                }
-            ),
-          ),
-          SingleChildScrollView(
-            child: Stack(children: [
-              Container(
-                padding: EdgeInsets.only(
-                  top: 30,
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    color: Color.fromRGBO(62, 135, 148, 1)),
-                height: MediaQuery.of(context).size.height * 0.66,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                    color: Color.fromRGBO(75, 210, 178, 1),
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.35,
+          height: MediaQuery.of(context).size.height,
+          color: Color.fromRGBO(170, 225, 227, 0.3),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.30,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(20),
-                    // color: Colors.grey,
-                    child: GridView(
-                      padding: const EdgeInsets.all(10),
-                      children: PROFILE_GRID
-                          .map(
-                            (gridData) => CustomerGridItem(
-                              gridData.id,
-                              gridData.title,
-                              gridData.icon,
-                            ),
-                          )
-                          .toList(),
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
-                    ),
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: FutureBuilder(
+                      future: tem,
+                      builder: (context, snapshot){
+                        if(snapshot.connectionState != ConnectionState.done){
+                           return shimmerEffect(context);
+                        }
+                        final cust = snapshot.data.toString();
+                        final custId = int.parse(cust);
+                        return CustomerDisplay(custId);
+                      }
                   ),
                 ),
               ),
+                  Positioned(
+                    top: MediaQuery.of(context).size.height * 0.3,
+                      child: Container(
+                      padding: EdgeInsets.only(
+                        top: 30,
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                          color: Color.fromRGBO(62, 135, 148, 0.7)),
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          color: Color.fromRGBO(75, 210, 178, 1),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.30,
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(20),
+                          // color: Colors.grey,
+                          child: GridView(
+                            padding: const EdgeInsets.all(10),
+                            children: PROFILE_GRID
+                                .map(
+                                  (gridData) => CustomerGridItem(
+                                    gridData.id,
+                                    gridData.title,
+                                    gridData.icon,
+                                  ),
+                                )
+                                .toList(),
+                            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200,
+                              childAspectRatio: 1,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
 
-              //width: MediaQuery.of(context).size.width * 0.85,
-              // padding: EdgeInsets.all(20.0),
-            ]),
+                  //width: MediaQuery.of(context).size.width * 0.85,
+           
+             
+            ],
           ),
-        ],
-      ),
-    );
+        );
   }
 }

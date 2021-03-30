@@ -22,7 +22,7 @@ import './screens/customer_otp.dart';
 import 'providers/data.dart';
 import './screens/customer_home_screen.dart';
 import './screens/worker_holding_screen.dart';
-import './screens/create_post.dart';
+//import './screens/create_post.dart';
 import './screens/worker_categories_screen.dart';
 import './helper/shared_preferences.dart';
 import './screens/worker_profile_details.dart';
@@ -92,8 +92,8 @@ class MyApp extends StatelessWidget {
             Customer5SignUpScreen.routeName: (ctx) => Customer5SignUpScreen(),
             CustomerOTP.routeName: (ctx) => CustomerOTP(),
             '/customer_home': (ctx) => CustomerHomeScreen(),
-            WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
-            CreatePostModal.routeName: (ctx) => CreatePostModal(),
+           WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
+           // CreatePostModal.routeName: (ctx) => CreatePostModal(),
             WorkerCategoryScreen.routeName: (ctx) => WorkerCategoryScreen(),
             ProfileDetails.routeName: (ctx) => ProfileDetails(),
             CustomerReviewScreen.routeName: (ctx) => CustomerReviewScreen(),

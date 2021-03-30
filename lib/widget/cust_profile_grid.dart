@@ -54,12 +54,13 @@ class CustomerGridItem extends StatelessWidget {
             }
           },
           child: Container(
+
          color: Color.fromRGBO(75, 210, 178, 1),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: Icon(icon, size:50, color: Color.fromRGBO(62, 135, 148, 1),),),
+              Expanded(child: Icon(icon, size:40, color: Color.fromRGBO(62, 135, 148, 1),),),
               Text(title, style: TextStyle(fontFamily: 'Raleway', fontSize: 14, color: Colors.white),),
             ],
           ),

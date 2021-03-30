@@ -21,10 +21,14 @@ class CustomerDisplay extends StatelessWidget {
               fit: BoxFit.cover,
           ),
         ),
-        height: MediaQuery.of(context).size.height * 0.3,
-         padding: EdgeInsets.all(30),
+        height: MediaQuery.of(context).size.height * 0.4,
+         padding: EdgeInsets.only(
+           left: 30,
+           right: 30,
+           bottom: 40,
+         ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
       child:
       Row(
       children: [
@@ -54,18 +58,18 @@ class CustomerDisplay extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(customerProfile.fname, style: profileName()),
+                  Text(customerProfile.fname, style: profileName2()),
                   SizedBox(width: 5),
-                  Text(customerProfile.lname, style: profileName()),
+                  Text(customerProfile.lname, style: profileName2()),
                 ],
               ),
               Row(
                 children: [
-                  Text(customerProfile.zone, style: addressStyle()),
+                  Text(customerProfile.zone, style: addressStyle2()),
                   SizedBox(width: 5),
-                  Text(customerProfile.barangay, style: addressStyle()),
+                  Text(customerProfile.barangay, style: addressStyle2()),
                   SizedBox(width: 5),
-                  Text(customerProfile.city, style: addressStyle()),
+                  Text(customerProfile.city, style: addressStyle2()),
                 ],
               ),
             ],
@@ -86,14 +90,18 @@ class CustomerDisplay extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<CustomerProfile> customerProfile = snapshot.data;
-            return ListView.builder(
-                itemCount: customerProfile.length,
-                itemBuilder: (context, int currentIndex) {
-                  return customerDisplayProfile(
-                    context,
-                    customerProfile[currentIndex],
-                  );
-                });
+            return Container(
+               height: MediaQuery.of(context).size.height * 0.3,
+               width: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                  itemCount: customerProfile.length,
+                  itemBuilder: (context, int currentIndex) {
+                    return customerDisplayProfile(
+                      context,
+                      customerProfile[currentIndex],
+                    );
+                  }),
+            );
           } else if (snapshot.hasError) {
             return shimmerEffect(context);
           }

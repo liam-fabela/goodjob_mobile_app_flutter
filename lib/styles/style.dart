@@ -105,6 +105,16 @@ TextStyle profileName() {
   );
 }
 
+
+TextStyle profileName2() {
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle addressStyle() {
   return TextStyle(
     color: const Color.fromRGBO(62, 135, 148, 1),
@@ -178,7 +188,12 @@ Widget shimmerEffect(BuildContext context) {
     children: [
      Container(
        height: MediaQuery.of(context).size.height * 0.25,
-       padding: EdgeInsets.all(30),
+      padding: EdgeInsets.only(
+          top: 60,
+           left: 30,
+           right: 30,
+          
+         ),
     child: Row(
       children: [
         Container(
@@ -227,7 +242,7 @@ Widget shimmerEffect(BuildContext context) {
     ),
     ],
     ),
-    baseColor: Colors.grey,
+    baseColor: Colors.white,
     highlightColor: Color.fromRGBO(62, 135, 148, 1),
   );
 }

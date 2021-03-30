@@ -5,6 +5,8 @@ import '../styles/style.dart';
 //import 'worker_listbuilder.dart';
 import '../models/worker_individual.dart';
 import '../screens/customer_reviews.dart';
+import '../screens/create_work_request.dart';
+import 'list_tile2.dart';
 
 class WorkerDetails extends StatefulWidget {
   static const routeName = '/worker_details';
@@ -18,6 +20,34 @@ class WorkerDetails extends StatefulWidget {
 }
 
 class _WorkerDetailsState extends State<WorkerDetails> {
+
+//    List texts= ["The worker had provided an NBI clearance as his/her proof of identity.", "The worker had provided a Police clearance as his/her proof of identity.", "The worker had provided a Barangay clearance as his proof of identity."];
+//    List texts2 = ["Highest credibility level","Middle-level credibility","Lowest Credibility level"];
+//   void _openInfo(BuildContext ctx, String image, String title, String text){
+//     showModalBottomSheet(
+//      context: ctx,
+//      builder: (_) {
+//        return GestureDetector(
+//          onTap: () {},
+//          child: Container(
+//            padding: EdgeInsets.all(5),
+//            child: listTileInfo2(context,image, title, text), 
+//      ),
+///          behavior: HitTestBehavior.opaque,
+//        );
+//      },
+ //   );
+ // }
+
+
+  void _createRequest(BuildContext context) {
+     Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (ctx) =>  CreateWorkRequest(),
+      ),
+    );
+  }
 
   void navigateReview(BuildContext context, String id){
     Navigator.of(context).pushNamed(CustomerReviewScreen.routeName, arguments: {
@@ -90,7 +120,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                   top: MediaQuery.of(context).size.height * 0.15,
                   right: MediaQuery.of(context).size.width * 0.099,
                   child: Card(
-                      elevation: 3,
+                      elevation: 7,
                       margin: EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -124,16 +154,32 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                 ),
                                 Stack(
                                   children: [
-                                    Container(
-                                      //padding: EdgeInsets.all(10),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.15,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.10,
-                                      child:
-                                          Image.network(workerIndividual.badge),
+                                    GestureDetector(
+                                      onTap: (){
+                                      //  if(workerIndividual.docId == '1'){
+                                      //    _openInfo(context, workerIndividual.badge,texts2[0],texts[0]);
+                                      //  }else if(workerIndividual.docId == '2'){
+                                      //     _openInfo(context, workerIndividual.badge,texts2[1],texts[1]);
+                                      //  }else{
+                                      //     _openInfo(context, workerIndividual.badge,texts2[2],texts[2]);
+                                      //  }
+                                      },
+                                        child: Container(
+                                        //padding: EdgeInsets.all(10),
+                                        width: MediaQuery.of(context).size.width *
+                                            0.15,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.10,
+                                        child:
+                                            Image.network(workerIndividual.badge),
+                                      ),
                                     ),
+                                   // Positioned(
+                                    //  bottom: MediaQuery.of(context).size.height * 0.04,
+                                     // right: MediaQuery.of(context).size.width * 0.05,
+                                    //  child: Icon(Icons.info_outlined, size: 20,color: Colors.white54,),
+                                   // ),
                                     Positioned(
                                       bottom: 10,
                                       right: 5,
@@ -224,7 +270,9 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                   bottom: MediaQuery.of(context).size.height * 0.15,
                   right: MediaQuery.of(context).size.width * 0.2,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _createRequest(context);
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.6,

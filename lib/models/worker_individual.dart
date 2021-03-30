@@ -9,6 +9,7 @@ class WorkerIndividual {
   String badge;
   String rating;
   String review;
+  String docId;
 
   WorkerIndividual({
     this.lname,
@@ -21,7 +22,7 @@ class WorkerIndividual {
     this.badge,
     this.rating,
     this.review,
-
+    this.docId,
   });
 
   factory WorkerIndividual.fromJson(Map<String,dynamic>jsonData) {
@@ -36,6 +37,7 @@ class WorkerIndividual {
       badge:  "http://192.168.43.152/db_php/doc_img/" + jsonData['docImg'],
       rating: jsonData['rating'],
       review: jsonData['review'],
+      docId: jsonData['docId'],
     );
   }
 }

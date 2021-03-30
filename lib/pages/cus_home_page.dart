@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 
 
+
 import '../models/widget_data.dart';
 import '../widget/category_item.dart';
 import '../screens/create_post.dart';
 
 class CustomerHomePage extends StatelessWidget {
+  
+  
+
 
    void _createPost(BuildContext context) {
-      Navigator.of(context).pushNamed(
-      CreatePostModal.routeName,
+     Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (ctx) =>  CreatePostModal(),
+      ),
     );
+     // Navigator.of(context).pushNamed(
+     // CreatePostModal.routeName,
+      
+
+    //);
   }
   @override
   Widget build(BuildContext context) {

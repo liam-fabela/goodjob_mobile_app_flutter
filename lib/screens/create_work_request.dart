@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-//import 'package:geolocator/geolocator.dart';
-//import 'package:geocoding/geocoding.dart';
-
 
 import '../styles/style.dart';
-import '../widget/category_choices.dart';
 
-class CreatePostModal extends StatefulWidget {
-  static const routeName = '/post_job';
+class CreateWorkRequest extends StatefulWidget {
   @override
-  _CreatePostModalState createState() => _CreatePostModalState();
+  _CreateWorkRequestState createState() => _CreateWorkRequestState();
 }
 
-class _CreatePostModalState extends State<CreatePostModal> {
-  int _choice;
+class _CreateWorkRequestState extends State<CreateWorkRequest> {
   int _choice2;
   var _perHour = false;
   var _perWork = false;
@@ -22,11 +16,9 @@ class _CreatePostModalState extends State<CreatePostModal> {
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
   String formatted;
-  //Position _currentPosition;
-  //String _currentAddress;
 
 
-  void _presentDatePicker() {
+ void _presentDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -57,54 +49,12 @@ class _CreatePostModalState extends State<CreatePostModal> {
     }
   }
 
-  void getState(bool state, String option) {
-    if (state && option == 'House chore') {
-      _choice = 1;
-    } else if (state && option == 'Personal errand') {
-      _choice = 2;
-    } else if (state && option == 'Beauty&Grooming') {
-      _choice = 3;
-    } else if (state && option == 'House repair') {
-      _choice = 4;
-    } else {
-      _choice = null;
-    }
-    print('choice from main screen: $_choice');
-  }
 
-//   _getCurrentLocation(){
- //   Geolocator
-//    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best, forceAndroidLocationManager: true)
-//    .then((Position position){
-//      setState((){
-//        _currentPosition = position;
-//        _getAddressFromLatLng();
-//      });
-//    }).catchError((e){
-//      print (e);
-//    });
-//  }
-
- // _getAddressFromLatLng() async{
- //   try{
- //     List<Placemark> placemarks = await placemarkFromCoordinates(
- //       _currentPosition.latitude,
- //       _currentPosition.longitude,
- //     );
- //     Placemark place = placemarks[0];
-
-//      setState((){
-//        _currentAddress = '${place.name},${place.subLocality},${place.locality}, ${place.postalCode}, ${place.country}';
-//      });
-//    }catch(e){
-//      print(e);
-//    }
-//  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarSign(context, 'Create Job Post'),
+      appBar: appBarSign(context, 'Create Request'),
       body: SingleChildScrollView(
         child: Card(
           elevation: 5,
@@ -195,10 +145,6 @@ class _CreatePostModalState extends State<CreatePostModal> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Text('Choose a Category: ',
-                      style: addressStyle(), textAlign: TextAlign.left),
-                  CategoryChoices(getState),
                   Divider(),
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.,
@@ -270,6 +216,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
             ),
           ),
         ),
+        
       ),
     );
   }
