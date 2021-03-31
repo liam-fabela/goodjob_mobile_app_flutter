@@ -105,6 +105,23 @@ TextStyle profileName() {
   );
 }
 
+TextStyle largeFont() {
+  return TextStyle(
+    color: const Color.fromRGBO(62, 135, 148, 1),
+    fontSize: 28,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle tinyFont() {
+  return TextStyle(
+    color: const Color.fromRGBO(62, 135, 148, 1),
+    fontSize: 14,
+    fontFamily: 'Raleway',
+  );
+}
+
 
 TextStyle profileName2() {
   return TextStyle(

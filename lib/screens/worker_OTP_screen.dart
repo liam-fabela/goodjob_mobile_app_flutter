@@ -3,7 +3,7 @@ import 'package:email_auth/email_auth.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
-import 'worker_home_screen.dart';
+//import 'worker_home_screen.dart';
 import 'worker_holding_screen.dart';
 
 class WorkerOTPScreen extends StatefulWidget {
@@ -62,14 +62,14 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
     super.didChangeDependencies();
   }
    
-  _circleProg() {
-    setState(() {
-      _isLoading = true;
-    });
-  }
+  //_circleProg() {
+  //  setState(() {
+  //    _isLoading = true;
+  //  });
+  //}
 
   _verifyOTP() async {
-    var response = await EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+    var response =  EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
       _isLoading = true;
     });

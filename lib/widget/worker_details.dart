@@ -6,7 +6,7 @@ import '../styles/style.dart';
 import '../models/worker_individual.dart';
 import '../screens/customer_reviews.dart';
 import '../screens/create_work_request.dart';
-import 'list_tile2.dart';
+//import 'list_tile2.dart';
 
 class WorkerDetails extends StatefulWidget {
   static const routeName = '/worker_details';

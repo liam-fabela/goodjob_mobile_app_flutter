@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+//import 'package:shimmer/shimmer.dart';
 import 'dart:ui';
 
 import '../models/cus_display_profile.dart';

@@ -32,7 +32,7 @@ var initScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+ // SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await SharedPrefUtils.getPref('user');
   print('FROM MAIN: $initScreen');
   runApp(MyApp());
@@ -60,13 +60,14 @@ class MyApp extends StatelessWidget {
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Colors.black54,
                   ),
                   button: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                   ),
                 ),
+          
           ),
           initialRoute: initScreen == null
               ? '/'

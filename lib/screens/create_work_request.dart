@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../styles/style.dart';
+import 'address_screen.dart';
 
 class CreateWorkRequest extends StatefulWidget {
   @override
@@ -17,8 +18,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
   final formKey = GlobalKey<FormState>();
   String formatted;
 
-
- void _presentDatePicker() {
+  void _presentDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -48,8 +48,6 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
       _choice2 = null;
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -150,37 +148,40 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                     // mainAxisAlignment: MainAxisAlignment.,
                     children: [
                       Expanded(
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.location_pin,
-                              size: 20,
-                              color: Color.fromRGBO(62, 135, 148, 1),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (ctx) => AddressScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            child: Column(
                               children: [
-                                Text(
-                                  'Add your location',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'Raleway',
-                                    color:
-                                        const Color.fromRGBO(62, 135, 148, 1),
-                                  ),
+                                Icon(
+                                  Icons.location_pin,
+                                  size: 20,
+                                  color: Color.fromRGBO(62, 135, 148, 1),
                                 ),
-                                SizedBox(width: 2),
-                                Text(
-                                  '(optional)',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontFamily: 'Raleway',
-                                    color: Colors.black54,
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Add your location',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontFamily: 'Raleway',
+                                        color: const Color.fromRGBO(
+                                            62, 135, 148, 1),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       Expanded(
@@ -199,7 +200,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                'Post',
+                                'Send',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Raleway',
@@ -216,7 +217,6 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
             ),
           ),
         ),
-        
       ),
     );
   }

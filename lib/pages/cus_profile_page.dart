@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+//import 'package:shimmer/shimmer.dart';
 
 //import '../models/cust_profile.dart';
 import '../models/widget_data.dart';
 import '../widget/cust_profile_grid.dart';
-import '../models/cus_display_profile.dart';
+//import '../models/cus_display_profile.dart';
 import '../widget/customer_display.dart';
-import '../services/services.dart';
+//import '../services/services.dart';
 import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
 
@@ -90,7 +90,12 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.30,
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.only(
+                            top: 15,
+                            left: 20,
+                            right: 20,
+                            bottom: 30,
+                          ),
                           // color: Colors.grey,
                           child: GridView(
                             padding: const EdgeInsets.all(10),

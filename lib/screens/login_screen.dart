@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textColor: Colors.white,
                   fontSize: 14);
             }
-          }
+          }else{
 
           utype = data["usertype"];
           valid = data["validate"];
@@ -150,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
            // SharedPreferences prefs = await SharedPreferences.getInstance();
            // prefs.setInt('userId', type);
             Navigator.of(context)
-                .pushReplacementNamed('/customer_home');
+                .pushNamedAndRemoveUntil('/customer_home',(Route<dynamic> route) => false);
+          }
           }
         } else {
           print("error");

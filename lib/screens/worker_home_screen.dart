@@ -7,7 +7,7 @@ import '../pages/worker_message_page.dart';
 import '../pages/worker_profile_page.dart';
 import '../pages/worker_work_page.dart';
 
-import '../styles/style.dart';
+//import '../styles/style.dart';
 
 
 class WorkerHomeScreen extends StatefulWidget {
