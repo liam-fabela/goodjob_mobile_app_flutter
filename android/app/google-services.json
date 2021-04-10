@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "695527315572",
+    "project_id": "good-job-project",
+    "storage_bucket": "good-job-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695527315572:android:8b5f74be75ad8b360f1921",
+        "android_client_info": {
+          "package_name": "com.example.gj_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695527315572-9f4ba0scnqb9q14a9vrtia08qpq5e5fe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJYukNei7eTtck35-Fsgs_AW1SHommesc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695527315572-9f4ba0scnqb9q14a9vrtia08qpq5e5fe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

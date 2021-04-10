@@ -63,9 +63,7 @@ class Services {
  // }
 
   static Future<void> addWorker(String lname, String fname, String bdate, String street, String brgy, String photo, String base64Photo,String front, String base64Front, String back, String base64Back, int docuId, String rqr, String base64Doc,String usrname, String eml, String pass) async{
-      String name = lname;
-      String mapVal;
-      var testMap = Map<String, dynamic>();
+
       print('muaagi sa dire');
     try{
       print('gisulod dne');
@@ -89,7 +87,7 @@ class Services {
       map["username"] = usrname;
       map["email"] = eml;
       map["password"] = pass;
-      mapVal = map["password"];
+     
       //testMap = map;
       //print(map["lastname"]);
       //print(map["firstname"]);
