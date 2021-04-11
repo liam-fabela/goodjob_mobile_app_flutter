@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_auth/email_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
@@ -35,7 +37,6 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
   TextEditingController _otp = TextEditingController();
   var _isLoading = false;
 
- 
   @override
   void didChangeDependencies() {
     final ws6 =
@@ -58,100 +59,287 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
     email = ws6['email'];
     pass = ws6['password'];
     docID = int.parse(radioValue);
-    
+
     super.didChangeDependencies();
   }
-   
+
   //_circleProg() {
   //  setState(() {
   //    _isLoading = true;
   //  });
   //}
+  
+  _saveToFirebase() async{
+   await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+            email: email,
+            password: pass,
+          ).then((authResults) {
+            print('SUCCESSFULLY SIGNED UP');
+            var userProfile = {
+              'uid': authResults.user.uid,
+              'lname': lname,
+              'fname': fname,
+              'email': email,
+              'image':
+                  'https://firebasestorage.googleapis.com/v0/b/good-job-project.appspot.com/o/worker_profile%2Fprofile.png?alt=media&token=90b1494f-e6b7-4379-aa57-b2ce62c37ba5',
+            };
+            print('continued here');
+
+          FirebaseDatabase.instance
+                .reference()
+                .child("users/" + authResults.user.uid)
+                .set(userProfile)
+                .then((val) {
+                   print('FIREBASE TIME SECOND');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkerHoldingScreen(),
+                ),
+              );
+            }).catchError((error) {
+              print('NAG ERROR DNE SA FIREDB');
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              if (errorCode == 'ERROR 17020') {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Connection Error.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text('Please check your connection and try again.'),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }else{
+                showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Something went wrong.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text(errorMessage),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+              }
+            });
+          }).catchError((error) {
+             print('NAG ERROR DNE SA FIREAUTH');
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if(errorCode == 'ERROR 17020'){
+               showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Connection Error.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text('Please check your connection and try again.'),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+            }else{
+               showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Something went wrong.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text(errorMessage),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+            }
+          });
+
+  }
 
   _verifyOTP() async {
-    var response =  EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
       _isLoading = true;
     });
     if (response) {
       print('OTP verified');
-      try{
+      try {
         await Services.addWorker(
-              lname,
-              fname,
-              bdate,
-              zone,
-              barangay,
-              filePhoto,
-              base64Portrait,
-              file1,
-              base64Front,
-              file2,
-              base64Back,
-              docID,
-              fileDoc,
-              base64Doc,
-              user,
-              email,
-              pass)
-          .then((value) {
-            
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => WorkerHoldingScreen(),),);
-      });
+                lname,
+                fname,
+                bdate,
+                zone,
+                barangay,
+                filePhoto,
+                base64Portrait,
+                file1,
+                base64Front,
+                file2,
+                base64Back,
+                docID,
+                fileDoc,
+                base64Doc,
+                user,
+                email,
+                pass)
+            .then((value) {
+              print('FIREBASE TIME FIRST');
+              _saveToFirebase();
+              
+        });
       }catch(error) {
+        print('ERROR DNE SA MAIN CATCH');
         await showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Connection Error.', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please check your connection and try again.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                       setState(() {
-                       _isLoading = false;
-                     });
-                    },
+            title: Text(
+              'Connection Error.',
+              style: TextStyle(color: Colors.black),
+            ),
+            content: SingleChildScrollView(
+                child: ListBody(
+              children: [
+                Text('Please check your connection and try again.'),
+              ],
+            )),
+            actions: <Widget>[
+              TextButton(
+                child: Center(
+                  child: Text(
+                    'Ok',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                ],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _isLoading = false;
+                  });
+                },
+              ),
+            ],
           ),
-          );
+        );
       }
-    }else{
+    } else {
       showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Code does not match!', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please enter the code sent to your email.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                       setState(() {
-                       _isLoading = false;
-                     });
-                    },
-                  ),
-                ],
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(
+            'Code does not match!',
+            style: TextStyle(color: Colors.black),
           ),
-          );
+          content: SingleChildScrollView(
+              child: ListBody(
+            children: [
+              Text('Please enter the code sent to your email.'),
+            ],
+          )),
+          actions: <Widget>[
+            TextButton(
+              child: Center(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+            ),
+          ],
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return  _isLoading
-          ? loadingScreen(context, "Submitting application...") 
-          : Scaffold(
-      appBar:appBarSign(context, 'Email Verification'),
-      body: SingleChildScrollView(
+    return _isLoading
+        ? loadingScreen(context, "Submitting application...")
+        : Scaffold(
+            appBar: appBarSign(context, 'Email Verification'),
+            body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
@@ -182,34 +370,39 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Expanded(
-                              child:Column(
+                              child: Column(
                                 children: [
-                              Form(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: EdgeInsets.fromLTRB(
-                                      20.0, 10.0, 20.0, 20.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
+                                  Form(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: EdgeInsets.fromLTRB(
+                                          20.0, 10.0, 20.0, 20.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: TextFormField(
+                                        controller: _otp,
+                                        decoration: textFieldInputDecoration(
+                                            'Enter Code'),
+                                      ),
+                                    ),
                                   ),
-                                  child: TextFormField(
-                                    controller: _otp,
-                                    decoration:
-                                        textFieldInputDecoration('Enter Code'),
-                                  ),
-                                ),
-                              ),
-                            SizedBox(height:10),
-                            Text('A code was sent to your email, please enter the code sent.', style: TextStyle( color: Color.fromRGBO(62, 135, 148, 1),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'A code was sent to your email, please enter the code sent.',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(62, 135, 148, 1),
                                       fontSize: 14,
                                       fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold,),),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                           // SizedBox(height: 20),
+                            // SizedBox(height: 20),
                             GestureDetector(
                               onTap: () {
                                 //_circleProg();
@@ -239,6 +432,6 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                 ],
               ),
             ),
-    );
+          );
   }
 }

@@ -7,6 +7,7 @@ import '../models/worker_individual.dart';
 import '../screens/customer_reviews.dart';
 import '../screens/create_work_request.dart';
 //import 'list_tile2.dart';
+import '../screens/chat_screen.dart';
 
 class WorkerDetails extends StatefulWidget {
   static const routeName = '/worker_details';
@@ -47,6 +48,11 @@ class _WorkerDetailsState extends State<WorkerDetails> {
         builder: (ctx) =>  CreateWorkRequest(),
       ),
     );
+  }
+
+  void _sendMessage(BuildContext context, String lname, String fname) {
+    String name = fname + ' ' + lname;
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name),),);
   }
 
   void navigateReview(BuildContext context, String id){
@@ -311,7 +317,9 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                               child: Column(
                             children: [
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    _sendMessage(context, workerIndividual.lname, workerIndividual.fname);
+                                  },
                                   child: Icon(
                                     Icons.messenger_outline,
                                     size: MediaQuery.of(context).size.width *

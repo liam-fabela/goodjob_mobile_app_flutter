@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:email_auth/email_auth.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
 import 'customer_home_screen.dart';
+import '../helper/authenticate.dart';
 
 class CustomerOTP extends StatefulWidget {
   static const routeName = '/customer_otp';
@@ -40,6 +43,166 @@ class _CustomerOTPState extends State<CustomerOTP> {
     super.didChangeDependencies();
   }
 
+  _saveToFirebase(){
+    FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+            email: email,
+            password: pass,
+          ).then((authResults) {
+            print('SUCCESSFULLY SIGNED UP');
+            var userProfile = {
+              'uid': authResults.user.uid,
+              'lname': lname,
+              'fname': fname,
+              'email': email,
+              'image':
+                  'https://firebasestorage.googleapis.com/v0/b/good-job-project.appspot.com/o/worker_profile%2Fprofile.png?alt=media&token=90b1494f-e6b7-4379-aa57-b2ce62c37ba5',
+            };
+            print('continued here');
+
+           FirebaseDatabase.instance
+                .reference()
+                .child("users/" + authResults.user.uid)
+                .set(userProfile)
+                .then((val) {
+                   print('FIREBASE TIME SECOND');
+               Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => Authenticate(),),);
+            
+            }).catchError((error) {
+              print('NAG ERROR DNE SA FIREDB');
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              if (errorCode == 'ERROR 17020') {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Connection Error.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text('Please check your connection and try again.'),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }else{
+                showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Something went wrong.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text(errorMessage),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+              }
+            });
+          }).catchError((error) {
+             print('NAG ERROR DNE SA FIREAUTH');
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if(errorCode == 'ERROR 17020'){
+               showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Connection Error.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text('Please check your connection and try again.'),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+            }else{
+               showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Something went wrong.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text(errorMessage),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                );
+            }
+          });
+  }
+
    _verifyOTP() async {
     var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
     setState(() {
@@ -58,8 +221,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
               email,
               pass)
           .then((value) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => CustomerHomeScreen(),),);
+             _saveToFirebase();
       });
     }catch(error){
       await showDialog(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 //import 'package:shared_preferences/shared_preferences.dart';
 
 import './helper/authenticate.dart';
@@ -32,7 +34,7 @@ var initScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- // SharedPreferences prefs = await SharedPreferences.getInstance();
+  await Firebase.initializeApp();
   initScreen = await SharedPrefUtils.getPref('user');
   print('FROM MAIN: $initScreen');
   runApp(MyApp());

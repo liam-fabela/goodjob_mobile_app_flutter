@@ -98,10 +98,11 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
                   fontSize: 14);
             }
           } else {
-            setState(() {
+            
+            _sendOTP(mail).then((response) {
+              setState(() {
               _isLoading = false;
             });
-            _sendOTP(mail).then((response) {
               if (response) {
                 Navigator.of(context)
                     .pushNamed(CustomerOTP.routeName, arguments: {

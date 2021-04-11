@@ -85,7 +85,7 @@ class _WorkerCategoryScreenState extends State<WorkerCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading ? loadingScreen(context, 'Welcome Worker! Please Wait for a moment.') :Scaffold(
+    return _isLoading ? loadingScreen(context, 'Welcome Worker!') :Scaffold(
       body: SingleChildScrollView(
         child:
         Column(
