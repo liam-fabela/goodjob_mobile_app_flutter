@@ -26,6 +26,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
   String pass;
   TextEditingController _otp = TextEditingController();
   var _isLoading = false;
+  String firebaseUser;
 
 
    @override
@@ -43,13 +44,19 @@ class _CustomerOTPState extends State<CustomerOTP> {
     super.didChangeDependencies();
   }
 
-  _saveToFirebase(){
+  _saveToFirebase() async{
+     var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+    setState(() {
+      _isLoading = true;
+    });
+    if(response){
     FirebaseAuth.instance
               .createUserWithEmailAndPassword(
             email: email,
             password: pass,
           ).then((authResults) {
             print('SUCCESSFULLY SIGNED UP');
+            firebaseUser = authResults.user.uid;
             var userProfile = {
               'uid': authResults.user.uid,
               'lname': lname,
@@ -66,8 +73,8 @@ class _CustomerOTPState extends State<CustomerOTP> {
                 .set(userProfile)
                 .then((val) {
                    print('FIREBASE TIME SECOND');
-               Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => Authenticate(),),);
+                _verifyOTP();
+              
             
             }).catchError((error) {
               print('NAG ERROR DNE SA FIREDB');
@@ -201,15 +208,31 @@ class _CustomerOTPState extends State<CustomerOTP> {
                 );
             }
           });
+    } else{
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Code does not match!', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Please enter the code sent to your email.'),
+                ],)),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                       setState(() {
+                       _isLoading = false;
+                     });
+                    },
+                  ),
+                ],
+          ),
+          );
+    }
   }
 
    _verifyOTP() async {
-    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
-    setState(() {
-      _isLoading = true;
-    });
-    if (response) {
-      print('OTP verified');
       try{
         await Services.addCustomer(
               lname,
@@ -219,9 +242,13 @@ class _CustomerOTPState extends State<CustomerOTP> {
               barangay,
               user,
               email,
-              pass)
+              pass,
+              firebaseUser,
+              )
           .then((value) {
-             _saveToFirebase();
+            print('gisulod sa otp');
+             Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => Authenticate(),),);
       });
     }catch(error){
       await showDialog(
@@ -245,28 +272,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
           ),
           );
     }
-    }else{
-      await showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Code does not match!', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Please enter the code sent to your email.'),
-                ],)),
-                actions: <Widget>[
-                  TextButton(
-                    child: Center(child: Text('Ok', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                       setState(() {
-                       _isLoading = false;
-                     });
-                    },
-                  ),
-                ],
-          ),
-          );
-    }
+   
   }
 
   @override
@@ -338,7 +344,7 @@ class _CustomerOTPState extends State<CustomerOTP> {
                             GestureDetector(
                               onTap: () {
                                 //_circleProg();
-                                _verifyOTP();
+                               _saveToFirebase();
                               }, //() => workerSignUp(context),
                               child: Container(
                                 alignment: Alignment.center,

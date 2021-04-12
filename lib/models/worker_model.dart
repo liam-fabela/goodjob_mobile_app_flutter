@@ -26,6 +26,7 @@ class Worker {
     this.workerCity,
     this.workerDocID,
     this.workerUsername,
+    
    
 
   });

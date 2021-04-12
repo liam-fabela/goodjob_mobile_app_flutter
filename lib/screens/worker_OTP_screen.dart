@@ -36,6 +36,7 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
   String pass;
   TextEditingController _otp = TextEditingController();
   var _isLoading = false;
+  String firebaseUid;
 
   @override
   void didChangeDependencies() {
@@ -70,12 +71,18 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
   //}
   
   _saveToFirebase() async{
+    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
+    setState(() {
+      _isLoading = true;
+    });
+    if (response) {
    await FirebaseAuth.instance
               .createUserWithEmailAndPassword(
             email: email,
             password: pass,
           ).then((authResults) {
             print('SUCCESSFULLY SIGNED UP');
+            firebaseUid = authResults.user.uid;
             var userProfile = {
               'uid': authResults.user.uid,
               'lname': lname,
@@ -92,12 +99,8 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                 .set(userProfile)
                 .then((val) {
                    print('FIREBASE TIME SECOND');
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WorkerHoldingScreen(),
-                ),
-              );
+                   _verifyOTP();
+              
             }).catchError((error) {
               print('NAG ERROR DNE SA FIREDB');
               var errorCode = error.code;
@@ -230,16 +233,43 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                 );
             }
           });
+    }else{
+       showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(
+            'Code does not match!',
+            style: TextStyle(color: Colors.black),
+          ),
+          content: SingleChildScrollView(
+              child: ListBody(
+            children: [
+              Text('Please enter the code sent to your email.'),
+            ],
+          )),
+          actions: <Widget>[
+            TextButton(
+              child: Center(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+            ),
+          ],
+        ),
+      );
+    }
 
   }
 
   _verifyOTP() async {
-    var response = EmailAuth.validate(receiverMail: email, userOTP: _otp.text);
-    setState(() {
-      _isLoading = true;
-    });
-    if (response) {
-      print('OTP verified');
       try {
         await Services.addWorker(
                 lname,
@@ -258,10 +288,16 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                 base64Doc,
                 user,
                 email,
-                pass)
+                pass,
+                firebaseUid)
             .then((value) {
-              print('FIREBASE TIME FIRST');
-              _saveToFirebase();
+              print('gisulod da verify OTP');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkerHoldingScreen(),
+                ),
+              );
               
         });
       }catch(error) {
@@ -298,39 +334,7 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
           ),
         );
       }
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            'Code does not match!',
-            style: TextStyle(color: Colors.black),
-          ),
-          content: SingleChildScrollView(
-              child: ListBody(
-            children: [
-              Text('Please enter the code sent to your email.'),
-            ],
-          )),
-          actions: <Widget>[
-            TextButton(
-              child: Center(
-                child: Text(
-                  'Ok',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                setState(() {
-                  _isLoading = false;
-                });
-              },
-            ),
-          ],
-        ),
-      );
-    }
+  
   }
 
   @override
@@ -406,7 +410,7 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                             GestureDetector(
                               onTap: () {
                                 //_circleProg();
-                                _verifyOTP();
+                                _saveToFirebase();
                               }, //() => workerSignUp(context),
                               child: Container(
                                 alignment: Alignment.center,

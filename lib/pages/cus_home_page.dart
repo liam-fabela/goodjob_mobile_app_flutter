@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
 import '../models/widget_data.dart';
 import '../widget/category_item.dart';
 import '../screens/create_post.dart';
+import '../helper/firebase_user.dart';
 
-class CustomerHomePage extends StatelessWidget {
+
+class CustomerHomePage extends StatefulWidget {
   
   
 
+
+  @override
+  _CustomerHomePageState createState() => _CustomerHomePageState();
+}
+
+class _CustomerHomePageState extends State<CustomerHomePage> {
+
+  @override
+  void initState() {
+     _getData();
+    super.initState();
+  }
+
+  _getData(){
+    var user = FirebaseAuth.instance.currentUser.uid;
+     UserProfile.currentUser = user;
+    print('LOGGED IN USER $user');
+  }
 
    void _createPost(BuildContext context) {
      Navigator.of(context).push(
@@ -24,6 +45,7 @@ class CustomerHomePage extends StatelessWidget {
 
     //);
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

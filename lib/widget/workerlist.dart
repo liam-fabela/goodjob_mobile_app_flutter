@@ -102,6 +102,7 @@ class _WorkerListViewState extends State<WorkerListView> {
          arguments:{
            'id': workerProfiles.id,
            'category': workerProfiles.catType,
+           'uid': workerProfiles.uid,
            }
          );
      

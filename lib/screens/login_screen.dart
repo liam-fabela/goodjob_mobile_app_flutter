@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 
 import '../styles/style.dart';
@@ -43,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
 //  String docId;
 //  String usrname;
 
+ 
   Future<void> _loginUser() async {
     if (formKey.currentState.validate()) {
       try {
@@ -120,35 +122,39 @@ class _LoginScreenState extends State<LoginScreen> {
             String userName = fname + " " + lname;
             if (type == 1) {
               if (validity == 1 && first == 1) {
-                SharedPrefUtils.setPref('user', type);
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                // prefs.setInt('user', type);
-                Navigator.of(context).pushReplacementNamed(
-                    WorkerCategoryScreen.routeName,
-                    arguments: {
-                      "workerId": userId,
-                      // "username": usrname,
-                    });
-                print(userId);
+                  SharedPrefUtils.setPref('user', type);
+                  // SharedPreferences prefs = await SharedPreferences.getInstance();
+                  // prefs.setInt('user', type);
+                  Navigator.of(context).pushReplacementNamed(
+                      WorkerCategoryScreen.routeName,
+                      arguments: {
+                        "workerId": userId,
+                        // "username": usrname,
+                      });
+                  print(userId);
+              
               } else if (validity == 1 && first == 0) {
-                SharedPrefUtils.setPref('user', type);
-                SharedPrefUtils.setUserId('userId', uId);
-                SharedPrefUtils.setUserName('userName', userName);
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                //prefs.setInt('user', type);
-                Navigator.of(context).pushReplacementNamed('/worker_home');
+                  SharedPrefUtils.setPref('user', type);
+                  SharedPrefUtils.setUserId('userId', uId);
+                  SharedPrefUtils.setUserName('userName', userName);
+                  // SharedPreferences prefs = await SharedPreferences.getInstance();
+                  //prefs.setInt('user', type);
+                  Navigator.of(context).pushReplacementNamed('/worker_home');
+                
               } else {
-                Navigator.of(context)
-                    .pushReplacementNamed(WorkerHoldingScreen.routeName);
+                  Navigator.of(context)
+                      .pushReplacementNamed(WorkerHoldingScreen.routeName);
+              
               }
             }
             if (type == 2) {
-              SharedPrefUtils.setPref('user', type);
-              SharedPrefUtils.setUserId('userId', uId);
-              // SharedPreferences prefs = await SharedPreferences.getInstance();
-              // prefs.setInt('userId', type);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/customer_home', (Route<dynamic> route) => false);
+                SharedPrefUtils.setPref('user', type);
+                SharedPrefUtils.setUserId('userId', uId);
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // prefs.setInt('userId', type);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/customer_home', (Route<dynamic> route) => false);
+            
             }
           }
         } else {
@@ -241,8 +247,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               : null;
                                         },
                                         controller: loginEmail,
-                                        decoration: textFieldInputDecoration(
-                                            'email/username'),
+                                        decoration:
+                                            textFieldInputDecoration('email'),
                                       ),
                                       Divider(),
                                       Row(

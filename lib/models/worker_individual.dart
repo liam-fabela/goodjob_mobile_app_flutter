@@ -10,6 +10,7 @@ class WorkerIndividual {
   String rating;
   String review;
   String docId;
+  String uid;
 
   WorkerIndividual({
     this.lname,
@@ -23,6 +24,7 @@ class WorkerIndividual {
     this.rating,
     this.review,
     this.docId,
+    this.uid,
   });
 
   factory WorkerIndividual.fromJson(Map<String,dynamic>jsonData) {
@@ -38,6 +40,7 @@ class WorkerIndividual {
       rating: jsonData['rating'],
       review: jsonData['review'],
       docId: jsonData['docId'],
+      uid: jsonData['uid'],
     );
   }
 }

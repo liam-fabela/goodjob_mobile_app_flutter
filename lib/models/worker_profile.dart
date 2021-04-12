@@ -9,6 +9,8 @@ class WorkerProfiles {
   String profile;
   String catType;
   String bio;
+  String email;
+  String uid;
  // String rating;
 
   WorkerProfiles ({
@@ -22,6 +24,8 @@ class WorkerProfiles {
     this.profile,
     this.catType,
     this.bio,
+    this.email,
+    this.uid,
    // this.rating,
   });
 
@@ -37,6 +41,8 @@ class WorkerProfiles {
       profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['display_photo'],
       catType: jsonData['cat_type'],
       bio: jsonData['bio'],
+      email: jsonData['email'],
+      uid: jsonData['uid'],
      // rating: jsonData['rating'],
     );
   }

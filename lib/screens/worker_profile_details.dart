@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+
 import '../styles/style.dart';
 import '../services/services.dart';
 import '../models/worker_individual.dart';
@@ -15,14 +17,28 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   int wid;
   String id;
   String cat;
+  String email;
+  String firebaseUid;
+  List fireUsers;
+
+  
+
   void didChangeDependencies() {
     final worker =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     id = worker['id'];
     cat = worker['category'];
+    email = worker['email'];
     wid = int.parse(id);
+    print(email);
+
+
     super.didChangeDependencies();
   }
+
+
+  
+ 
 
    Future<void> _refreshData(int wid) async {
     setState(() {

@@ -40,20 +40,19 @@ class WorkerHomePage extends StatelessWidget {
                   ],),
                 ),
               ),
-              SizedBox(height:20),
-              Container(
-                alignment: Alignment.center,
-                 width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                             borderRadius: BorderRadius.all(
-                            Radius.circular(15),
-                          ),
-                    color: Color.fromRGBO(89, 179, 150, 1),
-                  ),
-                  child: Text('Job Postings',style:profileName(), textAlign: TextAlign.center,),
+              Divider(),
+              Center(
+              child: Text(
+                'Job Postings',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Raleway',
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+            ),
+            
             ],
           ),
     );
