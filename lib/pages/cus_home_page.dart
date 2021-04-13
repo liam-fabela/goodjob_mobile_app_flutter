@@ -28,8 +28,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
   _getData(){
     var user = FirebaseAuth.instance.currentUser.uid;
-     UserProfile.currentUser = user;
-    print('LOGGED IN USER $user');
+    UserProfile.currentUser = user;
+   print('LOGGED IN USER $user');
+  
   }
 
    void _createPost(BuildContext context) {

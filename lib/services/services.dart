@@ -9,7 +9,7 @@ import '../models/customer_reviews.dart';
 import '../models/cus_display_profile.dart';
 import '../helper/shared_preferences.dart';
 import '../models/job_posting_model.dart';
-
+import '../models/cus_chat_model.dart';
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
@@ -21,6 +21,9 @@ class Services {
    static const url5 = 'http://192.168.43.152/db_php/profile.php';
    static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
   static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
+   static const url8 = 'http://192.168.43.152/db_php/create_chat.php';
+   static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
+  
   static var cid;
   static int id;
   static String cus;
@@ -291,5 +294,50 @@ static getData()async{
 
  }
 
+
+static Future<void> createChat(int custId, int workId, String firebaseMessage) async{
+
+ var map = Map<String, dynamic>();
+ try{
+   map["user1"] = custId;
+   map["user2"] = workId;
+   map["firebase"] = firebaseMessage;
+
+   final response = await http.post(url8, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get chatroom response: ${response.body}');
+   if(response.statusCode == 200) {
+    print(response.body);
+   }else{
+     print("error");
+   }
+
+
+
+ }catch(e){
+   throw(e);
+ }
+
+}
+
+static Future<List<CustomerChatroom>> getCusChat(int cid) async{
+   var map = Map<String, dynamic>();
+   try{
+      map['userId'] = cid;
+       final response = await http.post(url9, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get customer response: ${response.body}');
+   if(response.statusCode == 200) {
+    List customerChat = json.decode(response.body);
+    return customerChat
+      .map((customerChat)=> new CustomerChatroom.fromJson(customerChat))
+      .toList();
+   }else{
+     print("error");
+   }
+
+   }catch(e){
+
+   }
+
+}
 }
 

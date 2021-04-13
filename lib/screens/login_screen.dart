@@ -125,13 +125,39 @@ class _LoginScreenState extends State<LoginScreen> {
                   SharedPrefUtils.setPref('user', type);
                   // SharedPreferences prefs = await SharedPreferences.getInstance();
                   // prefs.setInt('user', type);
-                  Navigator.of(context).pushReplacementNamed(
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
+                            .then((value){
+                               Navigator.of(context).pushReplacementNamed(
                       WorkerCategoryScreen.routeName,
                       arguments: {
                         "workerId": userId,
                         // "username": usrname,
                       });
                   print(userId);
+                            }).catchError((error){
+                               var errorCode = error.code;
+                              var errorMessage = error.message;
+                              if(errorCode == 'ERROR 17020'){
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }else{
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }
+                            });
+                 
               
               } else if (validity == 1 && first == 0) {
                   SharedPrefUtils.setPref('user', type);
@@ -139,7 +165,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   SharedPrefUtils.setUserName('userName', userName);
                   // SharedPreferences prefs = await SharedPreferences.getInstance();
                   //prefs.setInt('user', type);
-                  Navigator.of(context).pushReplacementNamed('/worker_home');
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
+                            .then((value){
+                               Navigator.of(context).pushReplacementNamed('/worker_home');
+                            }).catchError((error){
+                                setState(() {
+                                _isLoading = false;
+                              });
+
+                              var errorCode = error.code;
+                              var errorMessage = error.message;
+                              if(errorCode == 'ERROR 17020'){
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }else{
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }
+                            });
+                 
                 
               } else {
                   Navigator.of(context)
@@ -152,8 +208,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 SharedPrefUtils.setUserId('userId', uId);
                 // SharedPreferences prefs = await SharedPreferences.getInstance();
                 // prefs.setInt('userId', type);
-                Navigator.of(context).pushNamedAndRemoveUntil(
+                await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
+                            .then((value){
+                              Navigator.of(context).pushNamedAndRemoveUntil(
                     '/customer_home', (Route<dynamic> route) => false);
+                            }).catchError((error){
+                               var errorCode = error.code;
+                              var errorMessage = error.message;
+                              if(errorCode == 'ERROR 17020'){
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }else{
+                                Fluttertoast.showToast(
+                               msg: errorMessage,
+                               toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 2,
+                               backgroundColor: Colors.grey,
+                               textColor: Colors.red,
+                             );
+                              }
+                            });
+                
             
             }
           }

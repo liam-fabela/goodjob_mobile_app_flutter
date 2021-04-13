@@ -1,4 +1,5 @@
 class WorkerIndividual {
+  String id;
   String lname;
   String fname;
   String zone;
@@ -13,6 +14,7 @@ class WorkerIndividual {
   String uid;
 
   WorkerIndividual({
+    this.id,
     this.lname,
     this.fname,
     this.zone,
@@ -29,6 +31,7 @@ class WorkerIndividual {
 
   factory WorkerIndividual.fromJson(Map<String,dynamic>jsonData) {
     return WorkerIndividual(
+      id: jsonData['id'],
       lname: jsonData['lname'],
       fname: jsonData['fname'],
       zone: jsonData['zone'],

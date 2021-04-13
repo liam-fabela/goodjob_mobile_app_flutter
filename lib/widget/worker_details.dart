@@ -50,9 +50,10 @@ class _WorkerDetailsState extends State<WorkerDetails> {
     );
   }
 
-  void _sendMessage(BuildContext context, String lname, String fname, String uid) {
+  void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
     String name = fname + ' ' + lname;
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid ),),);
+    int userId = int.parse(id);
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile),),);
   }
 
   void navigateReview(BuildContext context, String id){
@@ -318,7 +319,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                             children: [
                               GestureDetector(
                                   onTap: () {
-                                    _sendMessage(context, workerIndividual.lname, workerIndividual.fname, workerIndividual.uid);
+                                    _sendMessage(context, workerIndividual.lname, workerIndividual.fname, workerIndividual.uid, widget.wid, workerIndividual.profile);
                                   },
                                   child: Icon(
                                     Icons.messenger_outline,
