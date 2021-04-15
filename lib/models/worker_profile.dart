@@ -11,6 +11,7 @@ class WorkerProfiles {
   String bio;
   String email;
   String uid;
+  String catId;
  // String rating;
 
   WorkerProfiles ({
@@ -26,6 +27,7 @@ class WorkerProfiles {
     this.bio,
     this.email,
     this.uid,
+    this.catId,
    // this.rating,
   });
 
@@ -43,6 +45,7 @@ class WorkerProfiles {
       bio: jsonData['bio'],
       email: jsonData['email'],
       uid: jsonData['uid'],
+      catId: jsonData['catId'],
      // rating: jsonData['rating'],
     );
   }

@@ -20,6 +20,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   String email;
   String firebaseUid;
   List fireUsers;
+  String catId;
+  int categoryId;
 
   
 
@@ -29,6 +31,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     id = worker['id'];
     cat = worker['category'];
     email = worker['email'];
+    catId = worker['catId'];
+    categoryId = int.parse(catId);
     wid = int.parse(id);
     print(email);
 
@@ -61,7 +65,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<WorkerIndividual> workerIndividual = snapshot.data;
-                  return WorkerDetails(workerIndividual,id);
+                  return WorkerDetails(workerIndividual,id,categoryId);
                 } else if (snapshot.hasError) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

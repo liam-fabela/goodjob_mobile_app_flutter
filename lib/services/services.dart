@@ -23,6 +23,9 @@ class Services {
   static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
    static const url8 = 'http://192.168.43.152/db_php/create_chat.php';
    static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
+  static const url10 = 'http://192.168.43.152/db_php/update_chat.php';
+   static const url11 = 'http://192.168.43.152/db_php/create_work_request.php';
+  
   
   static var cid;
   static int id;
@@ -338,6 +341,59 @@ static Future<List<CustomerChatroom>> getCusChat(int cid) async{
 
    }
 
+}
+
+static Future<void> updateChat(String fid, DateTime updated) async{
+  try{
+     var map = Map<String, dynamic>();
+     String date = updated.toString();
+     map['fid'] = fid;
+     map['date'] = date;
+   final response = await http.post(url10, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+
+static Future<void> createWorkRequest(int wid, int cid, int cat, String date, String time, String location,
+String details, double budget, String type, String status, String reqDate) async{
+ 
+  try{
+     var map = Map<String, dynamic>();
+
+     map['wid'] = wid;
+     map['cid'] = cid;
+     map['cat'] = cat;
+     map['date'] = date;
+     map['time'] = time;
+     map['location'] = location;
+     map['details'] = details;
+     map['budget'] = budget;
+     map['type'] = type;
+     map['status'] = status;
+     map['requestedDate'] = reqDate;
+
+   final response = await http.post(url11, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get insert response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('work request sent successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    throw(error);
+  }
 }
 }
 

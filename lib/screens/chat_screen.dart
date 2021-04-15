@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:ntp/ntp.dart';
@@ -16,8 +19,9 @@ class ChatScreen extends StatefulWidget {
   final String uid;
   final int receiverId;
   final String profile;
+  final int source;
 
-  ChatScreen(this.name, this.uid, this.receiverId, this.profile);
+  ChatScreen(this.name, this.uid, this.receiverId, this.profile, this.source);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -38,11 +42,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    if (UserProfile.currentUser.compareTo(widget.uid) >= 0) {
-      firebaseMessageRoot = UserProfile.currentUser + '-' + widget.uid;
-      _createChat();
-    } else {
-      firebaseMessageRoot = widget.uid + '-' + UserProfile.currentUser;
+    if (widget.source == 1) {
+      if (UserProfile.currentUser.compareTo(widget.uid) >= 0) {
+        firebaseMessageRoot = UserProfile.currentUser + '-' + widget.uid;
+        _createChat();
+      } else {
+        firebaseMessageRoot = widget.uid + '-' + UserProfile.currentUser;
+        _createChat();
+      }
+    }
+    if (widget.source == 2) {
+      firebaseMessageRoot = widget.uid;
       _createChat();
     }
     FirebaseDatabase.instance
@@ -51,6 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
         .onChildAdded
         .listen((event) {
       _refreshMessage();
+      //_scrollView();
     });
     super.initState();
   }
@@ -87,6 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _tempList.add(value);
       });
       _tempList.sort((a, b) => a['timestamp'].compareTo(b['timestamp']));
+      message = _tempList;
 //      _tempList.sort((b, a) {
 //        return b["timestamp"].compareTo(a["timestamp"]);
 //      });
@@ -94,15 +106,14 @@ class _ChatScreenState extends State<ChatScreen> {
 //      print(datasnapshot.value);
 
       if (mounted) {
-        setState(() {
-          message = _tempList;
-          scrollController.jumpTo(scrollController.position.maxScrollExtent);
-        });
+        if (scrollController.hasClients) {
+          setState(() {});
+        }
       }
     }).catchError((error) {
-      var errorCode = error.code;
+      // var errorCode = error.code;
       var errorMessage = error.message;
-      if (errorCode == 'ERROR 17020') {
+      if (error == 'ERROR 17020') {
         Fluttertoast.showToast(
           msg: errorMessage,
           toastLength: Toast.LENGTH_SHORT,
@@ -122,6 +133,13 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       }
     });
+  }
+
+  _scrollView() {
+    Timer(
+        Duration(milliseconds: 300),
+        () =>
+            scrollController.jumpTo(scrollController.position.maxScrollExtent));
   }
 
   @override
@@ -180,7 +198,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                     message[index]['currentUser']
                                 ? Padding(
                                     padding: const EdgeInsets.all(20),
-                                    child: 
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
                                         Flex(
                                           direction: Axis.horizontal,
                                           mainAxisAlignment:
@@ -207,48 +228,73 @@ class _ChatScreenState extends State<ChatScreen> {
                                             ),
                                           ],
                                         ),
-                                     
+                                        Text(
+                                            dateFormat.format(
+                                              DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      message[index]
+                                                          ['timestamp']),
+                                            ),
+                                            style: tinyFont()),
+                                      ],
+                                    ),
                                   )
                                 : Padding(
                                     padding: const EdgeInsets.all(20),
-                                    child: Row(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 20,
-                                          backgroundImage:
-                                              NetworkImage(widget.profile),
-                                          backgroundColor:
-                                              Color.fromRGBO(75, 210, 178, 1),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(6),
-                                          ),
-                                        ),
-                                        Flex(
-                                          direction: Axis.horizontal,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                        Row(
                                           children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(20),
-                                              constraints: BoxConstraints(
-                                                  maxWidth:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.7),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(30),
-                                                ),
-                                                color: Color.fromRGBO(
-                                                    161, 212, 211, 1),
+                                            CircleAvatar(
+                                              radius: 20,
+                                              backgroundImage:
+                                                  NetworkImage(widget.profile),
+                                              backgroundColor: Color.fromRGBO(
+                                                  75, 210, 178, 1),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(6),
                                               ),
-                                              child: Text(
-                                                  message[index]['text'],
-                                                  style: reviewStyle()),
+                                            ),
+                                            Flex(
+                                              direction: Axis.horizontal,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  constraints: BoxConstraints(
+                                                      maxWidth:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.7),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(30),
+                                                    ),
+                                                    color: Color.fromRGBO(
+                                                        161, 212, 211, 1),
+                                                  ),
+                                                  child: Text(
+                                                      message[index]['text'],
+                                                      style: reviewStyle()),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
+                                        Text(
+                                            dateFormat.format(
+                                              DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      message[index]
+                                                          ['timestamp']),
+                                            ),
+                                            style: tinyFont()),
                                       ],
                                     ),
                                   );
@@ -260,6 +306,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          onTap: () {
+                            Timer(
+                                Duration(milliseconds: 300),
+                                () => scrollController.jumpTo(
+                                    scrollController.position.maxScrollExtent));
+                          },
                           controller: _message,
                           keyboardType: TextInputType.multiline,
                           minLines: 1,
@@ -291,13 +343,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                   _date.toString())
                               .set(messageRecord)
                               .then((value) {
-                            _message.clear();
+                            print('before update chat');
+                            Services.updateChat(firebaseMessageRoot, _myTime)
+                                .then((value) {
+                              print('it worked');
+                              _message.clear();
+                              Timer(
+                                  Duration(milliseconds: 300),
+                                  () => scrollController.jumpTo(scrollController
+                                      .position.maxScrollExtent));
+                            });
 
                             print("message sent");
                           }).catchError((error) {
-                            var errorCode = error.code;
+                            //var errorCode = error.code;
                             var errorMessage = error.message;
-                            if (errorCode == 'ERROR 17020') {
+                            if (error == 'ERROR 17020') {
                               Fluttertoast.showToast(
                                 msg: errorMessage,
                                 toastLength: Toast.LENGTH_SHORT,

@@ -4,6 +4,7 @@ class CustomerChatroom{
   String fname;
   String profile;
   String uid;
+  String update;
 
   CustomerChatroom({
     this.workerId,
@@ -11,6 +12,7 @@ class CustomerChatroom{
     this.fname,
     this.profile,
     this.uid,
+    this.update,
   });
 
   factory CustomerChatroom.fromJson(Map<String, dynamic>jsonData){
@@ -18,8 +20,9 @@ class CustomerChatroom{
       workerId: jsonData['id'],
       lname: jsonData['lname'],
       fname: jsonData['fname'],
-      profile: "http://192.168.43.152/db_php/customer_chatrooms.php/"+jsonData['profile'],
+      profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['profile'],
       uid: jsonData['chatId'],
+      update: jsonData['update'],
     );
   }
 }

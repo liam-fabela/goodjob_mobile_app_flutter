@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../styles/style.dart';
 //import 'worker_home_screen.dart';
-//import 'customer_home_screen.dart';
+import 'customer_home_screen.dart';
 import 'worker_holding_screen.dart';
 import 'worker_categories_screen.dart';
 //import '../services/services.dart';
@@ -167,7 +167,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   //prefs.setInt('user', type);
                   await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
                             .then((value){
-                               Navigator.of(context).pushReplacementNamed('/worker_home');
+                               Navigator.pushReplacementNamed(context,'/worker_home');
+                              // Navigator.of(context).pushReplacementNamed('/worker_home');
                             }).catchError((error){
                                 setState(() {
                                 _isLoading = false;
@@ -210,8 +211,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 // prefs.setInt('userId', type);
                 await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
                             .then((value){
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/customer_home', (Route<dynamic> route) => false);
+                             Navigator.pushReplacementNamed(context,CustomerHomeScreen.routeName);
+                  //           Navigator.pushNamedAndRemoveUntil(context,
+                  //  '/customer_home', (_) => false);
                             }).catchError((error){
                                var errorCode = error.code;
                               var errorMessage = error.message;

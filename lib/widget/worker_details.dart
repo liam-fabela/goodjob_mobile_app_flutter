@@ -8,19 +8,23 @@ import '../screens/customer_reviews.dart';
 import '../screens/create_work_request.dart';
 //import 'list_tile2.dart';
 import '../screens/chat_screen.dart';
+import '../helper/shared_preferences.dart';
+
 
 class WorkerDetails extends StatefulWidget {
   static const routeName = '/worker_details';
   final List<WorkerIndividual> workerIndividual;
   final String wid;
+  final int catId;
 
-  WorkerDetails(this.workerIndividual, this.wid);
+  WorkerDetails(this.workerIndividual, this.wid, this.catId);
 
   @override
   _WorkerDetailsState createState() => _WorkerDetailsState();
 }
 
 class _WorkerDetailsState extends State<WorkerDetails> {
+  int cid;
 
 //    List texts= ["The worker had provided an NBI clearance as his/her proof of identity.", "The worker had provided a Police clearance as his/her proof of identity.", "The worker had provided a Barangay clearance as his proof of identity."];
 //    List texts2 = ["Highest credibility level","Middle-level credibility","Lowest Credibility level"];
@@ -39,13 +43,24 @@ class _WorkerDetailsState extends State<WorkerDetails> {
 //      },
  //   );
  // }
+ 
+  void initState() {
+  _getCustId();
+    super.initState();
+  }
 
+ _getCustId()async{
+   var id = await SharedPrefUtils.getUser('userId');
+   String cus = id.toString();
+   cid = int.parse(cus);
+ }
 
-  void _createRequest(BuildContext context) {
+  void _createRequest(BuildContext context, String id, int catId, int cusId) {
+    int wid = int.parse(id);
      Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (ctx) =>  CreateWorkRequest(),
+        builder: (ctx) =>  CreateWorkRequest(wid,cusId,catId),
       ),
     );
   }
@@ -53,7 +68,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
   void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
     String name = fname + ' ' + lname;
     int userId = int.parse(id);
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile),),);
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1),),);
   }
 
   void navigateReview(BuildContext context, String id){
@@ -278,7 +293,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                   right: MediaQuery.of(context).size.width * 0.2,
                   child: GestureDetector(
                     onTap: () {
-                      _createRequest(context);
+                      _createRequest(context, widget.wid,widget.catId,cid);
                     },
                     child: Container(
                       alignment: Alignment.center,

@@ -22,6 +22,12 @@ class _CreatePostModalState extends State<CreatePostModal> {
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
   String formatted;
+  final TextEditingController _time = TextEditingController();
+   final TextEditingController _location = TextEditingController();
+    final TextEditingController _details = TextEditingController();
+     final TextEditingController _budget = TextEditingController();
+
+
   //Position _currentPosition;
   //String _currentAddress;
 
@@ -125,9 +131,15 @@ class _CreatePostModalState extends State<CreatePostModal> {
                     onTap: _presentDatePicker,
                   ),
                   TextFormField(
+                    controller: _time,
                     decoration: inputDeco('Time:'),
                   ),
+                   TextFormField(
+                     controller: _location,
+                    decoration: inputDeco('Location:'),
+                  ),
                   TextFormField(
+                    controller: _details,
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
                     decoration: inputDeco('Enter Job details:'),
@@ -136,6 +148,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          controller: _budget,
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
                           decoration: inputDeco('Budget:'),
@@ -203,40 +216,40 @@ class _CreatePostModalState extends State<CreatePostModal> {
                   Row(
                     // mainAxisAlignment: MainAxisAlignment.,
                     children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.location_pin,
-                              size: 20,
-                              color: Color.fromRGBO(62, 135, 148, 1),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Add your location',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'Raleway',
-                                    color:
-                                        const Color.fromRGBO(62, 135, 148, 1),
-                                  ),
-                                ),
-                                SizedBox(width: 2),
-                                Text(
-                                  '(optional)',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontFamily: 'Raleway',
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+   //                   Expanded(
+   //                     child: Column(
+   //                       children: [
+  //                          Icon(
+  //                            Icons.location_pin,
+  //                            size: 20,
+  //                            color: Color.fromRGBO(62, 135, 148, 1),
+  //                          ),
+  //                          Row(
+  //                            mainAxisAlignment: MainAxisAlignment.center,
+  //                            children: [
+  //                              Text(
+  //                                'Add your location',
+  //                                style: TextStyle(
+  //                                  fontSize: 10,
+   //                                 fontFamily: 'Raleway',
+  //                                  color:
+  //                                      const Color.fromRGBO(62, 135, 148, 1),
+  //                                ),
+  //                              ),
+ //                               SizedBox(width: 2),
+  //                              Text(
+  //                                '(optional)',
+  //                                style: TextStyle(
+  //                                  fontSize: 8,
+  //                                  fontFamily: 'Raleway',
+  //                                  color: Colors.black54,
+  //                                ),
+  //                              ),
+  //                            ],
+  //                          ),
+  //                        ],
+  //                      ),
+  //                    ),
                       Expanded(
                         child: Container(
                           alignment: Alignment.bottomRight,

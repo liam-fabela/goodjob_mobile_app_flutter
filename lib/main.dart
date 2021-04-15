@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
             '/': (ctx) =>
                 Authenticate(), //CustomerHomeScreen(),//Authenticate()WorkerCategoryScreen(),
             '/worker_home': (ctx) => WorkerHomeScreen(),
+             '/customer_home': (ctx) => CustomerHomeScreen(),
             WorkerSignUp.routeName: (ctx) => WorkerSignUp(),
             Worker2SignUp.routeName: (ctx) => Worker2SignUp(),
             Worker3SignUp.routeName: (ctx) => Worker3SignUp(),
@@ -94,7 +95,6 @@ class MyApp extends StatelessWidget {
             //Customer4SignUpScreen.routeName: (ctx) => Customer4SignUpScreen(),
             Customer5SignUpScreen.routeName: (ctx) => Customer5SignUpScreen(),
             CustomerOTP.routeName: (ctx) => CustomerOTP(),
-            '/customer_home': (ctx) => CustomerHomeScreen(),
            WorkerHoldingScreen.routeName: (ctx) => WorkerHoldingScreen(),
            // CreatePostModal.routeName: (ctx) => CreatePostModal(),
             WorkerCategoryScreen.routeName: (ctx) => WorkerCategoryScreen(),
