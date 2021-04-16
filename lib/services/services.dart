@@ -118,7 +118,7 @@ class Services {
     }
   }
 
-   static Future<void> addCustomer(String lname, String fname, String bdate, String street, String brgy, String usrname, String eml, String pass, String uid) async{
+   static Future<void> addCustomer(String lname, String fname, String bdate, String street, String brgy, String usrname, String eml, String pass, String uid, String joined) async{
      try{
 
       var map = Map<String, dynamic>();
@@ -132,6 +132,7 @@ class Services {
       map["email"] = eml;
       map["password"] = pass;
       map["uid"] = uid;
+      map["joined"] = joined;
 
        http.Response response = await http.post(url, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
       print('Add worker Response: ${response.body}');

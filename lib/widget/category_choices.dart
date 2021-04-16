@@ -30,7 +30,7 @@ class _CategoryChoicesState extends State<CategoryChoices> {
         runSpacing: 5,
         children: [
           ChoiceChip(
-            label: Text(_choice1, style: addressStyle2()),
+            label: Text(_choice1, style: addressStyle3()),
             selected: _selectedChip1,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -45,7 +45,7 @@ class _CategoryChoicesState extends State<CategoryChoices> {
             selectedColor: Color.fromRGBO(62, 135, 148, 1),
           ),
           ChoiceChip(
-            label: Text(_choice2, style: addressStyle2()),
+            label: Text(_choice2, style: addressStyle3()),
             selected:_selectedChip2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -60,7 +60,7 @@ class _CategoryChoicesState extends State<CategoryChoices> {
             selectedColor: Color.fromRGBO(62, 135, 148, 1),
           ),
           ChoiceChip(
-            label: Text(_choice3, style: addressStyle2()),
+            label: Text(_choice3, style: addressStyle3()),
             selected: _selectedChip3,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -74,7 +74,7 @@ class _CategoryChoicesState extends State<CategoryChoices> {
             selectedColor: Color.fromRGBO(62, 135, 148, 1),
           ),
           ChoiceChip(
-            label: Text(_choice4, style: addressStyle2()),
+            label: Text(_choice4, style: addressStyle3()),
             selected: _selectedChip4,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

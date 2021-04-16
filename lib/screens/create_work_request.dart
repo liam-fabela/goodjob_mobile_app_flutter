@@ -259,7 +259,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                 // runSpacing: 2,
                                 children: [
                                   ChoiceChip(
-                                    label: Text('hour', style: addressStyle2()),
+                                    label: Text('hour', style: addressStyle3()),
                                     selected: _perHour,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
@@ -278,7 +278,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                         Color.fromRGBO(62, 135, 148, 1),
                                   ),
                                   ChoiceChip(
-                                    label: Text('work', style: addressStyle2()),
+                                    label: Text('work', style: addressStyle3()),
                                     selected: _perWork,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),

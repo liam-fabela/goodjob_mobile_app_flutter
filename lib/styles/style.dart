@@ -125,7 +125,7 @@ TextStyle tinyFont() {
 
 TextStyle profileName2() {
   return TextStyle(
-    color: Colors.white,
+    color: const Color.fromRGBO(62, 135, 148, 1),
     fontSize: 16,
     fontFamily: 'Raleway',
     fontWeight: FontWeight.bold,
@@ -142,6 +142,15 @@ TextStyle addressStyle() {
 }
 
 TextStyle addressStyle2() {
+  return TextStyle(
+    color: const Color.fromRGBO(62, 135, 148, 1),
+    fontSize: 10,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle addressStyle3() {
   return TextStyle(
     color: Colors.white,
     fontSize: 10,

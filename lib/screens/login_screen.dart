@@ -331,6 +331,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               : null;
                                         },
                                         controller: loginEmail,
+                                        keyboardType:
+                                                TextInputType.emailAddress,
                                         decoration:
                                             textFieldInputDecoration('email'),
                                       ),

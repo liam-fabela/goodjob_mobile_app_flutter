@@ -84,7 +84,39 @@ class _ChatRoomsState extends State<ChatRooms> {
           future: Services.getCusChat(widget.cid),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              
               List<CustomerChatroom> customerChat = snapshot.data;
+              if(customerChat.isEmpty){
+                return  Center(
+                  child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.inbox,
+                              size: 70,
+                              color: Colors.white,
+                            ),
+                            SizedBox(height: 15),
+                            Text(
+                              'No messages yet.',
+                              style: TextStyle(
+                                color: Color.fromRGBO(62, 135, 148, 1),
+                                fontSize: 12,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                           
+                            
+                           
+                           
+                          ],
+                        ),
+                );
+              }
+
               return ListView.builder(
                 itemCount: customerChat.length,
                 itemBuilder: (context, int currentIndex) {

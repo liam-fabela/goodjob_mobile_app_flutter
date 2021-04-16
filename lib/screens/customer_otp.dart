@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:email_auth/email_auth.dart';
+import 'package:ntp/ntp.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
@@ -234,6 +235,8 @@ class _CustomerOTPState extends State<CustomerOTP> {
 
    _verifyOTP() async {
       try{
+         var join = await NTP.now();
+      String joined = join.toString();
         await Services.addCustomer(
               lname,
               fname,
@@ -244,11 +247,42 @@ class _CustomerOTPState extends State<CustomerOTP> {
               email,
               pass,
               firebaseUser,
+              joined,
               )
           .then((value) {
             print('gisulod sa otp');
-             Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => Authenticate(),),);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Registration Successful.',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: [
+                        Text('Please click ok to login'),
+                      ],
+                    )),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Center(
+                          child: Text(
+                            'Ok',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        onPressed: () {
+                           Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Authenticate(),),);
+                         
+                        },
+                      ),
+                    ],
+                  ),
+                );
+           
       });
     }catch(error){
       await showDialog(
