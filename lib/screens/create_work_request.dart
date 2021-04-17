@@ -6,7 +6,7 @@ import '../styles/style.dart';
 //import 'address_screen.dart';
 import '../services/services.dart';
 import 'package:ntp/ntp.dart';
-import 'worker_profile_details.dart';
+//import 'worker_profile_details.dart';
 
 class CreateWorkRequest extends StatefulWidget {
   final int wid;
@@ -189,7 +189,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Loading Messages',
+                          'Sending Request',
                           style: TextStyle(
                             color: Colors.white54,
                             fontFamily: 'Raleway',

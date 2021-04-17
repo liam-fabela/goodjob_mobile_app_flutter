@@ -7,6 +7,7 @@ import '../models/widget_data.dart';
 import '../widget/category_item.dart';
 import '../screens/create_post.dart';
 import '../helper/firebase_user.dart';
+import '../helper/shared_preferences.dart';
 
 
 class CustomerHomePage extends StatefulWidget {
@@ -19,10 +20,11 @@ class CustomerHomePage extends StatefulWidget {
 }
 
 class _CustomerHomePageState extends State<CustomerHomePage> {
-
+  int cid;
   @override
   void initState() {
      _getData();
+     _getCustId();
     super.initState();
   }
 
@@ -33,11 +35,18 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   
   }
 
-   void _createPost(BuildContext context) {
+
+ _getCustId()async{
+   var id = await SharedPrefUtils.getUser('userId');
+   String cus = id.toString();
+   cid = int.parse(cus);
+ }
+
+   void _createPost(BuildContext context, int id) {
      Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (ctx) =>  CreatePostModal(),
+        builder: (ctx) =>  CreatePostModal(id),
       ),
     );
      // Navigator.of(context).pushNamed(
@@ -92,7 +101,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                   SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      _createPost(context);
+                      _createPost(context, cid);
                     },
                     child: Container(
                       alignment: Alignment.center,

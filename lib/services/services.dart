@@ -10,6 +10,8 @@ import '../models/cus_display_profile.dart';
 import '../helper/shared_preferences.dart';
 import '../models/job_posting_model.dart';
 import '../models/cus_chat_model.dart';
+import '../models/searchResult.dart';
+
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
@@ -25,6 +27,9 @@ class Services {
    static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
   static const url10 = 'http://192.168.43.152/db_php/update_chat.php';
    static const url11 = 'http://192.168.43.152/db_php/create_work_request.php';
+    static const url12 = 'http://192.168.43.152/db_php/create_post.php';
+    static const url13 = 'http://192.168.43.152/db_php/search_worker.php';
+   
   
   
   static var cid;
@@ -395,6 +400,66 @@ String details, double budget, String type, String status, String reqDate) async
   }catch(error){
     throw(error);
   }
+}
+
+
+static Future<void> createWorkPost(int cid,int cat,String date, String time, String location, String details, 
+double budget, String type, String createdOn, String status) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['cid'] = cid;
+     map['cat'] =cat;
+     map['date'] = date;
+     map['time'] =time;
+     map['location'] = location;
+     map['details'] = details;
+     map['budget'] = budget;
+     map['type'] = type;
+     map['createdOn'] = createdOn;
+     map['status'] = status;
+
+    final response = await http.post(url12, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get create post response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('work post created successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    print(error);
+    throw(error);
+
+  }
+
+}
+
+static Future<List<SearchResults>> searchWorker(String search)async{
+  try{
+    var map = Map<String, dynamic>();
+    map['searchKey'] = search;
+
+    final response = await http.post(url13, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get search response: ${response.body}');
+   if(response.statusCode == 200) {
+    List searchResults = json.decode(response.body);
+    return searchResults
+    .map((searchResults)=> new SearchResults.fromJson(searchResults))
+    .toList();
+   }else{
+     print("error");
+    
+   }
+
+
+  }catch(error){
+    print(error);
+     throw(error);
+
+  }
+
 }
 }
 

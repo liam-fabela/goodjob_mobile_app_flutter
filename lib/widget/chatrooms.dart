@@ -68,7 +68,7 @@ class _ChatRoomsState extends State<ChatRooms> {
             ],
           
           ),
-          trailing: Text(dateFormat.format(DateTime.parse(customerChat.update)), style: tinyFont()),
+          subtitle: Text(dateFormat.format(DateTime.parse(customerChat.update)), style: tinyFont()),
         ),
       ),
     );
