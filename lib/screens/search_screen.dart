@@ -83,14 +83,22 @@ class SearchScreen extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    
+
     Future<List<SearchResults>> search(String search)async{
       var searchResults = await Services.searchWorker(search);
+      if(search == "empty"){
+        return [];
+      }
+      if(search == "error"){
+        throw Error();
+      }
       return searchResults;
     }
     return Scaffold(
       body: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SearchBar<SearchResults>(
+        hintText: "Search by worker name/barangay",
+        hintStyle: addressStyle(),
         onSearch: search,
         onItemFound: (SearchResults searchResults, int index){
             return searchResultTile(context, searchResults);
