@@ -35,7 +35,7 @@ const PROFILE_GRID = const [
 
 const WORKER_PROFILE = const [
   WorkerGridProfile(id: 1, title: 'My Job Requests', icon: Icons.sticky_note_2),
-   WorkerGridProfile(id: 2, title: 'My Reviews', icon: Icons.stars_outlined),
+   WorkerGridProfile(id: 2, title: 'My Reviews', icon: Icons.stars),
    WorkerGridProfile(id: 3, title: 'Settings', icon: Icons.settings),
    WorkerGridProfile(id: 4, title: 'Sign out', icon: Icons.logout),
 ];

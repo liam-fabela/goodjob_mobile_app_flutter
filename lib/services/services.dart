@@ -11,6 +11,7 @@ import '../helper/shared_preferences.dart';
 import '../models/job_posting_model.dart';
 import '../models/cus_chat_model.dart';
 import '../models/searchResult.dart';
+import '../models/worker_display_profile.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -30,6 +31,7 @@ static const url10 = 'https://goodjob-mobile-app.000webhostapp.com/update_chat.p
 static const url11 = 'https://goodjob-mobile-app.000webhostapp.com/create_work_request.php';
 static const url12 = 'https://goodjob-mobile-app.000webhostapp.com/create_post.php';
 static const url13 = 'https://goodjob-mobile-app.000webhostapp.com/search_worker.php';
+static const url14 = 'https://goodjob-mobile-app.000webhostapp.com/worker_display.php';
 
   //static const url = 'http://192.168.43.152/db_php/db_actions.php';
   //static const url2 = 'http://192.168.43.152/db_php/login.php';
@@ -476,6 +478,31 @@ static Future<List<SearchResults>> searchWorker(String search)async{
      throw(error);
 
   }
+
+}
+
+
+static Future<List<WorkerProfile>> getWorkerDisplay(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url14, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List workerProfile = json.decode(response.body);
+      return workerProfile
+        .map((workerProfile)=> new WorkerProfile.fromJson(workerProfile))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
 
 }
 }

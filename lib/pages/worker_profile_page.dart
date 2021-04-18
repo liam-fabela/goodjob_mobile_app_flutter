@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
 import '../models/widget_data.dart';
+import '../widget/worker_display.dart';
 import '../widget/worker_profile_grid.dart';
 
 class WorkerProfilePage extends StatefulWidget {
@@ -31,6 +32,17 @@ class _WorkerProfilePageState extends State<WorkerProfilePage> {
               top: 0,
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.4,
+                    child: FutureBuilder(
+                      future: tem,
+                      builder: (context, snapshot){
+                        if(snapshot.connectionState != ConnectionState.done){
+                           return shimmerEffect(context);
+                        }
+                        final wor= snapshot.data.toString();
+                        final worId = int.parse(wor);
+                        return WorkerDisplay(worId);
+                      }
+                  ),
 
                   ),
             ),
@@ -47,6 +59,15 @@ class _WorkerProfilePageState extends State<WorkerProfilePage> {
                           ),
                           color: Color.fromRGBO(62, 135, 148, 0.7)),
                       height: MediaQuery.of(context).size.height * 0.65,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          color: Color.fromRGBO(75, 210, 178, 1),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.35,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.30,
                           width: MediaQuery.of(context).size.width,
@@ -74,7 +95,7 @@ class _WorkerProfilePageState extends State<WorkerProfilePage> {
                            ),
                     ),
                ),
-
+               ),
             ),
           ],
         ),
