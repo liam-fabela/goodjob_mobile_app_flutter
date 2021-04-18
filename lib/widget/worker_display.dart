@@ -61,20 +61,26 @@ class WorkerDisplay extends StatelessWidget {
                           Text(workerProfile.lname, style: profileName2()),
                         ],
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            workerProfile.zone +
-                                " " +
-                                workerProfile.barangay,
-                            style: addressStyle2(),
-                          ),
-                          Text(
-                            workerProfile.city,
-                            style: addressStyle2(),
-                          ),
-                        ],
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              workerProfile.zone,
+                              style: addressStyle2(),
+                            ),
+                            Text(
+                              workerProfile.barangay,
+                              style: addressStyle2(),
+                            ),
+                            Text(
+                              workerProfile.city,
+                              style: addressStyle2(),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

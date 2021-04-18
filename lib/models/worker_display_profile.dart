@@ -22,12 +22,12 @@ class WorkerProfile{
   factory WorkerProfile.fromJson(Map<String, dynamic>jsonData){
      return WorkerProfile(
        id: jsonData['id'],
-       lname: jsonData['id'],
-       fname: jsonData['id'],
-       zone: jsonData['id'],
+       lname: jsonData['lname'],
+       fname: jsonData['fname'],
+       zone: jsonData['zone'],
        barangay: jsonData['barangay'],
        city: jsonData['city'],
-       profile: "https://goodjob-mobile-app.000webhostapp.com/customer_profile/" + jsonData['profile'],
+       profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/" + jsonData['profile'],
        uid: jsonData['uid'],
 
      );

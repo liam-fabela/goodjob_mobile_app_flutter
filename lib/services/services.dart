@@ -12,6 +12,7 @@ import '../models/job_posting_model.dart';
 import '../models/cus_chat_model.dart';
 import '../models/searchResult.dart';
 import '../models/worker_display_profile.dart';
+import '../models/wor_chat_model.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -32,6 +33,7 @@ static const url11 = 'https://goodjob-mobile-app.000webhostapp.com/create_work_r
 static const url12 = 'https://goodjob-mobile-app.000webhostapp.com/create_post.php';
 static const url13 = 'https://goodjob-mobile-app.000webhostapp.com/search_worker.php';
 static const url14 = 'https://goodjob-mobile-app.000webhostapp.com/worker_display.php';
+static const url15 = 'https://goodjob-mobile-app.000webhostapp.com/worker_chatrooms.php';
 
   //static const url = 'http://192.168.43.152/db_php/db_actions.php';
   //static const url2 = 'http://192.168.43.152/db_php/login.php';
@@ -355,6 +357,27 @@ static Future<List<CustomerChatroom>> getCusChat(int cid) async{
     List customerChat = json.decode(response.body);
     return customerChat
       .map((customerChat)=> new CustomerChatroom.fromJson(customerChat))
+      .toList();
+   }else{
+     print("error");
+   }
+
+   }catch(e){
+
+   }
+
+}
+
+static Future<List<WorkerChatroom>> getWorChat(int wid) async{
+   var map = Map<String, dynamic>();
+   try{
+      map['userId'] = wid;
+       final response = await http.post(url15, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get worker response: ${response.body}');
+   if(response.statusCode == 200) {
+    List workerChat = json.decode(response.body);
+    return workerChat
+      .map((workerChat)=> new WorkerChatroom.fromJson(workerChat))
       .toList();
    }else{
      print("error");
