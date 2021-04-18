@@ -384,7 +384,7 @@ static Future<void> updateChat(String fid, DateTime updated) async{
 }
 
 
-static Future<void> createWorkRequest(int wid, int cid, int cat, String date, String time, String location,
+static Future<void> createWorkRequest(int wid, int cid, int cat, String date, String time, String time2, String location,
 String details, double budget, String type, String status, String reqDate) async{
  
   try{
@@ -395,6 +395,7 @@ String details, double budget, String type, String status, String reqDate) async
      map['cat'] = cat;
      map['date'] = date;
      map['time'] = time;
+     map['time2'] = time2;
      map['location'] = location;
      map['details'] = details;
      map['budget'] = budget;
@@ -418,14 +419,15 @@ String details, double budget, String type, String status, String reqDate) async
 }
 
 
-static Future<void> createWorkPost(int cid,int cat,String date, String time, String location, String details, 
+static Future<void> createWorkPost(int cid,int cat,String date, String time1, String time2, String location, String details, 
 double budget, String type, String createdOn, String status) async{
   try{
      var map = Map<String, dynamic>();
      map['cid'] = cid;
      map['cat'] =cat;
      map['date'] = date;
-     map['time'] =time;
+     map['time1'] =time1;
+     map['time2'] = time2;
      map['location'] = location;
      map['details'] = details;
      map['budget'] = budget;

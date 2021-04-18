@@ -123,7 +123,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
     _details.clear();
   }
 
-  _sendPost(int cid, int cat, String date, String time, String location,
+  _sendPost(int cid, int cat, String date, String time, String time2, String location,
       String details, String budget, String type) async {
     try {
       setState(() {
@@ -133,7 +133,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
       String stat = 'posted';
       var req = await NTP.now();
       String createdOn = req.toString();
-      await Services.createWorkPost(cid, cat, date, time, location, details,
+      await Services.createWorkPost(cid, cat, date, time,time2, location, details,
               bud, type, createdOn, stat)
           .then((val) {
         _clearFields();
@@ -427,7 +427,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
                                         widget.id,
                                         _choice,
                                         formatted,
-                                        _time.text,
+                                        _time1.text,
+                                        _time2.text,
                                         _location.text,
                                         _details.text,
                                         _budget.text,

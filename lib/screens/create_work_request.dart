@@ -25,11 +25,42 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
   String formatted;
-  final TextEditingController _time = TextEditingController();
+   final TextEditingController _time1 = TextEditingController();
+  final TextEditingController _time2 = TextEditingController();
   final TextEditingController _location = TextEditingController();
   final TextEditingController _details = TextEditingController();
   final TextEditingController _budget = TextEditingController();
   var _isLoading = false;
+  TimeOfDay t1;
+  TimeOfDay t2;
+   Future<TimeOfDay> _presentTimePicker(int source) async {
+    final now = DateTime.now();
+    showTimePicker(context: context, 
+    initialTime: TimeOfDay(hour: now.hour, minute: now.minute) ).then((pickedTime) {
+      if(pickedTime == null){
+        return;
+      }
+      if(source == 1){
+        setState(() {
+          t1 = pickedTime;
+        var time = '${t1.format(context)}';
+        _time1.text = time;
+
+        });
+
+      }
+      if(source == 2){
+        setState(() {
+          t2 = pickedTime;
+        var time = '${t2.format(context)}';
+        _time2.text = time;
+        });
+        
+
+      }
+
+    });
+  }
 
   void _presentDatePicker() {
     showDatePicker(
@@ -65,13 +96,14 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
 
   void _clearFields(){
     _dateController.clear();
-    _time.clear();
+    _time1.clear();
+    _time2.clear();
     _location.clear();
     _budget.clear();
     _details.clear();
   }
 
-  _sendRequest(int wid, int cid, int cat, String date, String time,
+  _sendRequest(int wid, int cid, int cat, String date, String time, String time2,
       String location, String details, String budg, String choice) async {
         String id = wid.toString();
     setState(() {
@@ -88,7 +120,8 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
               cid,
               cat,
               formatted,
-              _time.text,
+              _time1.text,
+              _time2.text,
               _location.text,
               _details.text,
               bud,
@@ -222,8 +255,20 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                           onTap: _presentDatePicker,
                         ),
                         TextFormField(
-                          controller: _time,
-                          decoration: inputDeco('Time:'),
+                          controller: _time1,
+                          decoration: inputDeco(' Start Time:'),
+                           readOnly: true,
+                          onTap: (){
+                            _presentTimePicker(1);
+                          },
+                        ),
+                        TextFormField(
+                          controller: _time2,
+                          decoration: inputDeco('End Time:'),
+                           readOnly: true,
+                          onTap: (){
+                            _presentTimePicker(2);
+                          }
                         ),
                         TextFormField(
                           controller: _location,
@@ -352,7 +397,8 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                         widget.cid,
                                         widget.cat,
                                         formatted,
-                                        _time.text,
+                                        _time1.text,
+                                        _time2.text,
                                         _location.text,
                                         _details.text,
                                         _budget.text,
