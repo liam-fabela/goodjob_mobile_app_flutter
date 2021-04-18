@@ -15,20 +15,35 @@ import '../models/searchResult.dart';
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+ 
 
-  static const url = 'http://192.168.43.152/db_php/db_actions.php';
-  static const url2 = 'http://192.168.43.152/db_php/login.php';
-  static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
-   static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
-   static const url5 = 'http://192.168.43.152/db_php/profile.php';
-   static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
-  static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
-   static const url8 = 'http://192.168.43.152/db_php/create_chat.php';
-   static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
-  static const url10 = 'http://192.168.43.152/db_php/update_chat.php';
-   static const url11 = 'http://192.168.43.152/db_php/create_work_request.php';
-    static const url12 = 'http://192.168.43.152/db_php/create_post.php';
-    static const url13 = 'http://192.168.43.152/db_php/search_worker.php';
+ static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
+static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+static const url3 = 'https://goodjob-mobile-app.000webhostapp.com/insert_category.php';
+static const url4= 'https://goodjob-mobile-app.000webhostapp.com/worker_list.php';
+static const url5 = 'https://goodjob-mobile-app.000webhostapp.com/profile.php';
+static const url6 = 'https://goodjob-mobile-app.000webhostapp.com/customer_reviews.php';
+static const url7 = 'https://goodjob-mobile-app.000webhostapp.com/customer_profile.php';
+static const url8 = 'https://goodjob-mobile-app.000webhostapp.com/create_chat.php';
+static const url9 = 'https://goodjob-mobile-app.000webhostapp.com/customer_chatrooms.php';
+static const url10 = 'https://goodjob-mobile-app.000webhostapp.com/update_chat.php';
+static const url11 = 'https://goodjob-mobile-app.000webhostapp.com/create_work_request.php';
+static const url12 = 'https://goodjob-mobile-app.000webhostapp.com/create_post.php';
+static const url13 = 'https://goodjob-mobile-app.000webhostapp.com/search_worker.php';
+
+  //static const url = 'http://192.168.43.152/db_php/db_actions.php';
+  //static const url2 = 'http://192.168.43.152/db_php/login.php';
+  //static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
+  //static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
+   //static const url5 = 'http://192.168.43.152/db_php/profile.php';
+  // static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
+ // static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
+  // static const url8 = 'http://192.168.43.152/db_php/create_chat.php';
+  // static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
+  //static const url10 = 'http://192.168.43.152/db_php/update_chat.php';
+  // static const url11 = 'http://192.168.43.152/db_php/create_work_request.php';
+   // static const url12 = 'http://192.168.43.152/db_php/create_post.php';
+   // static const url13 = 'http://192.168.43.152/db_php/search_worker.php';
    
   
   

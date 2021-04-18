@@ -30,8 +30,8 @@ class SearchResults{
         zone: jsonData['zone'],
         barangay: jsonData['barangay'],
         city: jsonData['city'],
-        docImg: "http://192.168.43.152/db_php/worker_profile/"+jsonData['doc_img'],
-        profile: "http://192.168.43.152/db_php/doc_img/"+jsonData['profile'],
+        docImg: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['doc_img'],
+        profile: "https://goodjob-mobile-app.000webhostapp.com/doc_img/"+jsonData['profile'],
         uid: jsonData['uid'],
 
 

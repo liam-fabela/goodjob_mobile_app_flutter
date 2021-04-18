@@ -25,7 +25,7 @@ class CustomerProfile {
       zone: jsonData['zone'],
       barangay: jsonData['barangay'],
       city: jsonData['city'],
-      profile: "http://192.168.43.152/db_php/customer_profile/"+jsonData['profile'],
+      profile: "https://goodjob-mobile-app.000webhostapp.com/customer_profile/"+jsonData['profile'],
     );
   }
 }

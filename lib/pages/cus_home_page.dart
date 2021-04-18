@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-
 import '../models/widget_data.dart';
 import '../widget/category_item.dart';
 import '../screens/create_post.dart';
 import '../helper/firebase_user.dart';
 import '../helper/shared_preferences.dart';
-
+import '../screens/search_screen.dart';
 
 class CustomerHomePage extends StatefulWidget {
-  
-  
-
-
   @override
   _CustomerHomePageState createState() => _CustomerHomePageState();
 }
@@ -23,35 +17,32 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   int cid;
   @override
   void initState() {
-     _getData();
-     _getCustId();
+    _getData();
+    _getCustId();
     super.initState();
   }
 
-  _getData(){
+  _getData() {
     var user = FirebaseAuth.instance.currentUser.uid;
     UserProfile.currentUser = user;
-   print('LOGGED IN USER $user');
-  
+    print('LOGGED IN USER $user');
   }
 
+  _getCustId() async {
+    var id = await SharedPrefUtils.getUser('userId');
+    String cus = id.toString();
+    cid = int.parse(cus);
+  }
 
- _getCustId()async{
-   var id = await SharedPrefUtils.getUser('userId');
-   String cus = id.toString();
-   cid = int.parse(cus);
- }
-
-   void _createPost(BuildContext context, int id) {
-     Navigator.of(context).push(
+  void _createPost(BuildContext context, int id) {
+    Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder: (ctx) =>  CreatePostModal(id),
+        builder: (ctx) => CreatePostModal(id),
       ),
     );
-     // Navigator.of(context).pushNamed(
-     // CreatePostModal.routeName,
-      
+    // Navigator.of(context).pushNamed(
+    // CreatePostModal.routeName,
 
     //);
   }
@@ -60,7 +51,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.symmetric(vertical: 25),
         child: Column(
           children: [
@@ -70,7 +61,13 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => SearchScreen(),
+                        ),
+                      );
+                    },
                     child: Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -137,7 +134,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               ),
             ),
             Divider(),
-          //  SizedBox(height: 5),
+            //  SizedBox(height: 5),
             Center(
               child: Text(
                 'Categories',

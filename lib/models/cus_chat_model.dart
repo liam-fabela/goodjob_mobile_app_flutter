@@ -20,7 +20,7 @@ class CustomerChatroom{
       workerId: jsonData['id'],
       lname: jsonData['lname'],
       fname: jsonData['fname'],
-      profile: "http://192.168.43.152/db_php/worker_profile/"+jsonData['profile'],
+      profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['profile'],
       uid: jsonData['chatId'],
       update: jsonData['update'],
     );

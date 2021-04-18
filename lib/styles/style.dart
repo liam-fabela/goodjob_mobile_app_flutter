@@ -29,9 +29,8 @@ Widget signUpCategory(
               Stack(
                 children: <Widget>[
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+                    borderRadius: BorderRadius.circular(
+                      15
                     ),
                     child: Image.asset(
                       image,
@@ -109,6 +108,15 @@ TextStyle largeFont() {
   return TextStyle(
     color: const Color.fromRGBO(62, 135, 148, 1),
     fontSize: 28,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle logoFont() {
+  return TextStyle(
+    color: const Color.fromRGBO(62, 135, 148, 1),
+    fontSize: 30,
     fontFamily: 'Raleway',
     fontWeight: FontWeight.bold,
   );

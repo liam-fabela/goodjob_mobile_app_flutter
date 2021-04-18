@@ -26,14 +26,47 @@ class _CreatePostModalState extends State<CreatePostModal> {
   DateTime _selectedDate;
   final formKey = GlobalKey<FormState>();
   String formatted;
-  final TextEditingController _time = TextEditingController();
+  final TextEditingController _time1 = TextEditingController();
+  final TextEditingController _time2 = TextEditingController();
   final TextEditingController _location = TextEditingController();
   final TextEditingController _details = TextEditingController();
   final TextEditingController _budget = TextEditingController();
   var _isLoading = false;
-
+  String formattedStartTime;
+   String formattedEndTime;
+   TimeOfDay t1;
+    TimeOfDay t2;
   //Position _currentPosition;
   //String _currentAddress;
+  
+  Future<TimeOfDay> _presentTimePicker(int source) async {
+    final now = DateTime.now();
+    showTimePicker(context: context, 
+    initialTime: TimeOfDay(hour: now.hour, minute: now.minute) ).then((pickedTime) {
+      if(pickedTime == null){
+        return;
+      }
+      if(source == 1){
+        setState(() {
+          t1 = pickedTime;
+        var time = '${t1.format(context)}';
+        _time1.text = time;
+
+        });
+
+      }
+      if(source == 2){
+        setState(() {
+          t2 = pickedTime;
+        var time = '${t2.format(context)}';
+        _time2.text = time;
+        });
+        
+
+      }
+
+    });
+  }
 
   void _presentDatePicker() {
     showDatePicker(
@@ -83,7 +116,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
 
   void _clearFields() {
     _dateController.clear();
-    _time.clear();
+    _time1.clear();
+    _time2.clear();
     _location.clear();
     _budget.clear();
     _details.clear();
@@ -246,13 +280,25 @@ class _CreatePostModalState extends State<CreatePostModal> {
                       children: [
                         TextFormField(
                           controller: _dateController,
-                          decoration: inputDeco('Date:'),
+                          decoration: inputDeco('*Date:'),
                           readOnly: true,
                           onTap: _presentDatePicker,
                         ),
                         TextFormField(
-                          controller: _time,
-                          decoration: inputDeco('Time:'),
+                          controller: _time1,
+                          decoration: inputDeco('*Start Time:'),
+                           readOnly: true,
+                           onTap: (){
+                             _presentTimePicker(1);
+                           },
+                        ),
+                        TextFormField(
+                          controller: _time2,
+                          decoration: inputDeco('End Time:'),
+                           readOnly: true,
+                           onTap: (){
+                             _presentTimePicker(2);
+                           },
                         ),
                         TextFormField(
                           controller: _location,
@@ -262,7 +308,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                           controller: _details,
                           maxLines: 3,
                           keyboardType: TextInputType.multiline,
-                          decoration: inputDeco('Enter Job details:'),
+                          decoration: inputDeco('*Enter Job details:'),
                         ),
                         Row(
                           children: [
@@ -331,7 +377,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                           ],
                         ),
                         SizedBox(height: 10),
-                        Text('Choose a Category: ',
+                        Text('*Choose a Category: ',
                             style: addressStyle(), textAlign: TextAlign.left),
                         CategoryChoices(getState),
                         Divider(),

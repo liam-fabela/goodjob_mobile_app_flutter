@@ -38,7 +38,7 @@ class _SignUpGeneralState extends State<SignUpGeneral> {
           children: <Widget>[
             signUpCategory(context, 'Sign up as Customer', 'assets/images/good_job.png', ()=>customerSignUp(context)),
             SizedBox(height: 12),
-            signUpCategory(context, 'Sign up as Worker', 'assets/images/worker3.jpg', ()=>workerSignUp(context)),
+            signUpCategory(context, 'Sign up as Worker', 'assets/images/good_job.png', ()=>workerSignUp(context)),
             SizedBox(height: 16),
              Row(
                 mainAxisAlignment: MainAxisAlignment.center,

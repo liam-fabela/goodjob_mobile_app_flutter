@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 import '../services/services.dart';
 import '../models/searchResult.dart';
@@ -7,7 +6,33 @@ import '../styles/style.dart';
 
 class SearchScreen extends StatelessWidget {
 
-  Widget searchResultTile(BuildContext context, SearchResults searchResults){
+ 
+  
+  @override
+  Widget build(BuildContext context) {
+
+  
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Search worker by name/barangay...'),
+        actions: [
+          IconButton(onPressed:(){
+            showSearch(context: context, delegate: SearchData());
+          }, icon: Icon(Icons.search),),
+        ],
+      ),  
+    );
+  }
+}
+
+class SearchData extends SearchDelegate<String> {
+
+    _search(String search)async{
+      var data = await Services.searchWorker(search);
+      return data;
+      
+    }
+   Widget searchResultTile(BuildContext context, SearchResults searchResults){
     return Container(
       padding: EdgeInsets.all(15),
       child: ListTile(
@@ -80,32 +105,41 @@ class SearchScreen extends StatelessWidget {
       
       ),
     );
-  }
+   }
   @override
-  Widget build(BuildContext context) {
-
-    Future<List<SearchResults>> search(String search)async{
-      var searchResults = await Services.searchWorker(search);
-      if(search == "empty"){
-        return [];
-      }
-      if(search == "error"){
-        throw Error();
-      }
-      return searchResults;
+  List<Widget> buildActions(BuildContext context) {
+     return [IconButton(icon: Icon(Icons.clear), onPressed: (){
+       query ="";
+     },)];
+     
     }
-    return Scaffold(
-      body: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SearchBar<SearchResults>(
-        hintText: "Search by worker name/barangay",
-        hintStyle: addressStyle(),
-        onSearch: search,
-        onItemFound: (SearchResults searchResults, int index){
-            return searchResultTile(context, searchResults);
-        },
-      ),
-      ),
+  
+    @override
+    Widget buildLeading(BuildContext context) {
+      return IconButton(onPressed: (){
+        close(context, null);
+      }, icon: Icon(Icons.arrow_back),);
+    }
+  
+    @override
+    Widget buildResults(BuildContext context){
+      final list = _search(query);
+    return ListView.builder(
+      itemCount: list.length,
+      itemBuilder: (context, int currentIndex) {
+        return searchResultTile(context, list[currentIndex]);
+      }
+       );
+                  
       
-    );
+     
+  
+    }
+  
+    @override
+    Widget buildSuggestions(BuildContext context) {
+      return null;
+    
   }
+
 }

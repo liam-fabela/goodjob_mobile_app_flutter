@@ -30,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
   var showPass = false;
   var obscure = true;
   var _isLoading = false;
-  static const url2 = 'http://192.168.43.152/db_php/login.php';
+  static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  //static const url2 = 'http://192.168.43.152/db_php/login.php';
   String utype;
   String valid;
   String userId;
@@ -292,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 35,
+                      flex: 30,
                       child: Container(
                         margin: EdgeInsets.all(20),
                         height: MediaQuery.of(context).size.height * 0.35,
@@ -301,9 +302,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
+                      
                     ),
                     Expanded(
-                      flex: 65,
+                      flex: 10,
+                      child: Center(child: Text('GoodJob!', style:logoFont()))),
+                    Expanded(
+                      flex: 60,
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.65,
                         alignment: Alignment.bottomCenter,
