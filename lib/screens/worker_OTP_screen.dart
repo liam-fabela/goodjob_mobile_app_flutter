@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:email_auth/email_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:ntp/ntp.dart';
+
 
 import '../styles/style.dart';
 import '../services/services.dart';
@@ -271,7 +273,10 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
 
   _verifyOTP() async {
       try {
+        var join = await NTP.now();
+      String joined = join.toString();
         await Services.addWorker(
+                joined,
                 lname,
                 fname,
                 bdate,

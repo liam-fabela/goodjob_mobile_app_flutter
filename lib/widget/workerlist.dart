@@ -48,17 +48,15 @@ class _WorkerListViewState extends State<WorkerListView> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Row(children: [
                           Text(workerProfiles.zone, style:  TextStyle(
                                         color: Color.fromRGBO(62, 135, 148, 1),
                                         fontSize: 12,
                                         fontFamily: 'Raleway',
                                         fontWeight: FontWeight.bold,
                                         ),),
-                          SizedBox(width: 10),
                            Text(workerProfiles.barangay, style: addressStyle()),
                            
-                  ],),
+                  
                    Text(workerProfiles.city, style: addressStyle()),
 
                   ]),

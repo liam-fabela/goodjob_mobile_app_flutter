@@ -94,7 +94,7 @@ static const url15 = 'https://goodjob-mobile-app.000webhostapp.com/worker_chatro
   //  return parsed.map<Worker>((json) => Worker.fromJson(json)).toList();
  // }
 
-  static Future<void> addWorker(String lname, String fname, String bdate, String street, String brgy, String photo, String base64Photo,String front, String base64Front, String back, String base64Back, int docuId, String rqr, String base64Doc,String usrname, String eml, String pass, String uid) async{
+  static Future<void> addWorker(String joined,String lname, String fname, String bdate, String street, String brgy, String photo, String base64Photo,String front, String base64Front, String back, String base64Back, int docuId, String rqr, String base64Doc,String usrname, String eml, String pass, String uid) async{
 
       print('muaagi sa dire');
     try{
@@ -102,6 +102,7 @@ static const url15 = 'https://goodjob-mobile-app.000webhostapp.com/worker_chatro
       var map = Map<String, dynamic>();
 
       map['action'] =  _ADD_WORKER_ACTION;
+      map['joined'] = joined;
       map["lastname"] = lname;
       map["firstname"] = fname;
       map["birthdate"] = bdate;

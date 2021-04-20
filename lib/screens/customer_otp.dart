@@ -6,7 +6,7 @@ import 'package:ntp/ntp.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
-import 'customer_home_screen.dart';
+//import 'customer_home_screen.dart';
 import '../helper/authenticate.dart';
 
 class CustomerOTP extends StatefulWidget {

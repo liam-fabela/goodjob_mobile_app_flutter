@@ -237,39 +237,41 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                     style: profileName()),
                               ],
                             ),
-                            Row(
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(workerIndividual.zone,
                                     style: addressStyle()),
-                                SizedBox(width: 5),
+                                //SizedBox(width: 5),
                                 Text(workerIndividual.barangay,
                                     style: addressStyle()),
-                                SizedBox(
-                                  width: 5,
-                                ),
+                                //SizedBox(
+                                //  width: 5,
+                              //  ),
                                 Text(workerIndividual.city,
                                     style: addressStyle()),
                               ],
                             ),
                             SizedBox(height: 5),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'About:',
-                                    style: addressStyle(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    workerIndividual.about == null
-                                        ? ''
-                                        : workerIndividual.about,
-                                    style: addressStyle(),
-                                  ),
-                                ],
+                            SingleChildScrollView(
+                                 child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'About:',
+                                      style: addressStyle(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      workerIndividual.about == null
+                                          ? ''
+                                          : workerIndividual.about,
+                                      style: addressStyle(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

@@ -9,6 +9,7 @@ import '../styles/style.dart';
 import '../widget/chatrooms.dart';
 import '../services/services.dart';
 import '../models/wor_chat_model.dart';
+import '../widget/work_chatroom.dart';
 
 
 class WorkerMessagePage extends StatefulWidget {
@@ -83,7 +84,7 @@ class _WorkerMessagePageState extends State<WorkerMessagePage> {
             final wor = snapshot.data.toString();
             final worId = int.parse(wor);
             
-            return ChatRooms(worId);
+            return WorkerChatroomScreen(worId);
           },
         ),
       ),
