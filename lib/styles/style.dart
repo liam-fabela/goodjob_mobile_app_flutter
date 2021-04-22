@@ -115,7 +115,7 @@ TextStyle largeFont() {
 
 TextStyle logoFont() {
   return TextStyle(
-    color: const Color.fromRGBO(62, 135, 148, 1),
+    color: Colors.white,
     fontSize: 30,
     fontFamily: 'Raleway',
     fontWeight: FontWeight.bold,

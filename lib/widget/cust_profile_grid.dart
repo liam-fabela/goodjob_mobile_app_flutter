@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-
+import '../screens/cutomer_request.dart';
 import '../helper/shared_preferences.dart';
 //import '../helper/authenticate.dart';
+import '../helper/firebase_user.dart';
+
 
 
 class CustomerGridItem extends StatelessWidget {
@@ -45,10 +47,21 @@ class CustomerGridItem extends StatelessWidget {
 
   }
 
+  _displayRequest(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) =>  CustomerRequest(UserProfile.dbUser),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: (){
+            if(id==2){
+               _displayRequest(context);
+            }
             if(id==4){
               _logOut(context);
             }

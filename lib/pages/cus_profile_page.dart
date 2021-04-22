@@ -9,6 +9,7 @@ import '../widget/customer_display.dart';
 //import '../services/services.dart';
 import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
+import '../helper/firebase_user.dart';
 
 class CustomerProfilePage extends StatefulWidget {
   @override
@@ -60,6 +61,7 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
                         }
                         final cust = snapshot.data.toString();
                         final custId = int.parse(cust);
+                        UserProfile.dbUser = custId;
                         return CustomerDisplay(custId);
                       }
                   ),

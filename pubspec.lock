@@ -188,6 +188,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_polyline_points:
+    dependency: "direct main"
+    description:
+      name: flutter_polyline_points
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -254,6 +261,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  google_maps_flutter:
+    dependency: "direct main"
+    description:
+      name: google_maps_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.33"
+  google_maps_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: google_maps_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   http:
     dependency: "direct main"
     description:
@@ -387,6 +408,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
+  progress_dialog:
+    dependency: "direct main"
+    description:
+      name: progress_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.4"
   provider:
     dependency: "direct main"
     description:
@@ -450,6 +478,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.6"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -476,6 +511,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   string_scanner:
     dependency: transitive
     description:
@@ -483,6 +525,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
+  stripe_payment:
+    dependency: "direct main"
+    description:
+      name: stripe_payment
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.11"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.3"
   term_glyph:
     dependency: transitive
     description:

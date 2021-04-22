@@ -124,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (type == 1) {
               if (validity == 1 && first == 1) {
                   SharedPrefUtils.setPref('user', type);
+                   SharedPrefUtils.setUserId('userId', uId);
                   // SharedPreferences prefs = await SharedPreferences.getInstance();
                   // prefs.setInt('user', type);
                   await FirebaseAuth.instance.signInWithEmailAndPassword(email: loginEmail.text, password: loginPassword.text)
@@ -290,23 +291,31 @@ class _LoginScreenState extends State<LoginScreen> {
           : SingleChildScrollView(
               child: Container(
                 height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage("assets/images/background.jpg"), fit: BoxFit.cover),),
                 child: Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 30,
-                      child: Container(
-                        margin: EdgeInsets.all(20),
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        child: Image.asset(
-                          'assets/images/good_job.png',
-                          fit: BoxFit.cover,
-                        ),
+                      flex: 40,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 30),
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            child: Image.asset(
+                              'assets/images/good_job.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          //SizedBox(height: 20),
+                          Center(child: Text('GoodJob!', style:logoFont()))
+                        ],
                       ),
                       
                     ),
-                    Expanded(
-                      flex: 10,
-                      child: Center(child: Text('GoodJob!', style:logoFont()))),
+                //    Expanded(
+                //      flex: 10,
+               //       child: Center(child: Text('GoodJob!', style:logoFont()))),
                     Expanded(
                       flex: 60,
                       child: Container(

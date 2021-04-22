@@ -253,27 +253,33 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                               ],
                             ),
                             SizedBox(height: 5),
-                            SingleChildScrollView(
-                                 child: Container(
+                           Container(
+                                   height: MediaQuery.of(context).size.height * 0.17,
                                 padding: EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'About:',
-                                      style: addressStyle(),
-                                      textAlign: TextAlign.center,
+                                child: Expanded(
+                                    flex: 1,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'About:',
+                                          style: addressStyle(),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(
+                                          workerIndividual.about == null
+                                              ? ''
+                                              : workerIndividual.about,
+                                          style: addressStyle(),
+                                        ),
+                                      ],
+                                  ),
                                     ),
-                                    Text(
-                                      workerIndividual.about == null
-                                          ? ''
-                                          : workerIndividual.about,
-                                      style: addressStyle(),
-                                    ),
-                                  ],
                                 ),
                               ),
-                            ),
+                           
                           ],
                         ),
                       )),
