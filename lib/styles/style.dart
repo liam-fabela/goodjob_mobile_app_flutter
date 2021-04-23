@@ -140,6 +140,34 @@ TextStyle profileName2() {
   );
 }
 
+TextStyle pending() {
+  return TextStyle(
+    color: Colors.red,
+    fontSize: 14,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle accepted() {
+  return TextStyle(
+    color: Colors.green,
+    fontSize: 14,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle done() {
+  return TextStyle(
+    color: Colors.blue,
+    fontSize: 14,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+
 TextStyle addressStyle() {
   return TextStyle(
     color: const Color.fromRGBO(62, 135, 148, 1),
