@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/cutomer_request.dart';
+import '../screens/customer_request.dart';
 import '../helper/shared_preferences.dart';
 //import '../helper/authenticate.dart';
 import '../helper/firebase_user.dart';
