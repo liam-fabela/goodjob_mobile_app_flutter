@@ -46,6 +46,7 @@ dependencies:
   flutter_polyline_points: ^0.1.0
   google_maps_flutter: ^0.5.11
   location: ^2.3.5
+  geocoder: ^0.2.1
 
 
 
@@ -88,6 +89,8 @@ flutter:
     - assets/images/beauty&grooming.jpg
     - assets/images/personal_errand.jpg
     - assets/images/background.jpg
+    - assets/images/pin_small.png
+    - assets/images/pin2_small.png
 
     
 

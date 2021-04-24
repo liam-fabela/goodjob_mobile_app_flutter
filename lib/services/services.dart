@@ -15,6 +15,8 @@ import '../models/worker_display_profile.dart';
 import '../models/wor_chat_model.dart';
 import '../models/customer_request_display.dart';
 import '../models/wor_request_display.dart';
+import '../models/wor_accepted.dart';
+import '../models/wor_finished.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -38,6 +40,10 @@ static const url14 = 'https://goodjob-mobile-app.000webhostapp.com/worker_displa
 static const url15 = 'https://goodjob-mobile-app.000webhostapp.com/worker_chatrooms.php';
 static const url16 = 'https://goodjob-mobile-app.000webhostapp.com/display_customer_request.php';
 static const url17 = 'https://goodjob-mobile-app.000webhostapp.com/display_worker_request.php';
+static const url18 = 'https://goodjob-mobile-app.000webhostapp.com/update_accept_request.php';
+static const url19 = 'https://goodjob-mobile-app.000webhostapp.com/accepted_worker_request.php';
+static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_worker_request.php';
+
 
 //  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';
 //  static const url2 = 'http://192.168.18.69/system/db_php/login.php';
@@ -585,5 +591,73 @@ static Future<List<WorkerRequests>> getWorkerRequest(int wid) async{
 
 
 }
+
+
+
+static Future<void> updateAcceptRequest(int jobId) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['jobId'] = jobId;
+   final response = await http.post(url18, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<List<WorkerAcceptedRequests>> getWorkerAcceptedRequest(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url19, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List workerAcceptedRequest= json.decode(response.body);
+      return workerAcceptedRequest
+        .map((workerAcceptedRequest)=> new WorkerAcceptedRequests.fromJson(workerAcceptedRequest))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
+static Future<List<WorkerFinishedRequests>> getWorkerFinishedRequest(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url20, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List workerFinishedRequest= json.decode(response.body);
+      return workerFinishedRequest
+        .map((workerFinishedRequest)=> new WorkerFinishedRequests.fromJson(workerFinishedRequest))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
 }
 

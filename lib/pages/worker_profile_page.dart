@@ -41,6 +41,7 @@ class _WorkerProfilePageState extends State<WorkerProfilePage> {
                         }
                         final wor= snapshot.data.toString();
                         final worId = int.parse(wor);
+                        UserProfile.dbUser = worId;
                         return WorkerDisplay(worId);
                       }
                   ),

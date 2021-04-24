@@ -85,8 +85,8 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
             ),
              BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,
-              icon: Icon(Icons.work),
-              title: Text('My Work'),
+              icon: Icon(Icons.notifications),
+              title: Text('Notifications'),
             ),
              BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,

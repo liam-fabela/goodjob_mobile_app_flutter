@@ -71,6 +71,29 @@ class _WorkerNotificationState extends State<WorkerNotification> {
       builder: (context, snapshot) {
          if (snapshot.hasData) {
          List<WorkerRequests> workerRequest = snapshot.data;
+              if(workerRequest.isEmpty){
+                 return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person,
+                            size: 50,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            'No notifications yet.',
+                            style: TextStyle(
+                              color: Color.fromRGBO(62, 135, 148, 1),
+                              fontSize: 12,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      );
+              }
               return ListView.builder(
                   itemCount: workerRequest.length,
                   itemBuilder: (context, int currentIndex) {

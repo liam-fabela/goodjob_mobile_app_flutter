@@ -202,6 +202,15 @@ TextStyle addressStyle3() {
   );
 }
 
+TextStyle addressStyle4() {
+  return TextStyle(
+    color: Colors.blue,
+    fontSize: 12,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle reviewStyle() {
   return TextStyle(
     color: const Color.fromRGBO(62, 135, 148, 1),
