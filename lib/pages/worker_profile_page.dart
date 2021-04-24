@@ -5,6 +5,7 @@ import '../styles/style.dart';
 import '../models/widget_data.dart';
 import '../widget/worker_display.dart';
 import '../widget/worker_profile_grid.dart';
+import '../helper/firebase_user.dart';
 
 class WorkerProfilePage extends StatefulWidget {
   @override

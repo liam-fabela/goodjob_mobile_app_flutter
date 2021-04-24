@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var obscure = true;
   var _isLoading = false;
   static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
+  ///static const url2 = 'http://192.168.18.69/system/db_php/login.php';
   //static const url2 = 'http://192.168.43.152/db_php/login.php';
   String utype;
   String valid;

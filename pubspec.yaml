@@ -45,6 +45,7 @@ dependencies:
   table_calendar: ^2.3.3
   flutter_polyline_points: ^0.1.0
   google_maps_flutter: ^0.5.11
+  location: ^2.3.5
 
 
 

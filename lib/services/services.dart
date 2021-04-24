@@ -14,6 +14,7 @@ import '../models/searchResult.dart';
 import '../models/worker_display_profile.dart';
 import '../models/wor_chat_model.dart';
 import '../models/customer_request_display.dart';
+import '../models/wor_request_display.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -36,21 +37,25 @@ static const url13 = 'https://goodjob-mobile-app.000webhostapp.com/search_worker
 static const url14 = 'https://goodjob-mobile-app.000webhostapp.com/worker_display.php';
 static const url15 = 'https://goodjob-mobile-app.000webhostapp.com/worker_chatrooms.php';
 static const url16 = 'https://goodjob-mobile-app.000webhostapp.com/display_customer_request.php';
+static const url17 = 'https://goodjob-mobile-app.000webhostapp.com/display_worker_request.php';
 
-  //static const url = 'http://192.168.43.152/db_php/db_actions.php';
-  //static const url2 = 'http://192.168.43.152/db_php/login.php';
-  //static const url3 = 'http://192.168.43.152/db_php/insert_category.php';
-  //static const url4 = 'http://192.168.43.152/db_php/worker_list.php';
-   //static const url5 = 'http://192.168.43.152/db_php/profile.php';
-  // static const url6 = 'http://192.168.43.152/db_php/customer_reviews.php';
- // static const url7 = 'http://192.168.43.152/db_php/customer_profile.php';
-  // static const url8 = 'http://192.168.43.152/db_php/create_chat.php';
-  // static const url9 = 'http://192.168.43.152/db_php/customer_chatrooms.php';
-  //static const url10 = 'http://192.168.43.152/db_php/update_chat.php';
-  // static const url11 = 'http://192.168.43.152/db_php/create_work_request.php';
-   // static const url12 = 'http://192.168.43.152/db_php/create_post.php';
-   // static const url13 = 'http://192.168.43.152/db_php/search_worker.php';
-   
+//  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';
+//  static const url2 = 'http://192.168.18.69/system/db_php/login.php';
+//  static const url3 = 'http://192.168.18.69/system/db_php/insert_category.php';
+//  static const url4 = 'http://192.168.18.69/system/db_php/worker_list.php';
+//  static const url5 = 'http://192.168.18.69/system/db_php/profile.php';
+//  static const url6 = 'http://192.168.18.69/system/db_php/customer_reviews.php';
+//  static const url7 = 'http://192.168.18.69/system/db_php/customer_profile.php';
+//  static const url8 = 'http://192.168.18.69/system/db_php/create_chat.php';
+//  static const url9 = 'http://192.168.18.69/system/db_php/customer_chatrooms.php';
+//  static const url10 = 'http://192.168.18.69/system/db_php/update_chat.php';
+//  static const url11 = 'http://192.168.18.69/system/db_php/create_work_request.php';
+//  static const url12 = 'http://192.168.18.69/system/db_php/create_post.php';
+//  static const url13 = 'http://192.168.18.69/system/db_php/search_worker.php';
+//  static const url14 = 'http://192.168.18.69/system/worker_display.php';
+//  static const url15 = 'http://192.168.18.69/system/worker_chatrooms.php';
+//  static const url16 = 'https://192.168.18.69/system/display_customer_request.php';
+
   
   
   static var cid;
@@ -543,6 +548,31 @@ static Future<List<CustomerRequests>> getCustomerRequest(int cid) async{
       List customerRequest= json.decode(response.body);
       return customerRequest
         .map((customerRequest)=> new CustomerRequests.fromJson(customerRequest))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
+
+static Future<List<WorkerRequests>> getWorkerRequest(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url17, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List workerRequest= json.decode(response.body);
+      return workerRequest
+        .map((workerRequest)=> new WorkerRequests.fromJson(workerRequest))
         .toList();
     }else{
       print('error');

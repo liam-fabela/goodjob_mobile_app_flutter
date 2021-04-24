@@ -20,6 +20,8 @@ class WorkerChatroom{
       workerId: jsonData['id'],
       lname: jsonData['lname'],
       fname: jsonData['fname'],
+      //https://goodjob-mobile-app.000webhostapp.com/
+      //http://192.168.18.69/system/template/mobile-web-images/
       profile: "https://goodjob-mobile-app.000webhostapp.com/customer_profile/"+jsonData['profile'],
       uid: jsonData['chatId'],
       update: jsonData['update'],

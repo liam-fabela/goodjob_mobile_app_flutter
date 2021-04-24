@@ -13,7 +13,7 @@ class CustomerRequest extends StatefulWidget {
 }
 
 class _CustomerRequestState extends State<CustomerRequest> {
-  var _isLoading = false;
+ // var _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

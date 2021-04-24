@@ -39,6 +39,9 @@ class WorkerProfiles {
       zone: jsonData['zone'],
       barangay: jsonData['barangay'],
       city: jsonData['city'],
+      //https://goodjob-mobile-app.000webhostapp.com/
+      //http://192.168.18.69/system/db_php/
+      //http://192.168.18.69/system/template/mobile-web-images/
       badge: "https://goodjob-mobile-app.000webhostapp.com/doc_img/"+jsonData['doc_img'],
       profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['display_photo'],
       catType: jsonData['cat_type'],

@@ -1,4 +1,4 @@
-class CustomerRequests{
+class WorkerRequests {
   String jobId;
   String lname;
   String fname;
@@ -10,9 +10,10 @@ class CustomerRequests{
   String budget;
   String type;
   String details;
-  String status;
+  String profile;
+  String requested;
 
-  CustomerRequests({
+  WorkerRequests({
     this.jobId,
     this.lname,
     this.fname,
@@ -24,11 +25,12 @@ class CustomerRequests{
     this.budget,
     this.type,
     this.details,
-    this.status,
+    this.profile,
+    this.requested,
   });
 
-   factory CustomerRequests.fromJson(Map<String,dynamic>jsonData) {
-     return CustomerRequests(
+  factory WorkerRequests.fromJson(Map<String,dynamic>jsonData) {
+     return WorkerRequests(
        jobId: jsonData['jobId'],
        lname: jsonData['lname'],
        fname: jsonData['fname'],
@@ -40,7 +42,10 @@ class CustomerRequests{
        budget: jsonData['budget'],
        type: jsonData['type'],
        details: jsonData['details'],
-       status: jsonData['status'],
+       profile: "https://goodjob-mobile-app.000webhostapp.com/customer_profile/" + jsonData['profile'],
+       requested: jsonData['requested'],
+      
      );
    }
+
 }

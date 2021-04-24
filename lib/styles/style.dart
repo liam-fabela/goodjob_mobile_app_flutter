@@ -130,6 +130,13 @@ TextStyle tinyFont() {
   );
 }
 
+TextStyle extraTinyFont() {
+  return TextStyle(
+    color: const Color.fromRGBO(62, 135, 148, 1),
+    fontSize: 10,
+    fontFamily: 'Raleway',
+  );
+}
 
 TextStyle profileName2() {
   return TextStyle(
