@@ -158,7 +158,7 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'Loading Messages',
+                          'Loading Notifications',
                           style: TextStyle(
                             color: Colors.white54,
                             fontFamily: 'Raleway',

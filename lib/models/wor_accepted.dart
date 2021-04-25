@@ -12,6 +12,7 @@ class WorkerAcceptedRequests {
   String details;
   String profile;
   String requested;
+  String uid;
 
   WorkerAcceptedRequests({
     this.jobId,
@@ -27,6 +28,7 @@ class WorkerAcceptedRequests {
     this.details,
     this.profile,
     this.requested,
+    this.uid,
   });
 
   factory WorkerAcceptedRequests.fromJson(Map<String,dynamic>jsonData) {
@@ -44,6 +46,7 @@ class WorkerAcceptedRequests {
        details: jsonData['details'],
        profile: "https://goodjob-mobile-app.000webhostapp.com/customer_profile/" + jsonData['profile'],
        requested: jsonData['requested'],
+       uid: jsonData['uid'],
       
      );
    }

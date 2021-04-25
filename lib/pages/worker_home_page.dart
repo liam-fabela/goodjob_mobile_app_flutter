@@ -1,8 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 import '../styles/style.dart';
+import '../helper/firebase_user.dart';
+import '../helper/shared_preferences.dart';
 
-class WorkerHomePage extends StatelessWidget {
+class WorkerHomePage extends StatefulWidget {
+  @override
+  _WorkerHomePageState createState() => _WorkerHomePageState();
+}
+
+class _WorkerHomePageState extends State<WorkerHomePage> {
+   int wid;
+@override
+  void initState() {
+    _getData();
+    _getWortId();
+    super.initState();
+  }
+
+  _getData() {
+    var user = FirebaseAuth.instance.currentUser.uid;
+    UserProfile.currentUser = user;
+    print('LOGGED IN USER $user');
+  }
+
+  
+  _getWortId() async {
+    var id = await SharedPrefUtils.getUser('userId');
+    String cus = id.toString();
+    wid = int.parse(cus);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(

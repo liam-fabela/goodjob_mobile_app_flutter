@@ -17,6 +17,7 @@ import '../models/customer_request_display.dart';
 import '../models/wor_request_display.dart';
 import '../models/wor_accepted.dart';
 import '../models/wor_finished.dart';
+import '../models/event_model.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -43,6 +44,7 @@ static const url17 = 'https://goodjob-mobile-app.000webhostapp.com/display_worke
 static const url18 = 'https://goodjob-mobile-app.000webhostapp.com/update_accept_request.php';
 static const url19 = 'https://goodjob-mobile-app.000webhostapp.com/accepted_worker_request.php';
 static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_worker_request.php';
+static const url21 = 'https://goodjob-mobile-app.000webhostapp.com/worker_schedule.php';
 
 
 //  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';
@@ -655,9 +657,33 @@ static Future<List<WorkerFinishedRequests>> getWorkerFinishedRequest(int wid) as
     print(error);
     throw(error);
   }
-
-
 }
 
+static Future<List<EventModel>> getEvent(int workerId) async{
+    var map = Map<String, dynamic>();
+    try{
+      map['id'] = workerId;
+
+      final response = await http.post(url21, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get event response: ${response.body}');
+
+   if(response.statusCode == 200) {
+     List eventModel = json.decode(response.body);
+     return eventModel
+     .map((eventModel) => new EventModel.fromJson(eventModel))
+     .toList();
+   }else{
+     print("error");
+   }
+
+    }catch(error){
+      print(error);
+      throw(error);
+    }
+  }
 }
+
+
+
+
 
