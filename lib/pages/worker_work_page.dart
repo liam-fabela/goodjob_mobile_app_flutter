@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../helper/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../widget/worker_notification.dart';
+import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
+import '../helper/firebase_user.dart';
 
 class WorkerWorkPage extends StatefulWidget {
   
@@ -49,7 +50,7 @@ class _WorkerWorkPageState extends State<WorkerWorkPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'Loading Messages',
+                            'Loading Notifications',
                             style: TextStyle(
                               color: Colors.white54,
                               fontFamily: 'Raleway',
@@ -65,6 +66,7 @@ class _WorkerWorkPageState extends State<WorkerWorkPage> {
                           }
                           final wor= snapshot.data.toString();
                           final worId = int.parse(wor);
+                          UserProfile.dbUser = worId;
                           return WorkerNotification(worId);
                         
             }

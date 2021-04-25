@@ -11,6 +11,10 @@ class CustomerRequests{
   String type;
   String details;
   String status;
+  String reason;
+  String profile;
+  String updated;
+  String uid;
 
   CustomerRequests({
     this.jobId,
@@ -25,6 +29,10 @@ class CustomerRequests{
     this.type,
     this.details,
     this.status,
+    this.reason,
+    this.profile,
+    this.updated,
+    this.uid,
   });
 
    factory CustomerRequests.fromJson(Map<String,dynamic>jsonData) {
@@ -41,6 +49,10 @@ class CustomerRequests{
        type: jsonData['type'],
        details: jsonData['details'],
        status: jsonData['status'],
+       reason: jsonData['reason'],
+       profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['profile'],
+       updated: jsonData['updated'],
+       uid: jsonData['uid'],
      );
    }
 }

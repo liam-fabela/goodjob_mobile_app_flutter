@@ -52,63 +52,63 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
     });
   }
 
-  _updateStatus(int jobId) async {
-    try {
-      ProgressDialog dialog = new ProgressDialog(context);
-      dialog.style(
-        message: 'Accepting request...',
-      );
-      await dialog.show();
-      await Services.updateAcceptRequest(jobId).then((val) {
-        setState(() {
-          _isLoading = false;
-        });
-        dialog.hide();
-        Navigator.pop(context);
-      });
-    } catch (error) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.wifi_off_outlined,
-            size: 50,
-            color: Colors.white,
-          ),
-          SizedBox(height: 15),
-          Text(
-            'Connection error.',
-            style: TextStyle(
-              color: Color.fromRGBO(62, 135, 148, 1),
-              fontSize: 12,
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 15),
-          GestureDetector(
-            onTap: () => () {}, //_refreshData(wid),
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.3,
-              padding: EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(62, 135, 148, 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                'Try Again',
-                style: mediumTextStyle(),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-  }
+//  _updateStatus(int jobId) async {
+//    try {
+//      ProgressDialog dialog = new ProgressDialog(context);
+//      dialog.style(
+//        message: 'Accepting request...',
+//      );
+//      await dialog.show();
+//      await Services.updateAcceptRequest(jobId, ).then((val) {
+//        setState(() {
+//          _isLoading = false;
+//        });
+//        dialog.hide();
+//        Navigator.pop(context);
+//      });
+//    } catch (error) {
+//      return Column(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        children: [
+//          Icon(
+//            Icons.wifi_off_outlined,
+//            size: 50,
+//            color: Colors.white,
+//          ),
+//          SizedBox(height: 15),
+//          Text(
+//            'Connection error.',
+//            style: TextStyle(
+//              color: Color.fromRGBO(62, 135, 148, 1),
+//              fontSize: 12,
+//              fontFamily: 'Raleway',
+//              fontWeight: FontWeight.bold,
+//            ),
+//            textAlign: TextAlign.center,
+//          ),
+//          SizedBox(height: 15),
+//          GestureDetector(
+//            onTap: () => () {}, //_refreshData(wid),
+//            child: Container(
+//              alignment: Alignment.center,
+//              width: MediaQuery.of(context).size.width * 0.3,
+//              padding: EdgeInsets.symmetric(
+//                vertical: 10,
+//              ),
+//              decoration: BoxDecoration(
+//                color: Color.fromRGBO(62, 135, 148, 1),
+//                borderRadius: BorderRadius.circular(10),
+//              ),
+//              child: Text(
+//                'Try Again',
+//                style: mediumTextStyle(),
+//              ),
+//            ),
+//          ),
+//        ],
+//      );
+//    }
+//  }
 
   appBarWidget(BuildContext context) {
     double appBarHeight = MediaQuery.of(context).size.height * 0.07;

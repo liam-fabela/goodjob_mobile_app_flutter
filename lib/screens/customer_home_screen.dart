@@ -78,8 +78,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             ),
              BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,
-              icon: Icon(Icons.article_rounded),
-              title: Text('My Requests'),
+              icon: Icon(Icons.notifications),
+              title: Text('Notifications'),
             ),
              BottomNavigationBarItem(
               backgroundColor: Theme.of(context).primaryColor,

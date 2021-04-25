@@ -9,6 +9,7 @@ import '../screens/create_work_request.dart';
 //import 'list_tile2.dart';
 import '../screens/chat_screen.dart';
 import '../helper/shared_preferences.dart';
+import '../screens/worker_schedule_calendar.dart';
 
 
 class WorkerDetails extends StatefulWidget {
@@ -76,6 +77,12 @@ class _WorkerDetailsState extends State<WorkerDetails> {
       'id': id,
 
     });
+  }
+
+  void _viewCalendar(BuildContext context, String fname, int id){
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => WorkerScheduleCalendar(fname, id),),);
+  
+
   }
 
   Widget workerProfile(
@@ -365,7 +372,10 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                               child: Column(
                             children: [
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    int id = int.parse(widget.wid);
+                                    _viewCalendar(context, workerIndividual.fname,id);
+                                  },
                                   child: Icon(
                                     Icons.today_outlined,
                                     size: MediaQuery.of(context).size.width *

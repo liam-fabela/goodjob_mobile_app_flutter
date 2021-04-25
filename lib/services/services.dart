@@ -596,10 +596,13 @@ static Future<List<WorkerRequests>> getWorkerRequest(int wid) async{
 
 
 
-static Future<void> updateAcceptRequest(int jobId) async{
+static Future<void> updateAcceptRequest(int jobId, String stat ,String reason,String updated) async{
   try{
      var map = Map<String, dynamic>();
      map['jobId'] = jobId;
+     map['stat'] = stat;
+     map['reason'] = reason;
+     map['update'] = updated;
    final response = await http.post(url18, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get UPDATE response: ${response.body}');
    if(response.statusCode == 200) {

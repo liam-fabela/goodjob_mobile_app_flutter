@@ -40,7 +40,7 @@ class WorkerIndividual {
       //https://goodjob-mobile-app.000webhostapp.com/
       //http://192.168.18.69/system/template/mobile-web-images/
       //http://192.168.18.69/system/db_php/
-      profile:  "worker_profile/" + jsonData['profile'],
+      profile:  "https://goodjob-mobile-app.000webhostapp.com/worker_profile/" + jsonData['profile'],
       about: jsonData['bio'],
       badge:  "https://goodjob-mobile-app.000webhostapp.com/doc_img/" + jsonData['docImg'],
       rating: jsonData['rating'],
