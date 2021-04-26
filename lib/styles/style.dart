@@ -104,6 +104,15 @@ TextStyle profileName() {
   );
 }
 
+TextStyle buttonName() {
+  return TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle largeFont() {
   return TextStyle(
     color: const Color.fromRGBO(62, 135, 148, 1),
@@ -149,7 +158,7 @@ TextStyle profileName2() {
 
 TextStyle pending() {
   return TextStyle(
-    color: Colors.red,
+    color: Colors.orange,
     fontSize: 14,
     fontFamily: 'Raleway',
     fontWeight: FontWeight.bold,
@@ -168,6 +177,15 @@ TextStyle accepted() {
 TextStyle done() {
   return TextStyle(
     color: Colors.blue,
+    fontSize: 14,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle declined() {
+  return TextStyle(
+    color: Colors.red,
     fontSize: 14,
     fontFamily: 'Raleway',
     fontWeight: FontWeight.bold,

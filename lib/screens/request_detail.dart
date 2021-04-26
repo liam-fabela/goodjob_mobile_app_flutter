@@ -80,7 +80,7 @@ class _RequestDetailsState extends State<RequestDetails> {
               var _myTime = await NTP.now();
               String updated = _myTime.toString();
               await Services.updateAcceptRequest(
-                      jobId, 'rejected', _reason.text, updated)
+                      jobId, 'rejected', 0,_reason.text, updated)
                   .then((val) {
                 setState(() {
                   _isLoading = false;
@@ -150,7 +150,7 @@ class _RequestDetailsState extends State<RequestDetails> {
       await dialog.show();
       var _myTime = await NTP.now();
       String updated = _myTime.toString();
-      await Services.updateAcceptRequest(jobId, 'accepted', 'n/a', updated)
+      await Services.updateAcceptRequest(jobId, 'accepted', 0,'n/a', updated)
           .then((val) {
         setState(() {
           _isLoading = false;

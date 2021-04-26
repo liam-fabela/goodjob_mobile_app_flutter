@@ -20,7 +20,7 @@ class _CustomerRequestState extends State<CustomerRequest> {
       appBar: appBarSign(context,'My Requests'),
       body: Center(
         child: FutureBuilder<List<CustomerRequests>>(
-          future: Services.getCustomerRequest(widget.custId),
+          future: Services.getAllCustomerRequest(widget.custId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
                List<CustomerRequests> customerRequests = snapshot.data;

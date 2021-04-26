@@ -45,6 +45,7 @@ static const url18 = 'https://goodjob-mobile-app.000webhostapp.com/update_accept
 static const url19 = 'https://goodjob-mobile-app.000webhostapp.com/accepted_worker_request.php';
 static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_worker_request.php';
 static const url21 = 'https://goodjob-mobile-app.000webhostapp.com/worker_schedule.php';
+static const url22 = 'https://goodjob-mobile-app.000webhostapp.com/all_customer_request.php';
 
 
 //  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';
@@ -596,13 +597,14 @@ static Future<List<WorkerRequests>> getWorkerRequest(int wid) async{
 
 
 
-static Future<void> updateAcceptRequest(int jobId, String stat ,String reason,String updated) async{
+static Future<void> updateAcceptRequest(int jobId, String stat, int time ,String reason,String updated) async{
   try{
      var map = Map<String, dynamic>();
      map['jobId'] = jobId;
      map['stat'] = stat;
+    map['time'] = time;
      map['reason'] = reason;
-     map['update'] = updated;
+     map['updated'] = updated;
    final response = await http.post(url18, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get UPDATE response: ${response.body}');
    if(response.statusCode == 200) {
@@ -684,6 +686,32 @@ static Future<List<EventModel>> getEvent(int workerId) async{
       throw(error);
     }
   }
+
+
+static Future<List<CustomerRequests>> getAllCustomerRequest(int cid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['cid'] = cid;
+
+    final response = await http.post(url22, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List customerRequest= json.decode(response.body);
+      return customerRequest
+        .map((customerRequest)=> new CustomerRequests.fromJson(customerRequest))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
 }
 
 

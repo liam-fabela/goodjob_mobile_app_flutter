@@ -160,7 +160,7 @@ class _WorkerScheduleCalendarState extends State<WorkerScheduleCalendar> {
               ),
               ..._selectedEvents.map((e) => Container(
                 padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(52,173,123,1),),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(80,152,179,1),),
                 child: ListTile(
                   title: Text(e.time, style: TextStyle(color: Colors.white),),
                   subtitle: Text("Task " +e.eventId, style: TextStyle(color: Colors.white),),

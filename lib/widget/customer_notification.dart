@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../services/services.dart';
 import '../models/customer_request_display.dart';
 import '../styles/style.dart';
+import 'cus_decline_message.dart';
 
 class CustomerNotifications extends StatefulWidget {
   final int cid;
@@ -23,6 +24,41 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
      
   }
 
+  _showMessage(BuildContext context, String message){
+    showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: Text(
+                                      'Message from Worker.',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    content: SingleChildScrollView(
+                                        child: ListBody(
+                                      children: [
+                                        Text(
+                                           message),
+                                      ],
+                                    )),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Center(
+                                          child: Text(
+                                            'Okay',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+  }
+
 
   Widget listWidget(BuildContext context, CustomerRequests customerRequests){
     return Card(
@@ -35,12 +71,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
         padding: EdgeInsets.all(15),
         child: ListTile(
           onTap: (){
-    //        var route = MaterialPageRoute(
-    //          builder: (BuildContext context) =>
-    //           // RequestDetails(value: workerRequests),
-    //           
-    //        );
-    //         Navigator.of(context).push(route);
+           _showMessage(context, customerRequests.reason);
           },
          leading: CircleAvatar(
                         radius: 30,

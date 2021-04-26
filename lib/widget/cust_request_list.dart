@@ -37,7 +37,8 @@ class _CustomerRequestListState extends State<CustomerRequestList> {
                           padding: EdgeInsets.all(6),
                           child: customerRequests.status == 'pending' ? Icon(Icons.hourglass_top_rounded, size: 30)
                           : customerRequests.status == 'accepted' ? Icon(Icons.check_circle_outline_outlined, size: 30)
-                          : Icon(Icons.check_circle, size: 30),
+                          : customerRequests.status == 'done' ?  Icon(Icons.check_circle, size: 30)
+                          :  Icon(Icons.cancel_outlined, size: 30)
                         ),
                       ),
           title: Text("Request ID "+customerRequests.jobId, style: profileName(),),
@@ -60,7 +61,8 @@ class _CustomerRequestListState extends State<CustomerRequestList> {
                      ),
                     Text("Status: "+customerRequests.status, style: customerRequests.status == 'pending' ? pending()
                     : customerRequests.status == 'accepted' ? accepted()
-                    : done(),
+                    : customerRequests.status == 'done' ? done()
+                    : declined(),
                     ),
           ],),
         ),
