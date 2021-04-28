@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 import '../services/services.dart';
 import '../models/customer_request_display.dart';
 import '../styles/style.dart';
-import 'cus_decline_message.dart';
+//import 'cus_decline_message.dart';
+import '../screens/payment_ui.dart';
 
 class CustomerNotifications extends StatefulWidget {
   final int cid;
@@ -71,7 +72,17 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
         padding: EdgeInsets.all(15),
         child: ListTile(
           onTap: (){
+            if( customerRequests.reason == 'n/a'){
+              
+              var route = MaterialPageRoute(
+                builder: (BuildContext context) => PaymentUi(value: customerRequests),
+
+              );
+              Navigator.of(context).push(route);
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUi(customerRequests)),);
+            }else{
            _showMessage(context, customerRequests.reason);
+            }
           },
          leading: CircleAvatar(
                         radius: 30,
@@ -86,6 +97,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(customerRequests.status == 'accepted' ? 'has accepted your work request' : 
+              customerRequests.status == 'done' ? 'has finished his/her work, tap to continue to payment' :
               'has declined your request, click for more details', style: addressStyle(),
               ),
               Text(dateFormat.format(DateTime.parse(customerRequests.updated)), style: extraTinyFont(),),

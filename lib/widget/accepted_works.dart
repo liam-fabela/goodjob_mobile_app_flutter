@@ -349,12 +349,37 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                         child: GestureDetector(
                           onTap: () {
                             int id = int.parse(workerRequest.jobId);
-                            if(workerRequest.type == 'per work'){
+
+                            showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Work finished.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Are you sure you want to submit your work as done?'),
+                ],)),
+                actions: <Widget>[
+                 
+                  TextButton(
+                    child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                     if(workerRequest.type == 'per work'){
                               _updateStatus(id);
                             }else{
                               _showPerHour(context, id);
                             }
                            
+                      
+                    },
+                  ),
+                   TextButton(
+                    child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                       Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+          ),
+         );
                           },
                           child: Container(
                             alignment: Alignment.center,

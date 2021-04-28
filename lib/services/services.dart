@@ -46,6 +46,7 @@ static const url19 = 'https://goodjob-mobile-app.000webhostapp.com/accepted_work
 static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_worker_request.php';
 static const url21 = 'https://goodjob-mobile-app.000webhostapp.com/worker_schedule.php';
 static const url22 = 'https://goodjob-mobile-app.000webhostapp.com/all_customer_request.php';
+static const url23 = 'https://goodjob-mobile-app.000webhostapp.com/update_payment.php';
 
 
 //  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';

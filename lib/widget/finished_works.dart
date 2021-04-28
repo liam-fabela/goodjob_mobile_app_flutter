@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../styles/style.dart';
 import '../models/wor_finished.dart';
@@ -32,11 +33,14 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
                       ),
             title: Text("Work Request # " + workerFinished.jobId, style: profileName()),
             subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Customer Name: '),
                 Text(workerFinished.fname +" " + workerFinished.lname, style: addressStyle()),
                 Text('Category: '),
                 Text(workerFinished.category, style: addressStyle()),
+                Text('Finished on: '),
+                Text(workerFinished.updated, style: addressStyle()),
                 Text('Status: '),
                 Text(workerFinished.status == 'paid' ? 'PAID':'UNPAID',style: workerFinished.status == 'paid' ? done()
                   : declined()
@@ -86,10 +90,80 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
                 return ListView.builder(
                   itemCount: workerFinished.length,
                   itemBuilder: (context, int currentIndex){
-
+                      return listWidget(context, workerFinished[currentIndex]);
                   }
                 );
-              }
+              }else if (snapshot.hasError){
+            return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.wifi_off_outlined,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          'Connection error.',
+                          style: TextStyle(
+                            color: Color.fromRGBO(62, 135, 148, 1),
+                            fontSize: 12,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 15),
+                        GestureDetector(
+                          onTap: () {
+                            //_refreshData(widget.id);
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(62, 135, 148, 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Try Again',
+                              style: mediumTextStyle(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+         }
+         return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: SpinKitSquareCircle(
+                        color: Color.fromRGBO(62, 135, 148, 1), size: 50.0),
+                  ),
+                  SizedBox(height: 35),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Loading requests...',
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontFamily: 'Raleway',
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
              }
             
           ),
