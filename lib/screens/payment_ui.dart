@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ntp/ntp.dart';
 
 import '../styles/style.dart';
 import '../models/customer_request_display.dart';
@@ -16,9 +17,9 @@ class PaymentUi extends StatefulWidget {
 }
 
 class _PaymentUiState extends State<PaymentUi> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController amount = TextEditingController();
+
   String due;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -41,8 +42,15 @@ class _PaymentUiState extends State<PaymentUi> {
     super.initState();
  }
 
-  onItemPressed(BuildContext context,String amount) async{
+  onItemPressed(BuildContext context,String amount, int jobId ) async{
+     setState(() {
+      _isLoading = true;
+    });
     String price;
+    var _myTime = await NTP.now();
+    String updated = _myTime.toString();
+   
+    double payment = double.parse(amount);
     if(amount.contains('.')){
       var arr = amount.split('.');
       price = arr[0] + arr[1];
@@ -56,7 +64,8 @@ class _PaymentUiState extends State<PaymentUi> {
          amount: price,
          currency: 'Php'
        ).then((response){
-
+          print("updated:" + updated);
+          Services.updatePayment(jobId,'paid',updated, payment);
           showDialog(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
@@ -78,6 +87,9 @@ class _PaymentUiState extends State<PaymentUi> {
                           ),
                         ),
                         onPressed: () {
+                          setState(() {
+      _isLoading = false;
+    });
                           Navigator.of(context).pop();
                          
                         },
@@ -85,32 +97,61 @@ class _PaymentUiState extends State<PaymentUi> {
                     ],
                   ),
                 );
-       });
+       }); 
         
-        
-        
-    
-        
+  }
+
+  appBarWidget(BuildContext context) {
+    double appBarHeight = MediaQuery.of(context).size.height * 0.07;
+    double progressBarHeight = 7;
+    return PreferredSize(
+      preferredSize: Size.fromHeight(appBarHeight + progressBarHeight),
+      child: AppBar(
+        title: Text('Payment Section'),
+        titleSpacing: 5,
+        bottom: linearProgressBar(progressBarHeight),
+      ),
+    );
+  }
+
+  linearProgressBar(_height) {
+    if (!_isLoading) {
+      return null;
+    }
+    return PreferredSize(
+      child: SizedBox(
+        width: double.infinity,
+        height: _height,
+        child: LinearProgressIndicator(
+          backgroundColor: Colors.cyanAccent,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+        ),
+      ),
+      preferredSize: const Size.fromHeight(0),
+    );
   }
 
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(    
-      key: _scaffoldKey,
-      appBar: appBarSign(context, 'Payment Section'),
+      appBar: appBarWidget(context),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        height: MediaQuery.of(context).size.height*0.5,
+        //height: MediaQuery.of(context).size.height*0.8,
         child: Center(
           child: Card(
                   elevation: 5,
+                
               child: Container(
-                //height: MediaQuery.of(context).size.height* 0.3,
-                width: MediaQuery.of(context).size.width * 0.8,
-                padding: EdgeInsets.all(15),
-                child: Column(children:[
+                height: MediaQuery.of(context).size.height* 0.4,
+               // width: MediaQuery.of(context).size.width * 0.9,
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  
+                  children:[
                   Expanded(
+                    flex: 40,
                        child: ListTile(
                       leading:  CircleAvatar(
                           radius: 30,
@@ -121,20 +162,40 @@ class _PaymentUiState extends State<PaymentUi> {
                             child: Text('PHP'),
                           ),
                         ),
-                      title: Text("Php" +due),
+                      title: Text("Php" + " "+ due, style: profileName(),),
                       subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Payment for work no: ${widget.value.jobId}'),
-                          Text('Category: ${widget.value.category}'),
-                          Text('Recipient: ${widget.value.fname} ${widget.value.lname}'),
+                          Text('Payment for work # ${widget.value.jobId}',style: addressStyle()),
+                          Text('Category: ${widget.value.category}', style: addressStyle()),
+                          Text('Recipient: ${widget.value.fname} ${widget.value.lname}',style: addressStyle()),
                         ],
                       ),
 
                     ),
                   ),
+                  Expanded(
+                    flex: 40,
+                    child:Column(
+                      children: [
+                  Text('Accepted Cards',style: addressStyle()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                    Image.asset('assets/images/mastercard.png' ,width: MediaQuery.of(context).size.width * 0.1, fit: BoxFit.cover),
+                    Image.asset('assets/images/visa.png' ,width: MediaQuery.of(context).size.width * 0.1, fit: BoxFit.cover),
+                    
+                //    Image.network('https://www.flaticon.com/svg/vstatic/svg/349/349221.svg?toker=exp=1619588887~hmac=41d1036ec639393404e63599d4f47', 
+                //    width: MediaQuery.of(context).size.width*0.1, fit: BoxFit.cover),
+                  ]),
+                      ],
+                    ),
+                  ),
+                  Divider(),
                    GestureDetector(
                           onTap: (){
-                           onItemPressed(context,due);
+                            int id = int.parse('${widget.value.jobId}');
+                           onItemPressed(context,due,id);
                            // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(amount.text),),);
                           },
                           child: Container(
@@ -147,7 +208,7 @@ class _PaymentUiState extends State<PaymentUi> {
                           borderRadius: BorderRadius.circular(15),
                           ),
                            child: Center(
-                             child: Text('pay', style: TextStyle( fontSize: 16, color: Colors.white),
+                             child: Text('pay', style: TextStyle( fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)
                         ),
                            ),
                     

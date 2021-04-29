@@ -70,7 +70,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(
-          'Decline Request.',
+          'Hours worked.',
           style: TextStyle(color: Colors.black),
         ),
         content: SingleChildScrollView(

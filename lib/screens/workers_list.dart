@@ -14,6 +14,9 @@ class WorkersList extends StatefulWidget {
 }
 
 class _WorkersListState extends State<WorkersList> {
+  List<WorkerProfiles> data;
+ 
+  
   Future<void> _refreshData(int wid) async {
     setState(() {});
     return Services.getWorker(wid);

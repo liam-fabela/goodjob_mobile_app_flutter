@@ -24,7 +24,7 @@ class Services {
  // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
  
 
- static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
+static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
 static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
 static const url3 = 'https://goodjob-mobile-app.000webhostapp.com/insert_category.php';
 static const url4= 'https://goodjob-mobile-app.000webhostapp.com/worker_list.php';
@@ -47,6 +47,7 @@ static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_work
 static const url21 = 'https://goodjob-mobile-app.000webhostapp.com/worker_schedule.php';
 static const url22 = 'https://goodjob-mobile-app.000webhostapp.com/all_customer_request.php';
 static const url23 = 'https://goodjob-mobile-app.000webhostapp.com/update_payment.php';
+
 
 
 //  static const url = 'http://192.168.18.69/system/db_php/db_actions.php';
@@ -711,6 +712,27 @@ static Future<List<CustomerRequests>> getAllCustomerRequest(int cid) async{
   }
 
 
+}
+
+
+static Future<void> updatePayment(int jobId, String stat,String update,  double earning) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['jobId'] = jobId;
+     map['stat'] = stat;
+     map['update'] = update;
+      map['earning'] = earning;
+   final response = await http.post(url23, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
 }
 
 }

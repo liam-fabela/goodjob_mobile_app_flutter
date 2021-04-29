@@ -75,13 +75,20 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
               ),
               Divider(),
               Center(
-              child: Text(
-                'Job Postings',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Raleway',
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+              child: Container(
+                child: Column(
+                  children: [
+                    Text(
+                      'Job Postings',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Raleway',
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    
+                  ],
                 ),
               ),
             ),

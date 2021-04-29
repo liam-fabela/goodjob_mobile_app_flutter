@@ -121,11 +121,11 @@ class _RequestDetailsState extends State<RequestDetails> {
       _isLoading = true;
     });
     final query = location;
-    var add = await Geocoder.local.findAddressesFromQuery(query);
-    var first = add.first;
+    await Geocoder.local.findAddressesFromQuery(query).then((value){
+      var first = value.first;
     var lat = first.coordinates.latitude;
     var long = first.coordinates.longitude;
-    await Location().getLocation().then((value) {
+     Location().getLocation().then((value) {
       setState(() {
         _isLoading = !_isLoading;
       });
@@ -139,6 +139,8 @@ class _RequestDetailsState extends State<RequestDetails> {
       print(value.latitude);
       print(value.longitude);
     });
+    });
+    
   }
 
   _updateStatus(int jobId) async {

@@ -21,7 +21,7 @@ class CustomerChatroom{
       lname: jsonData['lname'],
       fname: jsonData['fname'],
       //http://192.168.18.69/system/template/mobile-web-images/
-      profile: "https://goodjob-mobile-app.000webhostapp.com//worker_profile/"+jsonData['profile'],
+      profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['profile'],
       uid: jsonData['chatId'],
       update: jsonData['update'],
     );

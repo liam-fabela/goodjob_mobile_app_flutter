@@ -56,8 +56,10 @@ class _WorkerNotificationState extends State<WorkerNotification> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('has sent you a work request',),
-              Text(workerRequests.requested, style: extraTinyFont(),),
+              workerRequests.status == 'pending' ?  Text('has sent you a work request',)
+              :  Text('has send his/her payment',),
+              workerRequests.status == 'pending' ? Text(workerRequests.requested, style: extraTinyFont(),)
+              : Text(workerRequests.updated, style: extraTinyFont(),),
             ],
           ),
         ),

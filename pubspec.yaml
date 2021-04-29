@@ -92,7 +92,9 @@ flutter:
     - assets/images/background.jpg
     - assets/images/pin_small.png
     - assets/images/pin2_small.png
-
+    - assets/images/mastercard.png
+    - assets/images/visa.png
+    - assets/images/empty.png
     
 
 
