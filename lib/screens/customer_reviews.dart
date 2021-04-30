@@ -4,6 +4,8 @@ import '../models/customer_reviews.dart';
 import '../services/services.dart';
 import '../styles/style.dart';
 import '../widget/customer_review_list.dart';
+import 'review_rating_screen.dart';
+
 
 class CustomerReviewScreen extends StatefulWidget {
   static const routeName = '/reviews_screen';
@@ -105,7 +107,15 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
             }
           ),
         ),
-      )
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(23, 129, 181, 1),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> RatingReviewScreen()));
+        },
+      ),
       
     );
   }

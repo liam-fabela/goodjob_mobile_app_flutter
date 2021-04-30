@@ -33,7 +33,7 @@ class _DynamicMapState extends State<DynamicMap> {
    Set<Polyline> _polylines = {};
    List<LatLng> polylineCoordinates = [];
    PolylinePoints polylinePoints = PolylinePoints();
-   String googleAPIKey = "AlzaSyCZtbzMPfA5EUgTi21pOrcJ_qrDqFhP54w";
+   String googleAPIKey = "";
 
    BitmapDescriptor sourceIcon;
    BitmapDescriptor destinationIcon;

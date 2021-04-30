@@ -18,6 +18,9 @@ import '../models/wor_request_display.dart';
 import '../models/wor_accepted.dart';
 import '../models/wor_finished.dart';
 import '../models/event_model.dart';
+import '../models/display_post.dart';
+import '../models/worker_earning.dart';
+import '../models/worker_edit.dart';
 
 class Services {
  // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
@@ -47,6 +50,19 @@ static const url20 = 'https://goodjob-mobile-app.000webhostapp.com/finished_work
 static const url21 = 'https://goodjob-mobile-app.000webhostapp.com/worker_schedule.php';
 static const url22 = 'https://goodjob-mobile-app.000webhostapp.com/all_customer_request.php';
 static const url23 = 'https://goodjob-mobile-app.000webhostapp.com/update_payment.php';
+static const url24 = 'https://goodjob-mobile-app.000webhostapp.com/display_work_post.php';
+static const url25 = 'https://goodjob-mobile-app.000webhostapp.com/insert_post_notif.php';
+static const url26 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_earning.php';
+static const url27 = 'https://goodjob-mobile-app.000webhostapp.com/insert_worker_complaints.php';
+static const url28 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_edit.php';
+static const url29 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker_bio.php';
+static const url30 = 'https://goodjob-mobile-app.000webhostapp.com/add_worker_review.php';
+
+
+
+
+
+
 
 
 
@@ -734,6 +750,178 @@ static Future<void> updatePayment(int jobId, String stat,String update,  double 
     print(error);
   }
 }
+
+
+static Future<List<DisplayPost>> getPost(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url24, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get post: ${response.body}');
+    if(response.statusCode == 200){
+      List displayPost= json.decode(response.body);
+      return displayPost
+        .map((displayPost)=> new DisplayPost.fromJson(displayPost))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
+
+
+static Future<void> insertNotif(int workPostId,int wid, String sent) async{
+ 
+  try{
+    print("FORM SERVICES" + workPostId.toString());
+     var map = Map<String, dynamic>();
+    map['wip'] = workPostId;
+     map['wid'] = wid;
+     map['sent'] = sent;
+
+   final response = await http.post(url25, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get insert response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('notification sent successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    throw(error);
+  }
+}
+
+
+static Future<List<WorkerEarning>> getEarning(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url26, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get earning: ${response.body}');
+    if(response.statusCode == 200){
+      List workerEarning= json.decode(response.body);
+      return workerEarning
+        .map((workerEarning)=> new WorkerEarning.fromJson(workerEarning))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
+static Future<void> insertComplaints(int wid, String com, String date) async{
+ 
+  try{
+    //print("FORM SERVICES" + workPostId.toString());
+     var map = Map<String, dynamic>();
+    map['wid'] = wid;
+     map['comp'] = com;
+     map['date'] = date;
+
+   final response = await http.post(url27, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get insert response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('complaint sent successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    throw(error);
+  }
+}
+
+
+static Future<List<WorkerEdits>> getWorkerEdit(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url28, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker edit: ${response.body}');
+    if(response.statusCode == 200){
+      List workerEdit= json.decode(response.body);
+      return workerEdit
+        .map((workerEdit)=> new WorkerEdits.fromJson(workerEdit))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+}
+
+
+static Future<void> updateBio(int wid, String bio, String profile ,String base64photo) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['wid'] = wid;
+     map['bio'] = bio;
+     map['profile'] = profile;
+      map['real'] = base64photo;
+   final response = await http.post(url29, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> addReview(int cid,int wid, double star, String date) async{
+ 
+  try{
+    //print("FORM SERVICES" + workPostId.toString());
+     var map = Map<String, dynamic>();
+    map['cid'] = cid;
+     map['wid'] = wid;
+     map['star'] = star;
+     map['date'] = date;
+
+
+
+   final response = await http.post(url30, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get insert response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('notification sent successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    throw(error);
+  }
+}
+
 
 }
 

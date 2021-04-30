@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../helper/shared_preferences.dart';
 import 'worker_jobs.dart';
+import '../screens/worker_settings.dart';
 
 class WorkerProfileGrid extends StatelessWidget {
   final int id;
@@ -13,6 +14,11 @@ class WorkerProfileGrid extends StatelessWidget {
   _goToWorks(BuildContext context){
      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerWorks()));
   }
+
+  _goToSettings(BuildContext context){
+     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerSettings()));
+  }
+
 
   Future<void> _logOut(BuildContext context) async {
     // var data = SharedPrefUtils.getPref('user');
@@ -65,6 +71,9 @@ class WorkerProfileGrid extends StatelessWidget {
       onTap: () {
         if (id == 1) {
           _goToWorks(context);
+        }
+        if(id==3){
+          _goToSettings(context);
         }
         if (id == 4) {
           _logOut(context);
