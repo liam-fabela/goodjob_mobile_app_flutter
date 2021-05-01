@@ -39,7 +39,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
   //Position _currentPosition;
   //String _currentAddress;
   
-  Future<TimeOfDay> _presentTimePicker(int source) async {
+     _presentTimePicker(int source) async {
     final now = DateTime.now();
     showTimePicker(context: context, 
     initialTime: TimeOfDay(hour: now.hour, minute: now.minute) ).then((pickedTime) {

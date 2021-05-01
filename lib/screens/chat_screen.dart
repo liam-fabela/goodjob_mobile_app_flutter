@@ -135,12 +135,6 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  _scrollView() {
-    Timer(
-        Duration(milliseconds: 300),
-        () =>
-            scrollController.jumpTo(scrollController.position.maxScrollExtent));
-  }
 
   @override
   Widget build(BuildContext context) {

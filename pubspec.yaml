@@ -49,6 +49,7 @@ dependencies:
   geocoder: ^0.2.1
   lite_rolling_switch: ^0.1.1
   flutter_rating_bar: ^3.2.0
+  rflutter_alert: ^1.0.3
 
 
 

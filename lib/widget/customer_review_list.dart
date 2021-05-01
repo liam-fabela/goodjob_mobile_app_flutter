@@ -39,60 +39,109 @@ class ReviewList extends StatelessWidget {
             ],
           ),
           subtitle: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               customerReviews.rating == '1.0'
-                  ? Icon(Icons.star, size: 20, color: Colors.yellow)
+                  ? Icon(
+                      Icons.thumb_up_rounded,
+                      size: 20,
+                      color: Color.fromRGBO(65, 136, 145, 1),
+                    )
                   : customerReviews.rating == '2.0'
                       ? Row(
                           children: [
-                            Icon(Icons.star, size: 20, color: Colors.yellow),
-                            Icon(Icons.star, size: 20, color: Colors.yellow)
+                            Icon(
+                              Icons.thumb_up_rounded,
+                              size: 20,
+                              color: Color.fromRGBO(65, 136, 145, 1),
+                            ),
+                            Icon(
+                              Icons.thumb_up_rounded,
+                              size: 20,
+                              color: Color.fromRGBO(65, 136, 145, 1),
+                            ),
                           ],
                         )
                       : customerReviews.rating == '3.0'
                           ? Row(
                               children: [
-                                Icon(Icons.star,
-                                    size: 20, color: Colors.yellow),
-                                Icon(Icons.star,
-                                    size: 20, color: Colors.yellow),
-                                Icon(Icons.star,
-                                    size: 20, color: Colors.yellow),
+                                Icon(
+                                  Icons.thumb_up_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(65, 136, 145, 1),
+                                ),
+                                Icon(
+                                  Icons.thumb_up_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(65, 136, 145, 1),
+                                ),
+                                Icon(
+                                  Icons.thumb_up_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(65, 136, 145, 1),
+                                ),
                               ],
                             )
                           : customerReviews.rating == '4.0'
                               ? Row(
                                   children: [
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
                                   ],
                                 )
                               : Row(
                                   children: [
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
-                                    Icon(Icons.star,
-                                        size: 20, color: Colors.yellow),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
+                                    Icon(
+                                      Icons.thumb_up_rounded,
+                                      size: 20,
+                                      color: Color.fromRGBO(65, 136, 145, 1),
+                                    ),
                                   ],
                                 ),
               Container(
                 padding: EdgeInsets.all(10),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(customerReviews.review, style: reviewStyle()),
+                      Text(customerReviews.review, style: reviewStyle(),),
                     ]),
               ),
             ],

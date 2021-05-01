@@ -33,7 +33,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
   var _isLoading = false;
   TimeOfDay t1;
   TimeOfDay t2;
-   Future<TimeOfDay> _presentTimePicker(int source) async {
+   _presentTimePicker(int source) async {
     final now = DateTime.now();
     showTimePicker(context: context, 
     initialTime: TimeOfDay(hour: now.hour, minute: now.minute) ).then((pickedTime) {
@@ -105,7 +105,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
 
   _sendRequest(int wid, int cid, int cat, String date, String time, String time2,
       String location, String details, String budg, String choice) async {
-        String id = wid.toString();
+       // String id = wid.toString();
     setState(() {
       _isLoading = true;
     });

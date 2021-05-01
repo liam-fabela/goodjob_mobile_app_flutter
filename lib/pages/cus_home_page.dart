@@ -32,6 +32,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
     var id = await SharedPrefUtils.getUser('userId');
     String cus = id.toString();
     cid = int.parse(cus);
+    UserProfile.dbUser = cid;
   }
 
   void _createPost(BuildContext context, int id) {

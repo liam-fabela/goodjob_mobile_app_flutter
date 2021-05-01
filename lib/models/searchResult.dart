@@ -8,6 +8,8 @@ class SearchResults{
   String docImg;
   String profile;
   String uid;
+  String catId;
+  String catType;
   
   SearchResults({
     this.id,
@@ -19,6 +21,8 @@ class SearchResults{
     this.docImg,
     this.profile,
     this.uid,
+    this.catId,
+    this.catType,
     
     });
 
@@ -33,10 +37,11 @@ class SearchResults{
         //https://goodjob-mobile-app.000webhostapp.com/
         //http://192.168.18.69/system/template/mobile-web-images/
         //http://192.168.18.69/system/db_php/
-        docImg: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['doc_img'],
-        profile: "https://goodjob-mobile-app.000webhostapp.com/doc_img/"+jsonData['profile'],
+        docImg: "https://goodjob-mobile-app.000webhostapp.com/doc_img/"+jsonData['doc_img'],
+        profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['display_photo'],
         uid: jsonData['uid'],
-
+        catId: jsonData['catId'],
+        catType: jsonData['catType'],
 
       );
 

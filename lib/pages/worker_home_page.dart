@@ -18,7 +18,7 @@ class WorkerHomePage extends StatefulWidget {
 }
 
 class _WorkerHomePageState extends State<WorkerHomePage> {
-  var _isLoading = false;
+  bool _isLoading;
   int wid;
    Future<int> tem;
   @override

@@ -165,6 +165,15 @@ TextStyle pending() {
   );
 }
 
+TextStyle paid() {
+  return TextStyle(
+    color: Colors.black,
+    fontSize: 14,
+    fontFamily: 'Raleway',
+    fontWeight: FontWeight.bold,
+  );
+}
+
 TextStyle accepted() {
   return TextStyle(
     color: Colors.green,

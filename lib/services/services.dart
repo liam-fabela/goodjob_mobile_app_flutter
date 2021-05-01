@@ -513,10 +513,11 @@ double budget, String type, String createdOn, String status) async{
 
 }
 
-static Future<List<SearchResults>> searchWorker(String search)async{
+static Future<List<SearchResults>> searchWorker(String search, String filter)async{
   try{
     var map = Map<String, dynamic>();
     map['searchKey'] = search;
+     map['filter'] = filter;
 
     final response = await http.post(url13, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get search response: ${response.body}');
@@ -532,7 +533,7 @@ static Future<List<SearchResults>> searchWorker(String search)async{
 
 
   }catch(error){
-    print(error);
+    print(error.toString());
      throw(error);
 
   }
@@ -895,7 +896,7 @@ static Future<void> updateBio(int wid, String bio, String profile ,String base64
   }
 }
 
-static Future<void> addReview(int cid,int wid, double star, String date) async{
+static Future<void> addReview(int cid,int wid, double star,String review, String date) async{
  
   try{
     //print("FORM SERVICES" + workPostId.toString());
@@ -903,7 +904,8 @@ static Future<void> addReview(int cid,int wid, double star, String date) async{
     map['cid'] = cid;
      map['wid'] = wid;
      map['star'] = star;
-     map['date'] = date;
+     map['rev'] = review;
+     map['rdate'] = date;
 
 
 

@@ -38,6 +38,7 @@ class _CustomerRequestListState extends State<CustomerRequestList> {
                           child: customerRequests.status == 'pending' ? Icon(Icons.hourglass_top_rounded, size: 30)
                           : customerRequests.status == 'accepted' ? Icon(Icons.check_circle_outline_outlined, size: 30)
                           : customerRequests.status == 'done' ?  Icon(Icons.check_circle, size: 30)
+                          : customerRequests.status == 'paid' ? Icon(Icons.credit_card, size: 30)
                           :  Icon(Icons.cancel_outlined, size: 30)
                         ),
                       ),
@@ -62,6 +63,7 @@ class _CustomerRequestListState extends State<CustomerRequestList> {
                     Text("Status: "+customerRequests.status, style: customerRequests.status == 'pending' ? pending()
                     : customerRequests.status == 'accepted' ? accepted()
                     : customerRequests.status == 'done' ? done()
+                    : customerRequests.status == 'paid' ? paid()
                     : declined(),
                     ),
           ],),
