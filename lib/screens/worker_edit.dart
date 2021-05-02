@@ -20,12 +20,23 @@ class WorkerEdit extends StatefulWidget {
 class _WorkerEditState extends State<WorkerEdit> {
   final _formKey = GlobalKey<FormState>();
   String bio;
+  String zone;
+  String brgy;
+  String pass;
   File _pickedImage;
   //File _storedImage;
   String filePhoto;
   String real64;
    var _isLoading = false;
   //TextEditingController _bio = TextEditingController();
+  //
+  @override
+  void initState() {
+    filePhoto="";
+    real64="";
+    // TODO: implement initState
+    super.initState();
+  }
 
    void _selectImage(File pickedImage, String fileName) {
      filePhoto = fileName;
@@ -62,7 +73,8 @@ class _WorkerEditState extends State<WorkerEdit> {
             List<WorkerEdits> workerEdit = snapshot.data;
             if(workerEdit.isNotEmpty){
               return Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                padding: EdgeInsets.all(10),
+                height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
                   itemCount: workerEdit.length,
                   itemBuilder: (context, int index){
@@ -86,7 +98,8 @@ class _WorkerEditState extends State<WorkerEdit> {
                     fit: BoxFit.cover,
                     width: double.infinity,
                   )
-                :Image.network(workerEdit[index].profile),
+                :Image.network(workerEdit[index].profile, fit: BoxFit.cover,
+                    width: double.infinity,),
               ),
             ),
 
@@ -103,11 +116,60 @@ class _WorkerEditState extends State<WorkerEdit> {
                     //controller: _bio,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
+                      labelText: 'About',
                       hintText: 'Write your bio',
+                      fillColor: Colors.white,
+                      filled: true,
                     ),
-                  maxLines: 5,
+                  maxLines: 3,
                   onSaved: (String value){
                     bio = value;
+                  },
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                     initialValue: workerEdit[index].zone,
+                    //controller: _bio,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Zone',
+                      hintText: '',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                  onSaved: (String value){
+                    zone = value;
+                  },
+                  ),
+                   SizedBox(height: 10),
+                  TextFormField(
+                     initialValue: workerEdit[index].barangay,
+                    //controller: _bio,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Barangay',
+                      hintText: '',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                  onSaved: (String value){
+                    brgy = value;
+                  },
+                  ),
+                   SizedBox(height: 10),
+                  TextFormField(
+                     initialValue: workerEdit[index].password,
+                    //controller: _bio,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      hintText: '',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    obscureText: true,
+                  onSaved: (String value){
+                    pass = value;
                   },
                   ),
                   //Icon(Icons.edit, size: 15),
@@ -117,14 +179,16 @@ class _WorkerEditState extends State<WorkerEdit> {
             SizedBox(height: 30),
             GestureDetector(
                               onTap: () async{
+                                
                                 ProgressDialog dialog = new ProgressDialog(context);
               dialog.style(
                 message: 'Updating profile...',
               );
               await dialog.show();
                                 _formKey.currentState.save();
-                                await Services.updateBio(widget.wid, bio, filePhoto, real64).then((val){
-                                  setState(() {
+              if(filePhoto == "" && real64 == "") { 
+                  await Services.updateBio2(widget.wid, bio,zone, brgy, pass ).then((val){
+                  setState(() {
                   _isLoading = false;
                 });
                 dialog.hide();
@@ -140,12 +204,31 @@ class _WorkerEditState extends State<WorkerEdit> {
                     fontSize: 14);
                                 });
 
+                              }else{
+                                 await Services.updateBio(widget.wid, bio, filePhoto, real64, zone, brgy, pass ).then((val){
+                                  setState(() {
+                  _isLoading = false;
+                });
+                dialog.hide();
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg:
+                        "Success!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                    textColor: Colors.white,
+                    fontSize: 14);
+                                });
+                                
+                              }
                               },
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 8,
+                                  vertical: 15,
                                 ),
                                 decoration: BoxDecoration(
                                    color: Color.fromRGBO(62, 135, 148, 1),
@@ -171,6 +254,7 @@ class _WorkerEditState extends State<WorkerEdit> {
             } 
           } else if (snapshot.hasError) {
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(

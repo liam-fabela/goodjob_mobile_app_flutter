@@ -21,11 +21,11 @@ import '../models/event_model.dart';
 import '../models/display_post.dart';
 import '../models/worker_earning.dart';
 import '../models/worker_edit.dart';
+import '../models/get_worker_docu.dart';
+
 
 class Services {
- // static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
- // static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
- 
+
 
 static const url = 'https://goodjob-mobile-app.000webhostapp.com/db_actions.php';
 static const url2 = 'https://goodjob-mobile-app.000webhostapp.com/login.php';
@@ -57,6 +57,8 @@ static const url27 = 'https://goodjob-mobile-app.000webhostapp.com/insert_worker
 static const url28 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_edit.php';
 static const url29 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker_bio.php';
 static const url30 = 'https://goodjob-mobile-app.000webhostapp.com/add_worker_review.php';
+static const url31 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker_bio2.php';
+static const url32 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_docu.php';
 
 
 
@@ -779,12 +781,13 @@ static Future<List<DisplayPost>> getPost(int wid) async{
 
 
 
-static Future<void> insertNotif(int workPostId,int wid, String sent) async{
+static Future<void> insertNotif(int workPostId,int cid, int wid, String sent) async{
  
   try{
     print("FORM SERVICES" + workPostId.toString());
      var map = Map<String, dynamic>();
     map['wip'] = workPostId;
+    map['cid'] = cid;
      map['wid'] = wid;
      map['sent'] = sent;
 
@@ -876,14 +879,38 @@ static Future<List<WorkerEdits>> getWorkerEdit(int wid) async{
 }
 
 
-static Future<void> updateBio(int wid, String bio, String profile ,String base64photo) async{
+static Future<void> updateBio(int wid, String bio, String profile ,String base64photo, String zone, String brgy, String pass) async{
   try{
      var map = Map<String, dynamic>();
      map['wid'] = wid;
      map['bio'] = bio;
      map['profile'] = profile;
       map['real'] = base64photo;
+      map['zon'] = zone;
+      map['brgy'] = brgy;
+      map['pass'] = pass;
    final response = await http.post(url29, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> updateBio2(int wid, String bio, String zone, String brgy, String pass) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['wid'] = wid;
+     map['bio'] = bio;
+      map['zon'] = zone;
+      map['brgy'] = brgy;
+      map['pass'] = pass;
+   final response = await http.post(url31, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get UPDATE response: ${response.body}');
    if(response.statusCode == 200) {
     print('Updated successfully');
@@ -924,6 +951,27 @@ static Future<void> addReview(int cid,int wid, double star,String review, String
   }
 }
 
+static Future<List<WorkerDocu>> getWorkeDocu(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url32, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker edit: ${response.body}');
+    if(response.statusCode == 200){
+      List workerDocu= json.decode(response.body);
+      return workerDocu
+        .map((workerDocu)=> new WorkerDocu.fromJson(workerDocu))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+}
 
 }
 

@@ -60,11 +60,14 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             future: tem,
               builder: (context, snapshot){
                         if(snapshot.connectionState != ConnectionState.done){
-                           return Center(
-                            child: SpinKitSquareCircle(
-                                color: Color.fromRGBO(62, 135, 148, 1),
-                                size: 50.0),
-                          );
+                           return Padding(
+                             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
+                             child: Center(
+                              child: SpinKitSquareCircle(
+                                  color: Color.fromRGBO(62, 135, 148, 1),
+                                  size: 50.0),
+                          ),
+                           );
                         }
                         final cust = snapshot.data.toString();
                         final custId = int.parse(cust);

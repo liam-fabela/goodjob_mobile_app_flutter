@@ -355,3 +355,30 @@ Widget shimmerEffect(BuildContext context) {
     highlightColor: Color.fromRGBO(62, 135, 148, 1),
   );
 }
+
+Widget shimmer2(BuildContext context){
+   return Shimmer.fromColors(
+     child: Expanded(
+       flex: 50,
+     child:Container(
+         height: MediaQuery.of(context).size.height * 0.4,
+        padding: EdgeInsets.all(15),
+    child:Column(
+         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                             width: MediaQuery.of(context).size.width * 0.4,
+                          ),
+                          
+                        
+                        ],
+                      ),
+     ),
+       ),
+    baseColor: Colors.white,
+    highlightColor: Color.fromRGBO(62, 135, 148, 1),
+   
+  );
+}

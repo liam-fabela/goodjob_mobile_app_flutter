@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ntp/ntp.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import '../models/display_post.dart';
 import '../styles/style.dart';
@@ -18,6 +20,7 @@ class WorkerHomePage extends StatefulWidget {
 }
 
 class _WorkerHomePageState extends State<WorkerHomePage> {
+  static const url = 'https://goodjob-mobile-app.000webhostapp.com/check_application.php';
   bool _isLoading;
   int wid;
    Future<int> tem;
@@ -42,7 +45,40 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
     wid = int.parse(cus);
   }
 
-  _notifyCustomer(BuildContext context, int workPostId, int wid) async{
+Future<String> _checkApp(BuildContext context,int wid)async{
+     try {
+        setState(() {
+          _isLoading = true;
+        });
+        print("gisulod dne");
+        var map = Map<String, dynamic>();
+        map["wid"] = wid;
+
+        http.Response response = await http.post(url,
+            body: jsonEncode(map),
+            headers: {'Content-type': 'application/json'});
+        print('Login Response: ${response.body}');
+
+        if (200 == response.statusCode) {
+          print(response.body);
+          var data = json.decode(response.body);
+          if(data["status"] == 'Success!'){
+           return data["status"];
+            //('ok');
+          }else{
+           
+              return data["status"];
+          }
+        }
+         
+      } catch (e) {
+        print(e);
+        throw (e);
+      }
+    } 
+
+
+  _notifyCustomer(BuildContext context , int id, int cid, int wid) async{
     return await showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -67,7 +103,10 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
               await dialog.show();
               var _myTime = await NTP.now();
               String updated = _myTime.toString();
-             Services.insertNotif(workPostId, wid, updated).then((val){
+             _checkApp(context,wid).then((val){
+               if(val.toString() == 'ok'){
+                 Services.insertNotif(id,cid, wid, updated).then((val){
+
                 setState(() {
                   _isLoading = false;
                 });
@@ -75,7 +114,7 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                 Navigator.pop(context);
                 Fluttertoast.showToast(
                     msg:
-                        "Success!",
+                       'Success!',
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 2,
@@ -83,8 +122,27 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                     textColor: Colors.white,
                     fontSize: 14);
 
-             });
+            
                
+             });
+               }else{
+                 setState(() {
+                  _isLoading = false;
+                });
+                 dialog.hide();
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg:
+                       'You already applied!',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                    textColor: Colors.white,
+                    fontSize: 14);
+               }
+                
+             });
           
             },
           ),
@@ -161,7 +219,8 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                               onTap: ()async{
                                 int id = int.parse(displayPost.workPostId);
                                 print("FROM ON TAP" +id.toString());
-                                 _notifyCustomer(context,id, wid );
+                                int cid = int.parse(displayPost.customerId);
+                                _notifyCustomer(context, id,cid, wid);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -416,14 +475,18 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                                     style: mediumTextStyle(),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           );
                         }
-                        return Center(
+                        return Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2
+                          ),
+                        child: Center(
                           child: SpinKitSquareCircle(
                               color: Color.fromRGBO(62, 135, 148, 1),
                               size: 50.0),
+                        ),
                         );
                       },
                     ),
