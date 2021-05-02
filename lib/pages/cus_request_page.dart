@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../widget/customer_notification.dart';
 import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
-
+import '../screens/customer_notifs_tab.dart';
 
 class CustomerRequestPage extends StatefulWidget {
   @override
@@ -22,14 +22,7 @@ class _CustomerRequestPageState extends State<CustomerRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar( title: Text(
-          'Notifications',
-      style: mediumTextStyle(),
-    ),
-    automaticallyImplyLeading: false,
-    ),
-      body: Container(
+    return Container(
         height: MediaQuery.of(context).size.height,
         color: Color.fromRGBO(170, 225, 227, 0.3),
         child: Center(
@@ -67,12 +60,11 @@ class _CustomerRequestPageState extends State<CustomerRequestPage> {
                           }
                           final cus= snapshot.data.toString();
                           final cusId = int.parse(cus);
-                          return CustomerNotifications(cusId);
+                          return NotificationTab(cusId);
                         
             }
           ),
         ),
-      ),
-    );
+      );
   }
 }

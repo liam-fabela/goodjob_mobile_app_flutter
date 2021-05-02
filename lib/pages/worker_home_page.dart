@@ -24,6 +24,7 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
   @override
   void initState() {
     tem = SharedPrefUtils.getUser('userId');
+    print("TEM :" + tem.toString());
     _getData();
     _getWortId();
     super.initState();
@@ -233,11 +234,11 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                         final custId = int.parse(cust);
                         UserProfile.dbUser = custId;
                      return FutureBuilder<List<WorkerEarning>>(
-                      future: Services.getEarning(custId),
+                      future: Services.getEarning(wid),
                       builder:  (context, snapshot) {
                         if (snapshot.hasData) {
-                          List<WorkerEarning> workerEarning = snapshot.data;
-                          if(workerEarning.isEmpty){
+                        List<WorkerEarning> workerEarning = snapshot.data;
+                        if(workerEarning.isEmpty){
                             return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,24 +249,25 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                           SizedBox(height: 10),
                         ],
                       );
-                          }else{
-                            List<WorkerEarning> workerEarning = snapshot.data;
-                            return ListView.builder(
+                      }
+                        return ListView.builder(
                               itemCount: workerEarning.length,
                               itemBuilder:(context, int index){
-                                return  Column(
+                          return  Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('My Earnings', style: largeFont()),
                           SizedBox(height: 10),
-                          Text("Php " + workerEarning[index].earnings, style: largeFont()),
+                          Text(workerEarning[index].earnings == null ? "Php 0.00"
+                          :"Php " + workerEarning[index].earnings, style: largeFont()),
                           SizedBox(height: 10),
-                          Text("As of " + workerEarning[index].updated, style: tinyFont()),
+                          Text(workerEarning[index].updated == null ? ""
+                          :"As of " + workerEarning[index].updated, style: tinyFont()),
                         ],
                       );
                                 });
-                          }
+                          
                         }else if (snapshot.hasError) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -353,7 +355,8 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                                 Image.asset(
                                   'assets/images/empty.png',
                                   width:
-                                      MediaQuery.of(context).size.width * 0.2,
+                                      MediaQuery.of(context).size.width * 0.8,
+                                 // height: MediaQuery.of(context).size.height * 0.5,
                                 ),
                                 SizedBox(height: 10),
                                 Text('No work posts found',

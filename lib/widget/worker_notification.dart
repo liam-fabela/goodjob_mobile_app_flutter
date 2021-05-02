@@ -78,7 +78,7 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.person,
+                            Icons.notifications,
                             size: 50,
                             color: Colors.white,
                           ),
