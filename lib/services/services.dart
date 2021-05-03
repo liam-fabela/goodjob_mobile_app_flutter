@@ -59,6 +59,8 @@ static const url29 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker
 static const url30 = 'https://goodjob-mobile-app.000webhostapp.com/add_worker_review.php';
 static const url31 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker_bio2.php';
 static const url32 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_docu.php';
+static const url33 = 'https://goodjob-mobile-app.000webhostapp.com/upgrade_credibility.php';
+
 
 
 
@@ -970,6 +972,27 @@ static Future<List<WorkerDocu>> getWorkeDocu(int wid) async{
   }catch(error){
     print(error);
     throw(error);
+  }
+}
+
+static Future<void> updateDocu(int wid, int doc, String docu ,String base64) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['wid'] = wid;
+     map['docId'] = doc;
+     map['docu'] = docu;
+      map['real'] = base64photo;
+
+   final response = await http.post(url33, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
   }
 }
 

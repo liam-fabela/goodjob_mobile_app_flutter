@@ -79,8 +79,8 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                             onTap: () => _startAddPhoto(context),
                             child: Container(
                               alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.height * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 1,
@@ -119,8 +119,35 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                                     cat = value;
                                   },
                                 ),
+                                SizedBox(height: 15),
                                 GestureDetector(
-                                  onTap: (){},
+                                  onTap: ()async{ 
+
+                                      ProgressDialog dialog = new ProgressDialog(context);
+              dialog.style(
+                message: 'Updating document...',
+              );
+              await dialog.show();
+                                _formKey.currentState.save();
+                                    Services.updateDocu(widget.wid, workerDocu.docId, filePhoto, real64).then((val){
+                                      setState(() {
+                  _isLoading = false;
+                });
+                dialog.hide();
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg:
+                        "Success!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                    textColor: Colors.white,
+                    fontSize: 14);
+                                });
+
+                                    });
+                                  },
                                     child: Container(
                                     alignment: Alignment.center,
                                     width:
@@ -151,7 +178,54 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                 ),
               );
             }
-          }
+          }else if (snapshot.hasError) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.wifi_off_outlined,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                              SizedBox(height: 15),
+                              Text(
+                                'Connection error.',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(62, 135, 148, 1),
+                                  fontSize: 12,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 15),
+                              GestureDetector(
+                                onTap: () {
+                                  // _refreshData(widget.id);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(62, 135, 148, 1),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Try Again',
+                                    style: mediumTextStyle(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+        }
+        return loadingScreen(context, 'loading...');
+     
         },
       ),
     );
