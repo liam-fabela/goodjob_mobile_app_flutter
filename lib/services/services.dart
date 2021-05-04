@@ -22,6 +22,7 @@ import '../models/display_post.dart';
 import '../models/worker_earning.dart';
 import '../models/worker_edit.dart';
 import '../models/get_worker_docu.dart';
+import '../models/total_star.dart';
 
 
 class Services {
@@ -60,6 +61,8 @@ static const url30 = 'https://goodjob-mobile-app.000webhostapp.com/add_worker_re
 static const url31 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker_bio2.php';
 static const url32 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_docu.php';
 static const url33 = 'https://goodjob-mobile-app.000webhostapp.com/upgrade_credibility.php';
+static const url34 = 'https://goodjob-mobile-app.000webhostapp.com/star_rating.php';
+
 
 
 
@@ -981,7 +984,7 @@ static Future<void> updateDocu(int wid, int doc, String docu ,String base64) asy
      map['wid'] = wid;
      map['docId'] = doc;
      map['docu'] = docu;
-      map['real'] = base64photo;
+      map['real'] = base64;
 
    final response = await http.post(url33, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get UPDATE response: ${response.body}');
@@ -994,6 +997,30 @@ static Future<void> updateDocu(int wid, int doc, String docu ,String base64) asy
   }catch(error){
     print(error);
   }
+}
+
+static Future<List<TotalStar>> getTotalRating(int wid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['wid'] = wid;
+
+    final response = await http.post(url34, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get worker display: ${response.body}');
+    if(response.statusCode == 200){
+      List totalStar= json.decode(response.body);
+      return totalStar
+        .map((totalStar)=> new TotalStar.fromJson(totalStar))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
 }
 
 }

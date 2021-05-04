@@ -5,8 +5,6 @@ import '../helper/shared_preferences.dart';
 //import '../helper/authenticate.dart';
 import '../helper/firebase_user.dart';
 
-
-
 class CustomerGridItem extends StatelessWidget {
 
   final int id;
@@ -54,6 +52,9 @@ class CustomerGridItem extends StatelessWidget {
       ),
     );
   }
+
+
+ 
 
   @override
   Widget build(BuildContext context) {

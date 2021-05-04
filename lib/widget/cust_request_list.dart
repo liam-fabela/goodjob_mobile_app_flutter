@@ -55,9 +55,9 @@ class _CustomerRequestListState extends State<CustomerRequestList> {
                      SizedBox(height: 5),
                      Row(
                        children: [
-                         Text('${formatTime(customerRequests.startTime).hour} : ${formatTime(customerRequests.startTime).minute}', style:  addressStyle(),),
+                         Text(customerRequests.startTime, style:  addressStyle(),),
                          Text(customerRequests.endTime == null ? '' : '-'),
-                         Text(customerRequests.endTime == null ? '' :'${formatTime(customerRequests.endTime).hour} : ${formatTime(customerRequests.endTime).minute}', style: addressStyle(),),
+                         Text(customerRequests.endTime == null ? '' : customerRequests.endTime, style: addressStyle(),),
                        ],
                      ),
                     Text("Status: "+customerRequests.status, style: customerRequests.status == 'pending' ? pending()

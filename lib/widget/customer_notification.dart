@@ -72,7 +72,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
         padding: EdgeInsets.all(15),
         child: ListTile(
           onTap: (){
-            if( customerRequests.reason == 'n/a'){
+            if( customerRequests.status == 'done'){
               
               var route = MaterialPageRoute(
                 builder: (BuildContext context) => PaymentUi(value: customerRequests),
@@ -80,8 +80,10 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
               );
               Navigator.of(context).push(route);
               // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUi(customerRequests)),);
-            }else{
+            }else if(customerRequests.status == 'declined'){
            _showMessage(context, customerRequests.reason);
+            }else{
+              return;
             }
           },
          leading: CircleAvatar(

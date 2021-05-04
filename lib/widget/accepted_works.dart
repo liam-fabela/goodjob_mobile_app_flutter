@@ -26,7 +26,8 @@ class AcceptedWorksPage extends StatefulWidget {
 class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
   var _isLoading = false;
   TextEditingController workHour = TextEditingController();
-
+  PermissionStatus _permissionGranted;
+  Location loc = new Location();
   
 
    void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
@@ -44,6 +45,13 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
     setState(() {
       _isLoading = true;
     });
+    _permissionGranted = await loc.requestPermission();
+    if(_permissionGranted != PermissionStatus.GRANTED){
+       setState(() {
+      _isLoading = false;
+    });
+      return;
+    }
     final query = location;
     var add = await Geocoder.local.findAddressesFromQuery(query);
     var first = add.first;
@@ -227,226 +235,272 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
   }
 
   listWidget(BuildContext context, WorkerAcceptedRequests workerRequest) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
-        padding: EdgeInsets.only(
-          top: 30,
-          left: 10,
-          right: 10,
+    return Dismissible(
+      key: ValueKey(workerRequest.jobId),
+       background: Container(
+        color: Theme.of(context).errorColor,
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
+          size: 40,
         ),
-        color: Colors.white,
-        child: Column(
-          children: [
-            Expanded(
-                flex: 65,
-                child: Container(
-                child: ListTile(
-                  
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: NetworkImage(workerRequest.profile),
-                    backgroundColor: Color.fromRGBO(75, 210, 178, 1),
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 20),
+        margin: EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 4,
+        ),
+      ),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text(
+                  'Do you want to remove the item from the cart?',
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(true);
+                    },
+                  ),
+                ],
+              ),
+        );
+      },
+      onDismissed: (direction) {
+       
+      },
+          child: Card(
+        elevation: 5,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.6,
+          padding: EdgeInsets.only(
+            top: 30,
+            left: 10,
+            right: 10,
+          ),
+          color: Colors.white,
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 65,
+                  child: Container(
+                  child: ListTile(
+                    
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(workerRequest.profile),
+                      backgroundColor: Color.fromRGBO(75, 210, 178, 1),
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                      ),
+                    ),
+                    title: Text(workerRequest.category, style: profileName()),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                         Text("Customer: " + workerRequest.fname + " " + workerRequest.lname, style: addressStyle4()),
+                        Text("Date: " + workerRequest.date, style: addressStyle4()),
+                        Row(
+                          children: [
+                            Text("Time: ", style: addressStyle4()),
+                            Text(workerRequest.startTime, style:  addressStyle4()),
+                            Text(workerRequest.endTime == null ? " "
+                            : " - " + workerRequest.endTime,
+                            style: addressStyle4(),
+                            ),
+                          ],
+                        ),
+                        Text("Location: " +workerRequest.location, style: addressStyle4()),
+                        Text("Budget: " + workerRequest.budget + "/" + workerRequest.type,style: addressStyle4()),
+                        SizedBox(height: 5),
+                        Text("Details: ",style: addressStyle4()),
+                        Text(workerRequest.details, style: addressStyle4()),
+                      ],
                     ),
                   ),
-                  title: Text(workerRequest.category, style: profileName()),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                       Text("Customer: " + workerRequest.fname + " " + workerRequest.lname, style: addressStyle4()),
-                      Text("Date: " + workerRequest.date, style: addressStyle4()),
-                      Row(
+                ),
+              ),
+              Divider(),
+              Expanded(
+                flex: 35,
+                child: Column(
+                  children:[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25.0, left: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                      Column(
                         children: [
-                          Text("Time: ", style: addressStyle4()),
-                          Text(workerRequest.startTime, style:  addressStyle4()),
-                          Text(workerRequest.endTime == null ? " "
-                          : " - " + workerRequest.endTime,
-                          style: addressStyle4(),
-                          ),
+                          GestureDetector(
+                            onTap: (){
+                              String id = widget.wid.toString();
+                              _sendMessage(context, workerRequest.lname, workerRequest.fname, workerRequest.uid, id, workerRequest.profile);
+                            },
+                             child: Icon(
+                                    Icons.messenger_outline,
+                                    size: MediaQuery.of(context).size.width * 0.08,
+                                    color: Color.fromRGBO(36, 121, 138, 1),
+                                  ),
+                                ),
+                                Text(
+                                  'Message',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: 'Raleway',
+                                    color: const Color.fromRGBO(62, 135, 148, 1),
+                                  ),
+                                ),
                         ],
                       ),
-                      Text("Location: " +workerRequest.location, style: addressStyle4()),
-                      Text("Budget: " + workerRequest.budget + "/" + workerRequest.type,style: addressStyle4()),
-                      SizedBox(height: 5),
-                      Text("Details: ",style: addressStyle4()),
-                      Text(workerRequest.details, style: addressStyle4()),
+                      Column(
+                        children: [
+                          GestureDetector(
+                            onTap:(){
+                              _getCurrentUserLocation(context, workerRequest.location);
+                            },
+                           child: Icon(
+                                    Icons.map,
+                                    size: MediaQuery.of(context).size.width * 0.08,
+                                    color: Color.fromRGBO(36, 121, 138, 1),
+                                  ),
+                                ),
+                                Text(
+                                  'View Map',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: 'Raleway',
+                                    color: const Color.fromRGBO(62, 135, 148, 1),
+                                  ),
+                                ),
+                        ],
+                      ),
+                      
+                    ]),
+                  ),
+                   Divider(),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 8.0),
+                        child: Container(
+                          //alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                            onTap: () {
+                              int id = int.parse(workerRequest.jobId);
+
+                              showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text('Work finished.', style: TextStyle(color: Colors.black),),
+                  content: SingleChildScrollView(child:ListBody(children: [
+                     Text('Are you sure you want to submit your work as done?'),
+                  ],)),
+                  actions: <Widget>[
+                   
+                    TextButton(
+                      child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                      onPressed: () {
+                       if(workerRequest.type == 'per work'){
+                                _updateStatus(id);
+                              }else{
+                                _showPerHour(context, id);
+                              }
+                             
+                        
+                      },
+                    ),
+                     TextButton(
+                      child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                      onPressed: () {
+                         Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+            ),
+           );
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(62, 135, 148, 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'Mark as Done',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    workerRequest.type == 'per hour' ?  Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 8.0),
+                        child: Container(
+                          //alignment: Alignment.bottomCenter,
+                          child: GestureDetector(
+                            onTap: () {
+               //               var route = MaterialPageRoute(
+              //  builder: (BuildContext context) =>
+              //    WorkerTimer(value: workerRequest),
+                 
+              //);
+              // Navigator.of(context).push(route);
+                              int id = int.parse(workerRequest.jobId);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => WorkerTimer(id)));
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(80, 152, 179, 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'Use timer',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ) : Container(),
                     ],
                   ),
-                ),
-              ),
-            ),
-            Divider(),
-            Expanded(
-              flex: 35,
-              child: Column(
-                children:[
-                Padding(
-                  padding: const EdgeInsets.only(right: 25.0, left: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:[
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            String id = widget.wid.toString();
-                            _sendMessage(context, workerRequest.lname, workerRequest.fname, workerRequest.uid, id, workerRequest.profile);
-                          },
-                           child: Icon(
-                                  Icons.messenger_outline,
-                                  size: MediaQuery.of(context).size.width * 0.08,
-                                  color: Color.fromRGBO(36, 121, 138, 1),
-                                ),
-                              ),
-                              Text(
-                                'Message',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: 'Raleway',
-                                  color: const Color.fromRGBO(62, 135, 148, 1),
-                                ),
-                              ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap:(){
-                            _getCurrentUserLocation(context, workerRequest.location);
-                          },
-                         child: Icon(
-                                  Icons.map,
-                                  size: MediaQuery.of(context).size.width * 0.08,
-                                  color: Color.fromRGBO(36, 121, 138, 1),
-                                ),
-                              ),
-                              Text(
-                                'View Map',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: 'Raleway',
-                                  color: const Color.fromRGBO(62, 135, 148, 1),
-                                ),
-                              ),
-                      ],
-                    ),
-                    
-                  ]),
-                ),
-                 Divider(),
-                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 8.0),
-                      child: Container(
-                        //alignment: Alignment.bottomCenter,
-                        child: GestureDetector(
-                          onTap: () {
-                            int id = int.parse(workerRequest.jobId);
-
-                            showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Work finished.', style: TextStyle(color: Colors.black),),
-                content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Are you sure you want to submit your work as done?'),
-                ],)),
-                actions: <Widget>[
-                 
-                  TextButton(
-                    child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                     if(workerRequest.type == 'per work'){
-                              _updateStatus(id);
-                            }else{
-                              _showPerHour(context, id);
-                            }
-                           
-                      
-                    },
-                  ),
-                   TextButton(
-                    child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                    onPressed: () {
-                       Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-          ),
-         );
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(62, 135, 148, 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'Mark as Done',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  workerRequest.type == 'per hour' ?  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 8.0),
-                      child: Container(
-                        //alignment: Alignment.bottomCenter,
-                        child: GestureDetector(
-                          onTap: () {
-             //               var route = MaterialPageRoute(
-            //  builder: (BuildContext context) =>
-            //    WorkerTimer(value: workerRequest),
-               
-            //);
-            // Navigator.of(context).push(route);
-                            int id = int.parse(workerRequest.jobId);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => WorkerTimer(id)));
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(80, 152, 179, 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'Use timer',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ) : Container(),
                   ],
                 ),
-                ],
               ),
-            ),
-          ],
+            ],
+          ),
+         
         ),
-       
       ),
     );
   }

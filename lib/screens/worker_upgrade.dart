@@ -20,15 +20,22 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
   final _formKey = GlobalKey<FormState>();
   String cat;
   File _pickedImage;
+  int choice;
   //File _storedImage;
   String filePhoto;
   String real64;
   var _isLoading = false;
-
+  var _value = false;
+  int val;
+  int selectedRadioTile;
   @override
   void initState() {
     filePhoto = "";
     real64 = "";
+    setState(() {
+       selectedRadioTile = 0;
+    });
+   
     // TODO: implement initState
     super.initState();
   }
@@ -71,6 +78,7 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                 child: ListView.builder(
                   itemCount: workerDocu.length,
                   itemBuilder: (context, int index) {
+                   
                     return Container(
                       padding: EdgeInsets.all(15),
                       child: Column(
@@ -101,74 +109,100 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                           ),
                           Divider(),
                           SizedBox(height: 20),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  initialValue: workerDocu[index].docType,
-                                  //controller: _bio,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Document Name',
-                                    hintText: 'Write your bio',
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                  onSaved: (String value) {
-                                    cat = value;
-                                  },
-                                ),
-                                SizedBox(height: 15),
-                                GestureDetector(
-                                  onTap: ()async{ 
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("Set document type: " , style: profileName()),
+                              RadioListTile(
+                                value: 3,
+                                groupValue: selectedRadioTile,
+                                title: Text('Barangay Clearance'),
+                                onChanged: (val) {
+                                  setState(() {
+                                    selectedRadioTile = val;
+                                    print(selectedRadioTile);
+                                  });
+                                },
+                                activeColor: Theme.of(context).primaryColor,
 
-                                      ProgressDialog dialog = new ProgressDialog(context);
-              dialog.style(
-                message: 'Updating document...',
-              );
-              await dialog.show();
-                                _formKey.currentState.save();
-                                    Services.updateDocu(widget.wid, workerDocu.docId, filePhoto, real64).then((val){
-                                      setState(() {
-                  _isLoading = false;
-                });
-                dialog.hide();
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                    msg:
-                        "Success!",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 2,
-                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
-                    textColor: Colors.white,
-                    fontSize: 14);
+                                // selected: true,
+                              ),
+                              RadioListTile(
+                                value: 2,
+                                groupValue: selectedRadioTile,
+                                title: Text('Police Clearance'),
+                                onChanged: (val) {
+                                  setState(() {
+                                    selectedRadioTile = val;
+                                    print(selectedRadioTile);
+                                  });
+                                },
+                                activeColor: Theme.of(context).primaryColor,
+
+                                // selected: true,
+                              ),
+                              RadioListTile(
+                                value: 1,
+                                groupValue: selectedRadioTile,
+                                title: Text('NBI Clearance'),
+                                onChanged: (val) {
+                                  setState(() {
+                                    selectedRadioTile = val;
+                                    print(selectedRadioTile);
+                                  });
+                                },
+                                activeColor: Theme.of(context).primaryColor,
+
+                                // selected: true,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 15),
+                          GestureDetector(
+                            onTap: () async {
+                              ProgressDialog dialog =
+                                  new ProgressDialog(context);
+                              dialog.style(
+                                message: 'Updating document...',
+                              );
+                              await dialog.show();
+                             
+                              Services.updateDocu(
+                                      widget.wid,selectedRadioTile, filePhoto, real64)
+                                  .then((val) {
+                                setState(() {
+                                  _isLoading = false;
                                 });
-
-                                    });
-                                  },
-                                    child: Container(
-                                    alignment: Alignment.center,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 15,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(62, 135, 148, 1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      'Update',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Raleway',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                dialog.hide();
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                    msg: "Success!",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 2,
+                                    backgroundColor:
+                                        Color.fromRGBO(91, 168, 144, 1),
+                                    textColor: Colors.white,
+                                    fontSize: 14);
+                              });
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(62, 135, 148, 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'Update',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],
@@ -178,54 +212,52 @@ class _WorkerUpgradeState extends State<WorkerUpgrade> {
                 ),
               );
             }
-          }else if (snapshot.hasError) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.wifi_off_outlined,
-                                size: 50,
-                                color: Colors.white,
-                              ),
-                              SizedBox(height: 15),
-                              Text(
-                                'Connection error.',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(62, 135, 148, 1),
-                                  fontSize: 12,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 15),
-                              GestureDetector(
-                                onTap: () {
-                                  // _refreshData(widget.id);
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.3,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(62, 135, 148, 1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'Try Again',
-                                    style: mediumTextStyle(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-        }
-        return loadingScreen(context, 'loading...');
-     
+          } else if (snapshot.hasError) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.wifi_off_outlined,
+                  size: 50,
+                  color: Colors.white,
+                ),
+                SizedBox(height: 15),
+                Text(
+                  'Connection error.',
+                  style: TextStyle(
+                    color: Color.fromRGBO(62, 135, 148, 1),
+                    fontSize: 12,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  onTap: () {
+                    // _refreshData(widget.id);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(62, 135, 148, 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'Try Again',
+                      style: mediumTextStyle(),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return loadingScreen(context, 'loading...');
         },
       ),
     );

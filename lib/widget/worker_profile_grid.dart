@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../helper/shared_preferences.dart';
 import 'worker_jobs.dart';
 import '../screens/worker_settings.dart';
+import '../screens/worker_own_rating.dart';
+
+
 
 class WorkerProfileGrid extends StatelessWidget {
   final int id;
@@ -64,6 +67,13 @@ class WorkerProfileGrid extends StatelessWidget {
       ),
     );
   }
+   _displayReview(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) =>  WorkerOwnRating(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +81,9 @@ class WorkerProfileGrid extends StatelessWidget {
       onTap: () {
         if (id == 1) {
           _goToWorks(context);
+        }
+        if(id == 2){
+           _displayReview(context);
         }
         if(id==3){
           _goToSettings(context);

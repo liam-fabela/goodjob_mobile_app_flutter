@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../models/event_model.dart';
 import '../services/services.dart';
+import '../styles/style.dart';
 
 
 class WorkerScheduleCalendar extends StatefulWidget {
@@ -162,8 +163,9 @@ class _WorkerScheduleCalendarState extends State<WorkerScheduleCalendar> {
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color.fromRGBO(80,152,179,1),),
                 child: ListTile(
-                  title: Text(e.time, style: TextStyle(color: Colors.white),),
-                  subtitle: Text("Task " +e.eventId, style: TextStyle(color: Colors.white),),
+                  leading: Icon(Icons.schedule),
+                  title:  e.time2 == null ?  Text(e.time, style: profileName3()) : Text(e.time + "-" + e.time2, style: profileName3()),
+                  subtitle: Text("Task " +e.eventId, style: addressStyle3(),),
                 ),
               )),
             ]
