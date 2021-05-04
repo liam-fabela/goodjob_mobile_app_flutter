@@ -10,11 +10,11 @@ import '../services/services.dart';
 //import '../models/wor_accepted.dart';
 
 class WorkerTimer extends StatefulWidget {
- // final WorkerAcceptedRequests value;
- // WorkerTimer({Key key, this.value}) : super(key: key);
- 
- final int jobId;
- WorkerTimer(this.jobId);
+  // final WorkerAcceptedRequests value;
+  // WorkerTimer({Key key, this.value}) : super(key: key);
+
+  final int jobId;
+  WorkerTimer(this.jobId);
 
   @override
   _WorkerTimerState createState() => _WorkerTimerState();
@@ -28,6 +28,9 @@ class _WorkerTimerState extends State<WorkerTimer> {
   var _isLoading = false;
 
   void handleTick() {
+    if (!mounted) {
+      return;
+    }
     if (isActive) {
       setState(() {
         secondsPassed = secondsPassed + 1;
@@ -35,17 +38,17 @@ class _WorkerTimerState extends State<WorkerTimer> {
     }
   }
 
-   _updateStatus(int jobId, int time) async {
+  _updateStatus(int jobId, int time) async {
     try {
       ProgressDialog dialog = new ProgressDialog(context);
       dialog.style(
         message: 'Updating work status...',
       );
       await dialog.show();
-     
+
       var _myTime = await NTP.now();
       String updated = _myTime.toString();
-      await Services.updateAcceptRequest(jobId, 'done',time,'n/a', updated)
+      await Services.updateAcceptRequest(jobId, 'done', time, 'n/a', updated)
           .then((val) {
         setState(() {
           _isLoading = false;
@@ -165,7 +168,7 @@ class _WorkerTimerState extends State<WorkerTimer> {
                         setState(() {
                           isActive = false;
                         });
-                        _updateStatus(widget.jobId,secondsPassed);
+                        _updateStatus(widget.jobId, secondsPassed);
                         print(secondsPassed);
                       }),
                 ),

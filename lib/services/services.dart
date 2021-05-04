@@ -62,6 +62,7 @@ static const url31 = 'https://goodjob-mobile-app.000webhostapp.com/update_worker
 static const url32 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_docu.php';
 static const url33 = 'https://goodjob-mobile-app.000webhostapp.com/upgrade_credibility.php';
 static const url34 = 'https://goodjob-mobile-app.000webhostapp.com/star_rating.php';
+static const url35 = 'https://goodjob-mobile-app.000webhostapp.com/worker_del_work.php';
 
 
 
@@ -1021,6 +1022,24 @@ static Future<List<TotalStar>> getTotalRating(int wid) async{
   }
 
 
+}
+
+static Future<void> deletWorkerWork(int jobId,String update) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['jobId'] = jobId;
+     map['update'] = update;
+   final response = await http.post(url35, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get DELETE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Deleted successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
 }
 
 }
