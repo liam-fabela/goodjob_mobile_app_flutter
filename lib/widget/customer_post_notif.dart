@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-//import 'package:intl/intl.dart';
-
+import 'package:intl/intl.dart';
 
 import '../services/services.dart';
 import '../styles/style.dart';
-import '../models/wor_request_display.dart';
-import '../screens/request_detail.dart';
+import '../models/cus_notification.dart';
+import '../screens/worker_profile_details.dart';
 
+class CustomerPostNotification extends StatefulWidget {
+  final int cid;
+  CustomerPostNotification(this.cid);
 
-
-class WorkerNotification extends StatefulWidget {
-  final int wid;
-  WorkerNotification(this.wid);
   @override
-  _WorkerNotificationState createState() => _WorkerNotificationState();
+  _CustomerPostNotificationState createState() => _CustomerPostNotificationState();
 }
 
-class _WorkerNotificationState extends State<WorkerNotification> {
-  formatTime(String time){
-    //var format = DateFormat.jm();
-    TimeOfDay _format = TimeOfDay(hour: int.parse(time.split(":")[0]),minute: int.parse(time.split(":")[1]));
-    return _format;
-     
-  }
+class _CustomerPostNotificationState extends State<CustomerPostNotification> {
+   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
 
 
-   Widget listWidget(BuildContext context, WorkerRequests workerRequests){
+   Widget listWidget(BuildContext context, CustomerNotification customerNotification){
     return Card(
       elevation: 5,
        margin: EdgeInsets.symmetric(
@@ -34,54 +27,59 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                     horizontal: 5,
       ),
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.only(top: 10),
         child: ListTile(
-          onTap: (){
-            if(workerRequests.status == 'pending'){
-               var route = MaterialPageRoute(
-              builder: (BuildContext context) =>
-                RequestDetails(value: workerRequests),
-               
-            );
-             Navigator.of(context).push(route);
-            }
-            return;
+          onTap: (){   
+        //      var route = MaterialPageRoute(
+        //        builder: (BuildContext context) => PaymentUi(value: customerRequests),
+
+        //      );
+        //      Navigator.of(context).push(route);
+               Navigator.pushNamed(context, ProfileDetails.routeName,
+         arguments:{
+           'id': customerNotification.wid,
+           'category': customerNotification.catType,
+           'uid': customerNotification.uid,
+           'catId': customerNotification.catId,
+           }
+         );
           },
-          leading: CircleAvatar(
+         leading: CircleAvatar(
                         radius: 30,
-                        backgroundImage: NetworkImage(workerRequests.profile), 
+                        backgroundImage: NetworkImage(customerNotification.profile), 
                         backgroundColor:  Color.fromRGBO(75, 210, 178, 1),
                         child: Padding(
                           padding: EdgeInsets.all(6),
                         ),
                       ),
-          title: Text(workerRequests.fname + " " +workerRequests.lname, style: addressStyle(),),
+          title: Text(customerNotification.fname + " " +customerNotification.lname, style: profileName(),),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              workerRequests.status == 'pending' ?  Text('has sent you a work request',)
-              :  Text('has send his/her payment',),
-              workerRequests.status == 'pending' ? Text(workerRequests.requested, style: extraTinyFont(),)
-              : Text(workerRequests.updated, style: extraTinyFont(),),
+              Text("has responded to your " + customerNotification.catType + " work post, tap to see worker profile", style: addressStyle(),
+              ),
+              Text(dateFormat.format(DateTime.parse(customerNotification.sent)), style: extraTinyFont(),),
             ],
           ),
         ),
       ),
     );
   }
+
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<WorkerRequests>>(
-      future: Services.getWorkerRequest(widget.wid),
+    return FutureBuilder<List<CustomerNotification>>(
+      future: Services.getCusNotif(widget.cid),
       builder: (context, snapshot) {
-         if (snapshot.hasData) {
-         List<WorkerRequests> workerRequest = snapshot.data;
-              if(workerRequest.isEmpty){
+        if (snapshot.hasData) {
+           List<CustomerNotification> customerNotification = snapshot.data;
+              if(customerNotification.isEmpty){
                  return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            Icons.person,
                             size: 50,
                             color: Colors.white,
                           ),
@@ -98,14 +96,15 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                           ),
                         ],
                       );
-              }
-              return ListView.builder(
-                  itemCount: workerRequest.length,
-                  itemBuilder: (context, int currentIndex) {
-                    return listWidget(context, workerRequest[currentIndex]);
+        }
+        return ListView.builder(
+                itemCount: customerNotification.length,
+                itemBuilder: (context, int currentIndex) {
+                    return listWidget(context, customerNotification[currentIndex]);
                   }
-            );
-         }else if (snapshot.hasError){
+              );
+
+      }else if (snapshot.hasError){
             return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -176,6 +175,7 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                   ),
                 ],
               );
+         
       }
     );
   }

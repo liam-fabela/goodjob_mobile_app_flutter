@@ -24,6 +24,9 @@ class _RequestDetailsState extends State<RequestDetails> {
   var _isLoading = false;
   int userId;
   TextEditingController _reason = TextEditingController();
+   PermissionStatus _permissionGranted;
+  Location loc = new Location();
+  
 
   @override
   void initState() {
@@ -120,6 +123,13 @@ class _RequestDetailsState extends State<RequestDetails> {
     setState(() {
       _isLoading = true;
     });
+     _permissionGranted = await loc.requestPermission();
+    if(_permissionGranted != PermissionStatus.GRANTED){
+       setState(() {
+      _isLoading = false;
+    });
+      return;
+    }
     final query = location;
     await Geocoder.local.findAddressesFromQuery(query).then((value){
       var first = value.first;

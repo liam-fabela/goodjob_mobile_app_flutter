@@ -4,6 +4,7 @@ import '../screens/customer_request.dart';
 import '../helper/shared_preferences.dart';
 //import '../helper/authenticate.dart';
 import '../helper/firebase_user.dart';
+import '../screens/cus_post_screen.dart';
 
 class CustomerGridItem extends StatelessWidget {
 
@@ -53,6 +54,13 @@ class CustomerGridItem extends StatelessWidget {
     );
   }
 
+  _displayPost(BuildContext context){
+     Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) =>  CustomerWorkPost(UserProfile.dbUser),
+      ),
+    );
+  }
 
  
 
@@ -60,6 +68,9 @@ class CustomerGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: (){
+            if(id==1){
+               _displayPost(context);
+            }
             if(id==2){
                _displayRequest(context);
             }

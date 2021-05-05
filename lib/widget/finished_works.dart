@@ -26,6 +26,7 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
     await dialog.show();
     var _myTime = await NTP.now();
     String updated = _myTime.toString();
+    print(updated);
     await Services.deletWorkerWork(id, updated).then((val){
       setState(() {
                   _isLoading = false;

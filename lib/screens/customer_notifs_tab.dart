@@ -16,7 +16,7 @@ class NotificationTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
   WorkRequestContainer(cid),
-  WorkPostContainer(),
+  WorkPostContainer(cid),
 ];
     return DefaultTabController(
         length: 2,

@@ -17,6 +17,7 @@ class WorkerDetails extends StatefulWidget {
   final List<WorkerIndividual> workerIndividual;
   final String wid;
   final int catId;
+ 
 
   WorkerDetails(this.workerIndividual, this.wid, this.catId);
 

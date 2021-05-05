@@ -23,6 +23,7 @@ import '../models/worker_earning.dart';
 import '../models/worker_edit.dart';
 import '../models/get_worker_docu.dart';
 import '../models/total_star.dart';
+import '../models/cus_notification.dart';
 
 
 class Services {
@@ -63,6 +64,8 @@ static const url32 = 'https://goodjob-mobile-app.000webhostapp.com/get_worker_do
 static const url33 = 'https://goodjob-mobile-app.000webhostapp.com/upgrade_credibility.php';
 static const url34 = 'https://goodjob-mobile-app.000webhostapp.com/star_rating.php';
 static const url35 = 'https://goodjob-mobile-app.000webhostapp.com/worker_del_work.php';
+static const url36 = 'https://goodjob-mobile-app.000webhostapp.com/customer_post.php';
+static const url37 = 'https://goodjob-mobile-app.000webhostapp.com/cus_post_notif.php';
 
 
 
@@ -785,6 +788,30 @@ static Future<List<DisplayPost>> getPost(int wid) async{
 
 }
 
+static Future<List<DisplayPost>> getPost2(int cid) async{
+  try{
+    var map = Map<String, dynamic>();
+    map['cid'] = cid;
+
+    final response = await http.post(url36, body: jsonEncode(map), headers: {'Content-type': 'application/json'});
+    print('get post: ${response.body}');
+    if(response.statusCode == 200){
+      List displayPost= json.decode(response.body);
+      return displayPost
+        .map((displayPost)=> new DisplayPost.fromJson(displayPost))
+        .toList();
+    }else{
+      print('error');
+    }
+
+  }catch(error){
+    print(error);
+    throw(error);
+  }
+
+
+}
+
 
 
 static Future<void> insertNotif(int workPostId,int cid, int wid, String sent) async{
@@ -1027,8 +1054,8 @@ static Future<List<TotalStar>> getTotalRating(int wid) async{
 static Future<void> deletWorkerWork(int jobId,String update) async{
   try{
      var map = Map<String, dynamic>();
-     map['jobId'] = jobId;
-     map['update'] = update;
+     map['id'] = jobId;
+     map['date'] = update;
    final response = await http.post(url35, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get DELETE response: ${response.body}');
    if(response.statusCode == 200) {
@@ -1040,6 +1067,27 @@ static Future<void> deletWorkerWork(int jobId,String update) async{
   }catch(error){
     print(error);
   }
+}
+
+static Future<List<CustomerNotification>> getCusNotif(int cid) async{
+   var map = Map<String, dynamic>();
+   try{
+      map['cid'] = cid;
+       final response = await http.post(url37, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get customer response: ${response.body}');
+   if(response.statusCode == 200) {
+    List customerNotif = json.decode(response.body);
+    return customerNotif
+      .map((customerNotif)=> new CustomerNotification.fromJson(customerNotif))
+      .toList();
+   }else{
+     print("error");
+   }
+
+   }catch(e){
+
+   }
+
 }
 
 }

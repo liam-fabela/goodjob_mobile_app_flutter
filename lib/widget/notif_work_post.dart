@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'customer_post_notif.dart';
+
 class WorkPostContainer extends StatefulWidget {
+  final int cid;
+  WorkPostContainer(this.cid);
   @override
   _WorkPostContainerState createState() => _WorkPostContainerState();
 }
@@ -11,7 +15,7 @@ class _WorkPostContainerState extends State<WorkPostContainer> {
    return Container(
       padding: EdgeInsets.all(10),
       height: MediaQuery.of(context).size.height,
-      child: Text('Work Post Notifs'),
+      child: CustomerPostNotification(widget.cid),
     );
   }
 }

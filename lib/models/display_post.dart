@@ -14,6 +14,7 @@ class DisplayPost{
   String budget;
   String type;
   String createdOn;
+  String respond;
 
   DisplayPost({
     this.workPostId,
@@ -30,7 +31,8 @@ class DisplayPost{
     this.details,
     this.budget,
     this.type,
-    this.createdOn
+    this.createdOn,
+    this.respond,
   });
 
   factory DisplayPost.fromJson(Map<String, dynamic>jsonData){
@@ -50,6 +52,7 @@ class DisplayPost{
       budget: jsonData['budget'],
       type: jsonData['type'],
       createdOn: jsonData['createdOn'],
+      respond: jsonData['respond'],
     );
   }
 }

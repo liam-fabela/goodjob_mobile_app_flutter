@@ -209,6 +209,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
                           ? "Not specified"
                           : displayPost.budget + "/" + displayPost.type,
                       style: addressStyle()),
+                Text(displayPost.createdOn, style: extraTinyFont()),
                 ],
                 
               ),
