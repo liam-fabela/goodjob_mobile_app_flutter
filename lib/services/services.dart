@@ -68,6 +68,8 @@ static const url35 = 'https://goodjob-mobile-app.000webhostapp.com/worker_del_wo
 static const url36 = 'https://goodjob-mobile-app.000webhostapp.com/customer_post.php';
 static const url37 = 'https://goodjob-mobile-app.000webhostapp.com/cus_post_notif.php';
 static const url38 = 'https://goodjob-mobile-app.000webhostapp.com/get_customer_edit.php';
+static const url39 = 'https://goodjob-mobile-app.000webhostapp.com/update_profile.php';
+static const url40 = 'https://goodjob-mobile-app.000webhostapp.com/update_profile2.php';
 
 
 
@@ -1108,6 +1110,49 @@ static Future<List<CustomerNotification>> getCusNotif(int cid) async{
    }
 
 }
+
+static Future<void> updateProfile(int cid,String profile ,String base64photo, String zone, String brgy) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['cid'] = cid;
+     map['profile'] = profile;
+      map['real'] = base64photo;
+      map['zon'] = zone;
+      map['brgy'] = brgy;
+     
+   final response = await http.post(url39, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> updateProfile2(int cid,String zone, String brgy) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['cid'] = cid;
+      map['zon'] = zone;
+      map['brgy'] = brgy;
+     
+   final response = await http.post(url40, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
 
 }
 

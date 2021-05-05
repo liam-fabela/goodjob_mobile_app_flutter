@@ -48,7 +48,7 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
   Widget listWidget(
       BuildContext context, WorkerFinishedRequests workerFinished) {
     return Dismissible(
-      key: ValueKey(workerFinished.jobId),
+      key: UniqueKey(),
       background: Container(
         color: Theme.of(context).errorColor,
         child: Icon(

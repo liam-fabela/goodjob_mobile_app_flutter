@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textColor: Colors.white,
                   fontSize: 14);
             }
-            if (data["message"] == "No email or username found." &&
+            if (data["message"] == "No email or username found." ||
                 data["message2"] == "Your Password is incorrect.") {
               print(data["message2"]);
               Fluttertoast.showToast(
@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textColor: Colors.white,
                   fontSize: 14);
             }
-            if (data["message"] == "Your Password is incorrect." &&
+            if (data["message"] == "Your Password is incorrect." ||
                 data["message2"] == "No email or username found.") {
               print(data["message"]);
               Fluttertoast.showToast(
