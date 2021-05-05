@@ -8,7 +8,7 @@ import '../models/worker_individual.dart';
 import '../models/customer_reviews.dart';
 import '../models/cus_display_profile.dart';
 import '../helper/shared_preferences.dart';
-import '../models/job_posting_model.dart';
+//import '../models/job_posting_model.dart';
 import '../models/cus_chat_model.dart';
 import '../models/searchResult.dart';
 import '../models/worker_display_profile.dart';
@@ -24,6 +24,7 @@ import '../models/worker_edit.dart';
 import '../models/get_worker_docu.dart';
 import '../models/total_star.dart';
 import '../models/cus_notification.dart';
+import '../models/customer_edits.dart';
 
 
 class Services {
@@ -66,6 +67,7 @@ static const url34 = 'https://goodjob-mobile-app.000webhostapp.com/star_rating.p
 static const url35 = 'https://goodjob-mobile-app.000webhostapp.com/worker_del_work.php';
 static const url36 = 'https://goodjob-mobile-app.000webhostapp.com/customer_post.php';
 static const url37 = 'https://goodjob-mobile-app.000webhostapp.com/cus_post_notif.php';
+static const url38 = 'https://goodjob-mobile-app.000webhostapp.com/get_customer_edit.php';
 
 
 
@@ -363,8 +365,25 @@ static getData()async{
  }
 
 
- static Future<List<JobPostingModel>> getJobPosting() async{
-   
+ static Future<List<CustomerEdits>> getCustomerEdit(int cid) async{
+
+    var map = Map<String, dynamic>();
+   try{
+      map['cid'] = cid;
+       final response = await http.post(url38, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get worker response: ${response.body}');
+   if(response.statusCode == 200) {
+    List customerEdits = json.decode(response.body);
+    return customerEdits
+      .map((customerEdits)=> new CustomerEdits.fromJson(customerEdits))
+      .toList();
+   }else{
+     print("error");
+   }
+
+   }catch(e){
+
+   }
 
  }
 

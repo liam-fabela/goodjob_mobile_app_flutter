@@ -22,12 +22,12 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
    Widget listWidget(BuildContext context, CustomerNotification customerNotification){
     return Card(
       elevation: 5,
-       margin: EdgeInsets.symmetric(
+      margin: EdgeInsets.symmetric(
                     vertical: 1,
                     horizontal: 5,
       ),
       child: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.all(15),
         child: ListTile(
           onTap: (){   
         //      var route = MaterialPageRoute(
@@ -39,8 +39,6 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
          arguments:{
            'id': customerNotification.wid,
            'category': customerNotification.catType,
-           'uid': customerNotification.uid,
-           'catId': customerNotification.catId,
            }
          );
           },

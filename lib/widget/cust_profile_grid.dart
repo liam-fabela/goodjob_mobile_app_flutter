@@ -5,6 +5,7 @@ import '../helper/shared_preferences.dart';
 //import '../helper/authenticate.dart';
 import '../helper/firebase_user.dart';
 import '../screens/cus_post_screen.dart';
+import '../screens/customer_settings.dart';
 
 class CustomerGridItem extends StatelessWidget {
 
@@ -62,6 +63,13 @@ class CustomerGridItem extends StatelessWidget {
     );
   }
 
+  _displaySettings(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => CustomerSettings(),
+      ),
+    );
+  }
  
 
   @override
@@ -73,6 +81,9 @@ class CustomerGridItem extends StatelessWidget {
             }
             if(id==2){
                _displayRequest(context);
+            }
+            if(id==3){
+               _displaySettings(context);
             }
             if(id==4){
               _logOut(context);

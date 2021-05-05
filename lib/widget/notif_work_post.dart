@@ -13,7 +13,7 @@ class _WorkPostContainerState extends State<WorkPostContainer> {
   @override
   Widget build(BuildContext context) {
    return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.only(bottom: 10),
       height: MediaQuery.of(context).size.height,
       child: CustomerPostNotification(widget.cid),
     );
