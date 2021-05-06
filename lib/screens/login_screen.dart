@@ -453,7 +453,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             'Register now',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 17,
+                                              fontSize: 15,
                                               decoration:
                                                   TextDecoration.underline,
                                             ),

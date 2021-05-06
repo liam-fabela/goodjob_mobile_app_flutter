@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:ntp/ntp.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../styles/style.dart';
 import '../helper/shared_preferences.dart';
@@ -9,6 +13,7 @@ import '../helper/shared_preferences.dart';
 import '../services/services.dart';
 //import '../models/wor_chat_model.dart';
 import '../widget/work_chatroom.dart';
+//import '../models/cus_chat_model.dart';
 
 
 class WorkerMessagePage extends StatefulWidget {
@@ -19,6 +24,7 @@ class WorkerMessagePage extends StatefulWidget {
 class _WorkerMessagePageState extends State<WorkerMessagePage> {
   Future<int> tem;
   int wid;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -33,6 +39,33 @@ class _WorkerMessagePageState extends State<WorkerMessagePage> {
     setState(() {});
     var data =  Services.getWorChat(wid);
     return data;
+  }
+
+   _deleteWork(int id) async {
+    ProgressDialog dialog = new ProgressDialog(context);
+    dialog.style(
+      message: 'Deleting...',
+    );
+    await dialog.show();
+    var _myTime = await NTP.now();
+    String updated = _myTime.toString();
+    print(updated);
+    await Services.deletWorkerWorkChat(id,updated).then((val){
+      setState(() {
+                  _isLoading = false;
+                });
+                dialog.hide();
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg:
+                        "Success!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                    textColor: Colors.white,
+                    fontSize: 14);
+    });
   }
 
 
@@ -83,10 +116,9 @@ class _WorkerMessagePageState extends State<WorkerMessagePage> {
             final wor = snapshot.data.toString();
             final worId = int.parse(wor);
             
-            return WorkerChatroomScreen(worId);
+            return  WorkerChatroomScreen(worId);
           },
-        ),
-      ),
+    ),
+    ),
     );
   }
-}

@@ -33,7 +33,7 @@ class CustomerNotification{
       sent: jsonData['sent'],
       profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['profile'],
       catType: jsonData['catType'],
-
+      catId: jsonData['catId'],
     );
 }
 }

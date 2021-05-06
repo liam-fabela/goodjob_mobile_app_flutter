@@ -10,6 +10,8 @@ import '../styles/style.dart';
 import 'customer_change_modal.dart';
 import '../models/customer_edits.dart';
 import '../services/services.dart';
+//import '../helper/authenticate.dart';
+import '../helper/shared_preferences.dart';
 
 class CustomerEdit extends StatefulWidget {
   final int cid;
@@ -84,13 +86,14 @@ class _CustomerEditState extends State<CustomerEdit> {
       if (200 == response.statusCode) {
         print(response.body);
         var data = json.decode(response.body);
-        if (data["status"] == 'ok') {
-           final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+        if (data["status"] == "ok") {
+          final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
           User currentUser = firebaseAuth.currentUser;
 
-          currentUser.updatePassword(newp).then((_){
+          currentUser.updatePassword(newp).then((_) {
             return data["status"];
-          }).catchError((error){
+          }).catchError((error) {
+            print(error);
             print("An error has occured");
           });
           //('ok');
@@ -153,12 +156,12 @@ class _CustomerEditState extends State<CustomerEdit> {
                               Divider(),
                               SizedBox(height: 20),
                               Container(
-                                 padding: EdgeInsets.fromLTRB(
-                                            20.0, 10.0, 20.0, 20.0),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
+                                padding:
+                                    EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                                 child: Form(
                                   key: _formKey,
                                   child: Column(
@@ -214,11 +217,13 @@ class _CustomerEditState extends State<CustomerEdit> {
                                               Navigator.pop(context);
                                               Fluttertoast.showToast(
                                                   msg: "Success!",
-                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
                                                   gravity: ToastGravity.CENTER,
                                                   timeInSecForIosWeb: 2,
-                                                  backgroundColor: Color.fromRGBO(
-                                                      91, 168, 144, 1),
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          91, 168, 144, 1),
                                                   textColor: Colors.white,
                                                   fontSize: 14);
                                             });
@@ -237,11 +242,13 @@ class _CustomerEditState extends State<CustomerEdit> {
                                               Navigator.pop(context);
                                               Fluttertoast.showToast(
                                                   msg: "Success!",
-                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
                                                   gravity: ToastGravity.CENTER,
                                                   timeInSecForIosWeb: 2,
-                                                  backgroundColor: Color.fromRGBO(
-                                                      91, 168, 144, 1),
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          91, 168, 144, 1),
                                                   textColor: Colors.white,
                                                   fontSize: 14);
                                             });
@@ -249,9 +256,10 @@ class _CustomerEditState extends State<CustomerEdit> {
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 15,
                                           ),
@@ -283,7 +291,8 @@ class _CustomerEditState extends State<CustomerEdit> {
                                             20.0, 10.0, 20.0, 20.0),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Column(children: [
                                           Row(
@@ -295,7 +304,6 @@ class _CustomerEditState extends State<CustomerEdit> {
                                                       textFieldInputDecoration(
                                                           'Enter old password'),
                                                   obscureText: obscure,
-                                                 
                                                 ),
                                               ),
                                               GestureDetector(
@@ -332,7 +340,6 @@ class _CustomerEditState extends State<CustomerEdit> {
                                                       textFieldInputDecoration(
                                                           'Enter new password'),
                                                   obscureText: obscure2,
-                                                  
                                                 ),
                                               ),
                                               GestureDetector(
@@ -347,7 +354,7 @@ class _CustomerEditState extends State<CustomerEdit> {
                                                   width: 50,
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 10.0),
-                                                  child: showPass
+                                                  child: showPass2
                                                       ? Icon(
                                                           Icons.remove_red_eye,
                                                           color: Color.fromRGBO(
@@ -379,31 +386,67 @@ class _CustomerEditState extends State<CustomerEdit> {
                                                 _isLoading = false;
                                               });
                                               dialog.hide();
-                                              Navigator.pop(context);
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "Password changed successfully!",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.CENTER,
-                                                  timeInSecForIosWeb: 2,
-                                                  backgroundColor: Color.fromRGBO(
-                                                      91, 168, 144, 1),
-                                                  textColor: Colors.white,
-                                                  fontSize: 14);
+                                              //Navigator.pop(context);
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title: Text(
+                                                    'Log out.',
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  content:
+                                                      SingleChildScrollView(
+                                                          child: ListBody(
+                                                    children: [
+                                                      Text(
+                                                          'You need to logout in order for the password change to take effect.'),
+                                                    ],
+                                                  )),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Okay',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        SharedPrefUtils
+                                                            .removePref();
+                                                        Navigator.of(context)
+                                                            .pushNamedAndRemoveUntil(
+                                                                '/',
+                                                                (Route<dynamic>
+                                                                        route) =>
+                                                                    false);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
                                             } else {
                                               setState(() {
                                                 _isLoading = false;
                                               });
                                               dialog.hide();
-                                             // Navigator.pop(context);
+                                              // Navigator.pop(context);
                                               Fluttertoast.showToast(
                                                   msg:
                                                       "The old password is incorrect!",
-                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
                                                   gravity: ToastGravity.CENTER,
                                                   timeInSecForIosWeb: 2,
-                                                  backgroundColor: Color.fromRGBO(
-                                                      91, 168, 144, 1),
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          91, 168, 144, 1),
                                                   textColor: Colors.white,
                                                   fontSize: 14);
                                             }
@@ -411,9 +454,10 @@ class _CustomerEditState extends State<CustomerEdit> {
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 15,
                                           ),

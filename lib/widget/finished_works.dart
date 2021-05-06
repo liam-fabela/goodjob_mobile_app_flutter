@@ -45,10 +45,49 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
     });
   }
 
-  Widget listWidget(
-      BuildContext context, WorkerFinishedRequests workerFinished) {
-    return Dismissible(
-      key: UniqueKey(),
+ 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBarSign(context, 'Finished Works'),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Center(
+          child: FutureBuilder<List<WorkerFinishedRequests>>(
+              future: Services.getWorkerFinishedRequest(widget.wid),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<WorkerFinishedRequests> workerFinished = snapshot.data;
+                  if (workerFinished.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.work,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          'No finished request yet.',
+                          style: TextStyle(
+                            color: Color.fromRGBO(62, 135, 148, 1),
+                            fontSize: 12,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    );
+                  }
+                  return ListView.builder(
+                      itemCount: workerFinished.length,
+                      itemBuilder: (context, int currentIndex) {
+                         //List<WorkerFinishedRequests> workerFinished = snapshot.data;
+                        return Dismissible(
+      key: ValueKey(workerFinished[currentIndex]),
       background: Container(
         color: Theme.of(context).errorColor,
         child: Icon(
@@ -90,8 +129,19 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
         );
       },
       onDismissed: (direction) {
-        int id = int.parse(workerFinished.jobId);
-        _deleteWork(id);
+       
+        //workerFinished[currentIndex].
+       
+        int id = int.parse(workerFinished[currentIndex].jobId);
+         _deleteWork(id).then((val){
+           setState((){
+
+           });
+            snapshot.data.removeAt(currentIndex);
+         });
+        
+        
+        
       },
       child: Card(
         elevation: 5,
@@ -105,70 +155,30 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
                   padding: EdgeInsets.all(6),
                   child: Icon(Icons.check_circle, size: 30)),
             ),
-            title: Text("Work Request # " + workerFinished.jobId,
+            title: Text("Work Request # " + workerFinished[currentIndex].jobId,
                 style: profileName()),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Customer Name: '),
-                Text(workerFinished.fname + " " + workerFinished.lname,
+                Text(workerFinished[currentIndex].fname + " " + workerFinished[currentIndex].lname,
                     style: addressStyle()),
                 Text('Category: '),
-                Text(workerFinished.category, style: addressStyle()),
+                Text(workerFinished[currentIndex].category, style: addressStyle()),
                 Text('Finished on: '),
-                Text(workerFinished.updated, style: addressStyle()),
+                Text(workerFinished[currentIndex].updated, style: addressStyle()),
+                 Text('Earnings: '),
+                Text(workerFinished[currentIndex].budget, style: addressStyle()),
                 Text('Status: '),
-                Text(workerFinished.status == 'paid' ? 'PAID' : 'UNPAID',
+                Text(workerFinished[currentIndex].status == 'paid' ? 'PAID' : 'UNPAID',
                     style:
-                        workerFinished.status == 'paid' ? done() : declined()),
+                        workerFinished[currentIndex].status == 'paid' ? done() : declined()),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarSign(context, 'Finished Works'),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: FutureBuilder<List<WorkerFinishedRequests>>(
-              future: Services.getWorkerFinishedRequest(widget.wid),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<WorkerFinishedRequests> workerFinished = snapshot.data;
-                  if (workerFinished.isEmpty) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.work,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          'No finished request yet.',
-                          style: TextStyle(
-                            color: Color.fromRGBO(62, 135, 148, 1),
-                            fontSize: 12,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    );
-                  }
-                  return ListView.builder(
-                      itemCount: workerFinished.length,
-                      itemBuilder: (context, int currentIndex) {
-                        return listWidget(
-                            context, workerFinished[currentIndex]);
                       });
                 } else if (snapshot.hasError) {
                   return Column(

@@ -30,6 +30,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     id = worker['id'];
     cat = worker['category'];
+    catId = worker['catId'];
+    categoryId = int.parse(catId);
+    print("CATEGORY ID: "+ catId);
     wid = int.parse(id);
     print(email);
 

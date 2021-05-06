@@ -10,6 +10,7 @@ import '../styles/style.dart';
 import '../widget/worker_change_modal.dart';
 import '../services/services.dart';
 import '../models/worker_edit.dart';
+import '../helper/shared_preferences.dart';
 
 class WorkerEdit extends StatefulWidget {
   final int wid;
@@ -88,7 +89,7 @@ class _WorkerEditState extends State<WorkerEdit> {
       if (200 == response.statusCode) {
         print(response.body);
         var data = json.decode(response.body);
-        if (data["status"] == 'ok') {
+        if (data["status"] == "ok") {
           final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
           User currentUser = firebaseAuth.currentUser;
 
@@ -362,7 +363,7 @@ class _WorkerEditState extends State<WorkerEdit> {
                                                   width: 50,
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal: 10.0),
-                                                  child: showPass
+                                                  child: showPass2
                                                       ? Icon(
                                                           Icons.remove_red_eye,
                                                           color: Color.fromRGBO(
@@ -394,17 +395,51 @@ class _WorkerEditState extends State<WorkerEdit> {
                                                 _isLoading = false;
                                               });
                                               dialog.hide();
-                                              Navigator.pop(context);
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "Password changed successfully!",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.CENTER,
-                                                  timeInSecForIosWeb: 2,
-                                                  backgroundColor: Color.fromRGBO(
-                                                      91, 168, 144, 1),
-                                                  textColor: Colors.white,
-                                                  fontSize: 14);
+                                            //  Navigator.pop(context);
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title: Text(
+                                                    'Log out.',
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                  content:
+                                                      SingleChildScrollView(
+                                                          child: ListBody(
+                                                    children: [
+                                                      Text(
+                                                          'You need to logout in order for the password change to take effect.'),
+                                                    ],
+                                                  )),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Okay',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        SharedPrefUtils
+                                                            .removePref();
+                                                        Navigator.of(context)
+                                                            .pushNamedAndRemoveUntil(
+                                                                '/',
+                                                                (Route<dynamic>
+                                                                        route) =>
+                                                                    false);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
                                             } else {
                                               setState(() {
                                                 _isLoading = false;

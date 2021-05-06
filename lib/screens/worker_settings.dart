@@ -17,12 +17,9 @@ class WorkerSettings extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerEdit(UserProfile.dbUser)));
           break;
         case 1:
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerPayout(UserProfile.dbUser)));
-          break;
-        case 2:
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerUpgrade(UserProfile.dbUser)));
           break;
-        case 3:
+        case 2:
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> WorkerReport(UserProfile.dbUser)));
           break;
         default:
@@ -45,15 +42,11 @@ class WorkerSettings extends StatelessWidget {
               icon = Icon(Icons.edit);
               text = Text('Edit Profile');
                 break;
-              case 1:
-              icon = Icon(Icons.credit_card);
-              text = Text('Request Payout');
-               break;
-               case 2:
+               case 1:
               icon = Icon(Icons.upgrade);
               text = Text('Upgrade Credibility level');
                break;
-               case 3:
+               case 2:
               icon = Icon(Icons.report);
               text = Text('Report');
                break;
@@ -70,7 +63,7 @@ class WorkerSettings extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) => Divider(color: Colors.green),
-          itemCount: 4,
+          itemCount: 3,
         ),
         ),
       

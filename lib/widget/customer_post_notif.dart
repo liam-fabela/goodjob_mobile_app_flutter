@@ -39,6 +39,7 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
          arguments:{
            'id': customerNotification.wid,
            'category': customerNotification.catType,
+           'catId': customerNotification.catId,
            }
          );
           },
@@ -57,6 +58,7 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
               Text("has responded to your " + customerNotification.catType + " work post, tap to see worker profile", style: addressStyle(),
               ),
               Text(dateFormat.format(DateTime.parse(customerNotification.sent)), style: extraTinyFont(),),
+              
             ],
           ),
         ),

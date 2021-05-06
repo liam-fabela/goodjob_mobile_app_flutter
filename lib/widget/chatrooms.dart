@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:ntp/ntp.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../models/cus_chat_model.dart';
 import '../styles/style.dart';
@@ -16,6 +19,7 @@ class ChatRooms extends StatefulWidget {
 
 class _ChatRoomsState extends State<ChatRooms> {
   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
+  var _isLoading = false;
 
    void initState() {
    _refreshData(widget.cid);
@@ -31,48 +35,36 @@ class _ChatRoomsState extends State<ChatRooms> {
     
   }
 
+   _deleteWork(int id) async {
+    ProgressDialog dialog = new ProgressDialog(context);
+    dialog.style(
+      message: 'Deleting...',
+    );
+    await dialog.show();
+    var _myTime = await NTP.now();
+    String updated = _myTime.toString();
+    print(updated);
+    await Services.deletWorkerWorkChat(id,updated).then((val){
+      setState(() {
+                  _isLoading = false;
+                });
+                dialog.hide();
+                Navigator.pop(context);
+                Fluttertoast.showToast(
+                    msg:
+                        "Success!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2,
+                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                    textColor: Colors.white,
+                    fontSize: 14);
+    });
+  }
+
   
 
-  Widget chatList(BuildContext context, CustomerChatroom customerChat) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(
-        vertical: 1,
-        //horizontal: 5,
-      ),
-      child: Container(
-        padding: EdgeInsets.all(15),
-        child: ListTile(
-          onTap: () {
-            String name = customerChat.fname + " " + customerChat.lname;
-            int workerId = int.parse(customerChat.workerId);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => ChatScreen(name, customerChat.uid, workerId, customerChat.profile,2),
-              ),
-            );
-          },
-          leading: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(customerChat.profile),
-            backgroundColor: Color.fromRGBO(75, 210, 178, 1),
-            child: Padding(
-              padding: EdgeInsets.all(6),
-            ),
-          ),
-          title: Row(
-            children: [
-              Text(customerChat.fname, style: profileName()),
-              SizedBox(width: 10),
-              Text(customerChat.lname, style: profileName()),
-            ],
-          
-          ),
-          subtitle: Text(dateFormat.format(DateTime.parse(customerChat.update)), style: tinyFont()),
-        ),
-      ),
-    );
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +112,53 @@ class _ChatRoomsState extends State<ChatRooms> {
               return ListView.builder(
                 itemCount: customerChat.length,
                 itemBuilder: (context, int currentIndex) {
-                  return chatList(context, customerChat[currentIndex]);
+                  return Card(
+      elevation: 5,
+      margin: EdgeInsets.symmetric(
+        vertical: 1,
+        //horizontal: 5,
+      ),
+      child: Container(
+        //padding: EdgeInsets.all(5),
+        child: ListTile(
+          onTap: () {
+            String name = customerChat[currentIndex].fname + " " + customerChat[currentIndex].lname;
+            int workerId = int.parse(customerChat[currentIndex].workerId);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => ChatScreen(name, customerChat[currentIndex].uid, workerId, customerChat[currentIndex].profile,2),
+              ),
+            );
+          },
+
+          leading: CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(customerChat[currentIndex].profile),
+            backgroundColor: Color.fromRGBO(75, 210, 178, 1),
+            child: Padding(
+              padding: EdgeInsets.all(6),
+            ),
+          ),
+          title: Row(
+            children: [
+              Text(customerChat[currentIndex].fname, style: profileName()),
+              SizedBox(width: 10),
+              Text(customerChat[currentIndex].lname, style: profileName()),
+            ],
+          
+          ),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(dateFormat.format(DateTime.parse(customerChat[currentIndex].update)), style: tinyFont()),
+            ],
+          ),
+         
+         
+        ),
+      ),
+    );
+               
                 },
               );
             } else if (snapshot.hasError){
