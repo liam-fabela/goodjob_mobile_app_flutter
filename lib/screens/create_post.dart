@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:ntp/ntp.dart';
 //import 'package:geolocator/geolocator.dart';
@@ -33,38 +34,35 @@ class _CreatePostModalState extends State<CreatePostModal> {
   final TextEditingController _budget = TextEditingController();
   var _isLoading = false;
   String formattedStartTime;
-   String formattedEndTime;
-   TimeOfDay t1;
-    TimeOfDay t2;
+  String formattedEndTime;
+  TimeOfDay t1;
+  TimeOfDay t2;
   //Position _currentPosition;
   //String _currentAddress;
-  
-     _presentTimePicker(int source) async {
+
+  _presentTimePicker(int source) async {
     final now = DateTime.now();
-    showTimePicker(context: context, 
-    initialTime: TimeOfDay(hour: now.hour, minute: now.minute) ).then((pickedTime) {
-      if(pickedTime == null){
+    showTimePicker(
+            context: context,
+            initialTime: TimeOfDay(hour: now.hour, minute: now.minute))
+        .then((pickedTime) {
+      if (pickedTime == null) {
         return;
       }
-      if(source == 1){
+      if (source == 1) {
         setState(() {
           t1 = pickedTime;
-        var time = '${t1.format(context)}';
-        _time1.text = time;
-
+          var time = '${t1.format(context)}';
+          _time1.text = time;
         });
-
       }
-      if(source == 2){
+      if (source == 2) {
         setState(() {
           t2 = pickedTime;
-        var time = '${t2.format(context)}';
-        _time2.text = time;
+          var time = '${t2.format(context)}';
+          _time2.text = time;
         });
-        
-
       }
-
     });
   }
 
@@ -123,8 +121,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
     _details.clear();
   }
 
-  _sendPost(int cid, int cat, String date, String time, String time2, String location,
-      String details, String budget, String type) async {
+  _sendPost(int cid, int cat, String date, String time, String time2,
+      String location, String details, String budget, String type) async {
     try {
       setState(() {
         _isLoading = true;
@@ -133,8 +131,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
       String stat = 'posted';
       var req = await NTP.now();
       String createdOn = req.toString();
-      await Services.createWorkPost(cid, cat, date, time,time2, location, details,
-              bud, type, createdOn, stat)
+      await Services.createWorkPost(cid, cat, date, time, time2, location,
+              details, bud, type, createdOn, stat)
           .then((val) {
         _clearFields();
         setState(() {
@@ -170,9 +168,9 @@ class _CreatePostModalState extends State<CreatePostModal> {
         );
       });
     } catch (error) {
-       setState(() {
-          _isLoading = false;
-        });
+      setState(() {
+        _isLoading = false;
+      });
       await showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -276,35 +274,51 @@ class _CreatePostModalState extends State<CreatePostModal> {
                     bottom: 15,
                   ),
                   child: Form(
+                    key: formKey,
                     child: Column(
                       children: [
                         TextFormField(
+                          validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Date' : null;
+                          },
                           controller: _dateController,
-                          decoration: inputDeco('*Date:'),
+                          decoration: inputDeco('Date:'),
                           readOnly: true,
                           onTap: _presentDatePicker,
                         ),
                         TextFormField(
+                          validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Time' : null;
+                          },
                           controller: _time1,
                           decoration: inputDeco('*Start Time:'),
-                           readOnly: true,
-                           onTap: (){
-                             _presentTimePicker(1);
-                           },
+                          readOnly: true,
+                          onTap: () {
+                            _presentTimePicker(1);
+                          },
                         ),
                         TextFormField(
+                          validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Time' : null;
+                          },
                           controller: _time2,
                           decoration: inputDeco('End Time:'),
-                           readOnly: true,
-                           onTap: (){
-                             _presentTimePicker(2);
-                           },
+                          readOnly: true,
+                          onTap: () {
+                            _presentTimePicker(2);
+                          },
                         ),
                         TextFormField(
+                          validator: (val) {
+                            return val.isEmpty ? 'Please Enter Address' : null;
+                          },
                           controller: _location,
-                          decoration: inputDeco('Location:'),
+                          decoration: inputDeco('Complete Address:'),
                         ),
                         TextFormField(
+                          validator: (val) {
+                            return val.isEmpty ? 'Please Enter Details' : null;
+                          },
                           controller: _details,
                           maxLines: 3,
                           keyboardType: TextInputType.multiline,
@@ -314,6 +328,11 @@ class _CreatePostModalState extends State<CreatePostModal> {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                validator: (val) {
+                                  return val.isEmpty
+                                      ? 'Please Enter Budget'
+                                      : null;
+                                },
                                 controller: _budget,
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
@@ -377,7 +396,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                           ],
                         ),
                         SizedBox(height: 10),
-                        Text('*Choose a Category: ',
+                        Text('Choose a Category: ',
                             style: addressStyle(), textAlign: TextAlign.left),
                         CategoryChoices(getState),
                         Divider(),
@@ -422,17 +441,41 @@ class _CreatePostModalState extends State<CreatePostModal> {
                               child: Container(
                                 alignment: Alignment.bottomRight,
                                 child: GestureDetector(
-                                  onTap: () {
-                                    _sendPost(
-                                        widget.id,
-                                        _choice,
-                                        formatted,
-                                        _time1.text,
-                                        _time2.text,
-                                        _location.text,
-                                        _details.text,
-                                        _budget.text,
-                                        _choice2);
+                                  onTap: () async {
+                                    if (formKey.currentState.validate()) {
+                                      if (_choice == null) {
+                                        Fluttertoast.showToast(
+                                            msg: "Please choose a category.",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.grey,
+                                            textColor: Colors.white,
+                                            fontSize: 14);
+                                            return;
+                                      }
+                                      if(_choice2 == null){
+                                         Fluttertoast.showToast(
+                                            msg: "Please choose a work type.",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.grey,
+                                            textColor: Colors.white,
+                                            fontSize: 14);
+                                             return;
+                                      }
+                                      await _sendPost(
+                                          widget.id,
+                                          _choice,
+                                          formatted,
+                                          _time1.text,
+                                          _time2.text,
+                                          _location.text,
+                                          _details.text,
+                                          _budget.text,
+                                          _choice2);
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,

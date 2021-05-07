@@ -68,7 +68,7 @@ class _CustomerEditState extends State<CustomerEdit> {
     );
   }
 
-  Future<String> _updatePassword(int cid, String oldp, String newp) async {
+  _updatePassword(int cid, String oldp, String newp) async {
     try {
       setState(() {
         _isLoading = true;
@@ -78,6 +78,11 @@ class _CustomerEditState extends State<CustomerEdit> {
       map["cid"] = cid;
       map["oldPass"] = oldp;
       map["newPass"] = newp;
+      ProgressDialog dialog = new ProgressDialog(context);
+      dialog.style(
+        message: 'Updating password...',
+      );
+      dialog.show();
 
       http.Response response = await http.post(url,
           body: jsonEncode(map), headers: {'Content-type': 'application/json'});
@@ -91,14 +96,62 @@ class _CustomerEditState extends State<CustomerEdit> {
           User currentUser = firebaseAuth.currentUser;
 
           currentUser.updatePassword(newp).then((_) {
-            return data["status"];
+            setState(() {
+              _isLoading = false;
+            });
+            dialog.hide();
+            //Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text(
+                  'Log out.',
+                  style: TextStyle(color: Colors.black),
+                ),
+                content: SingleChildScrollView(
+                    child: ListBody(
+                  children: [
+                    Text(
+                        'You need to logout in order for the password change to take effect.'),
+                  ],
+                )),
+                actions: <Widget>[
+                  TextButton(
+                    child: Center(
+                      child: Text(
+                        'Okay',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    ),
+                    onPressed: () {
+                      SharedPrefUtils.removePref();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/', (Route<dynamic> route) => false);
+                    },
+                  ),
+                ],
+              ),
+            );
           }).catchError((error) {
             print(error);
             print("An error has occured");
           });
           //('ok');
         } else {
-          return data["status"];
+          setState(() {
+            _isLoading = false;
+          });
+          dialog.hide();
+          // Navigator.pop(context);
+          Fluttertoast.showToast(
+              msg: "The old password is incorrect!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+              textColor: Colors.white,
+              fontSize: 14);
         }
       }
     } catch (e) {
@@ -381,75 +434,9 @@ class _CustomerEditState extends State<CustomerEdit> {
                                           await _updatePassword(widget.cid,
                                                   oldPass.text, newPass.text)
                                               .then((val) {
-                                            if (val.toString() == "ok") {
-                                              setState(() {
-                                                _isLoading = false;
-                                              });
-                                              dialog.hide();
-                                              //Navigator.pop(context);
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        AlertDialog(
-                                                  title: Text(
-                                                    'Log out.',
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                  ),
-                                                  content:
-                                                      SingleChildScrollView(
-                                                          child: ListBody(
-                                                    children: [
-                                                      Text(
-                                                          'You need to logout in order for the password change to take effect.'),
-                                                    ],
-                                                  )),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Okay',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 16),
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        SharedPrefUtils
-                                                            .removePref();
-                                                        Navigator.of(context)
-                                                            .pushNamedAndRemoveUntil(
-                                                                '/',
-                                                                (Route<dynamic>
-                                                                        route) =>
-                                                                    false);
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              setState(() {
-                                                _isLoading = false;
-                                              });
-                                              dialog.hide();
-                                              // Navigator.pop(context);
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "The old password is incorrect!",
-                                                  toastLength:
-                                                      Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.CENTER,
-                                                  timeInSecForIosWeb: 2,
-                                                  backgroundColor:
-                                                      Color.fromRGBO(
-                                                          91, 168, 144, 1),
-                                                  textColor: Colors.white,
-                                                  fontSize: 14);
-                                            }
+                                            print(
+                                                "VALUES FROM THE UPDATE PASSWORD: " +
+                                                    val.toString());
                                           });
                                         },
                                         child: Container(

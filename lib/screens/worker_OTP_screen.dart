@@ -33,7 +33,6 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
   String filePhoto;
   String radioValue;
   int docID;
-  String user;
   String email;
   String pass;
   TextEditingController _otp = TextEditingController();
@@ -58,7 +57,6 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
     fileDoc = ws6['fileDoc'];
     base64Doc = ws6['base64Doc'];
     radioValue = ws6['radioValue'];
-    user = ws6['userName'];
     email = ws6['email'];
     pass = ws6['password'];
     docID = int.parse(radioValue);
@@ -291,7 +289,6 @@ class _WorkerOTPScreenState extends State<WorkerOTPScreen> {
                 docID,
                 fileDoc,
                 base64Doc,
-                user,
                 email,
                 pass,
                 firebaseUid)

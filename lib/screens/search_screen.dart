@@ -16,6 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
   var _lname = false;
   var _barangay = false;
   var _isLoading = false;
+   final formKey = GlobalKey<FormState>();
 
   String _choice2;
   TextEditingController _search = TextEditingController();
@@ -136,30 +137,39 @@ class _SearchScreenState extends State<SearchScreen> {
                 setState(() {
                   if (this.actionIcon.icon == Icons.search) {
                     this.actionIcon = Icon(Icons.close);
-                    this.appBarTitle = TextField(
-                      controller: _search,
-                      onSubmitted: (text) async{
-                        setState(() {
-                          _isLoading =  true;
-                        });
-                        print('Controller: $text');
-                         await Services.searchWorker(_search.text, _choice2).then((val){
-                           searchResults = val;
-                          print("search length: "+ searchResults.length.toString());
-                           setState(() {
-                          _isLoading =  false;
-                        });
-                        });
-                      },
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.white),
-                        hintText: "Search...",
-                        hintStyle: TextStyle(color: Colors.white),
-                      ),
-                    );
+                    this.appBarTitle = 
+                         TextField(
+                        controller: _search,
+                        onSubmitted: (text) async{
+                          setState(() {
+                            _isLoading =  true;
+                          });
+                          print('Controller: $text');
+                             if(_choice2 == null){
+                               return;
+                             }
+                             if(_search.text == null){
+                               return;
+                             }
+                           await Services.searchWorker(_search.text, _choice2).then((val){
+                             searchResults = val;
+                            print("search length: "+ searchResults.length.toString());
+                             setState(() {
+                            _isLoading =  false;
+                          });
+                          });
+                         
+                        },
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search, color: Colors.white),
+                          hintText: "Search...",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      );
+                   
                     print('okay');
                     
                   } else {

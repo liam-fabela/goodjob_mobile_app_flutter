@@ -72,7 +72,7 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
         if (200 == response.statusCode) {
           print(response.body);
           var data = json.decode(response.body);
-          if (data["error"] || data["error2"]) {
+          if (data["error"]) {
             setState(() {
               _isLoading = false;
             });
@@ -87,17 +87,7 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
                   textColor: Colors.white,
                   fontSize: 14);
             }
-            if (data["message2"] == "username already in use.") {
-              print(data["message2"]);
-              Fluttertoast.showToast(
-                  msg: data["message2"],
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.grey,
-                  textColor: Colors.white,
-                  fontSize: 14);
-            }
+           
           } else {
             
             _sendOTP(mail).then((response) {
@@ -112,7 +102,6 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
                   "bdate": bdate,
                   "zone": zone,
                   "barangay": barangay,
-                  "userName": _username.text,
                   "email": _email.text,
                   "password": _newpass.text
                 });
@@ -185,7 +174,7 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? loadingScreen(context, "checking email and username...")
+        ? loadingScreen(context, "checking email...")
         : Scaffold(
             appBar: appBarSign(context, 'Customer Account Details'),
             body: SingleChildScrollView(
@@ -234,22 +223,6 @@ class _Customer5SignUpScreenState extends State<Customer5SignUpScreen> {
                                       ),
                                       child: Column(
                                         children: <Widget>[
-                                          TextFormField(
-                                            validator: (val) {
-                                              if (val.isEmpty) {
-                                                return 'Please Enter a Value';
-                                              }
-                                              if (val.length < 4) {
-                                                return 'Minimnum of 4 characters!';
-                                              }
-                                              return null;
-                                            },
-                                            controller: _username,
-                                            decoration:
-                                                textFieldInputDecoration(
-                                                    'User Name'),
-                                          ),
-                                          Divider(),
                                           TextFormField(
                                             validator: (val) {
                                               if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")

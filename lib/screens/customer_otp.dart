@@ -22,7 +22,6 @@ class _CustomerOTPState extends State<CustomerOTP> {
   String bdate;
   String zone;
   String barangay;
-  String user;
   String email;
   String pass;
   TextEditingController _otp = TextEditingController();
@@ -39,7 +38,6 @@ class _CustomerOTPState extends State<CustomerOTP> {
     bdate = ws6['bdate'];
     zone = ws6['zone'];
     barangay = ws6['barangay'];
-    user = ws6['userName'];
     email = ws6['email'];
     pass = ws6['password'];
     super.didChangeDependencies();
@@ -243,7 +241,6 @@ class _CustomerOTPState extends State<CustomerOTP> {
               bdate,
               zone,
               barangay,
-              user,
               email,
               pass,
               firebaseUser,

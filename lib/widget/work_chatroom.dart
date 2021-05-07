@@ -69,6 +69,7 @@ class _WorkerChatroomScreenState extends State<WorkerChatroomScreen> {
           
           ),
           subtitle: Text(dateFormat.format(DateTime.parse(customerChat.update)), style: tinyFont()),
+          trailing: Text("Button here"),
         ),
       ),
     );

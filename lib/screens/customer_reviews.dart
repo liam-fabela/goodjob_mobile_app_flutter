@@ -23,6 +23,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
   TextEditingController review = TextEditingController();
   double _ratingValue;
   var _isLoading = false;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void didChangeDependencies() {
@@ -38,89 +39,107 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
     return Services.getReviews(wid);
   }
 
-  _showReviewForm(
-      BuildContext context, int cid, int wid) {
+  _showReviewForm(BuildContext context, int cid, int wid) {
     Alert(
         context: context,
         title: 'Rate Worker',
         content: Column(
-              children: [
-                TextFormField(
-                  controller: review,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Write your review',
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  maxLines: 5,
+          children: [
+            Form(
+              key: formKey,
+              child: TextFormField(
+                validator: (val) {
+                  return val.isEmpty ? 'Please write something nice!' : null;
+                },
+                controller: review,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Write your review',
+                  fillColor: Colors.white,
+                  filled: true,
                 ),
-                SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  //color: Color.fromRGBO(53, 173, 207, 1),),
-                  child: RatingBar(
-                    initialRating: 0,
-                    direction: Axis.horizontal,
-                    allowHalfRating: false,
-                    itemCount: 5,
-                    ratingWidget: RatingWidget(
-                      full: Icon(Icons.thumb_up_rounded,
-                          color: Color.fromRGBO(65, 136, 145, 1)),
-                      half: Icon(Icons.thumb_up_rounded,
-                          color: Color.fromRGBO(65, 136, 145, 1)),
-                      empty: Icon(Icons.thumb_up_alt_outlined,
-                          color: Color.fromRGBO(65, 136, 145, 1)),
-                    ),
-                    onRatingUpdate: (value) {
-                      setState(() {
-                        _ratingValue = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
+                maxLines: 5,
+              ),
             ),
-         
+            SizedBox(
+              height: 25,
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              //color: Color.fromRGBO(53, 173, 207, 1),),
+              child: RatingBar(
+                initialRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                ratingWidget: RatingWidget(
+                  full: Icon(Icons.thumb_up_rounded,
+                      color: Color.fromRGBO(65, 136, 145, 1)),
+                  half: Icon(Icons.thumb_up_rounded,
+                      color: Color.fromRGBO(65, 136, 145, 1)),
+                  empty: Icon(Icons.thumb_up_alt_outlined,
+                      color: Color.fromRGBO(65, 136, 145, 1)),
+                ),
+                onRatingUpdate: (value) {
+                  setState(() {
+                    _ratingValue = value;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
         buttons: [
           DialogButton(
             onPressed: () async {
-              var _myTime = await NTP.now();
-              String date = _myTime.toString();
-              ProgressDialog dialog = new ProgressDialog(context);
-              dialog.style(
-                message: 'Sending Review...',
-              );
-              await dialog.show();
-              await Services.addReview(cid, wid, _ratingValue, review.text, date).then((value) {
-                setState(() {
-                  _isLoading = false;
+              if (formKey.currentState.validate()) {
+                if (_ratingValue == null) {
+                  Fluttertoast.showToast(
+                      msg: "Please submit a rating!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.grey,
+                      textColor: Colors.white,
+                      fontSize: 14);
+                  return;
+                }
+                var _myTime = await NTP.now();
+                String date = _myTime.toString();
+                ProgressDialog dialog = new ProgressDialog(context);
+                dialog.style(
+                  message: 'Sending Review...',
+                );
+                await dialog.show();
+                await Services.addReview(
+                        cid, wid, _ratingValue, review.text, date)
+                    .then((value) {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  review.clear();
+                  dialog.hide();
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                      msg: "Success!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                      textColor: Colors.white,
+                      fontSize: 14);
                 });
-                 review.clear();
-                dialog.hide();
-                Navigator.pop(context);
-                Fluttertoast.showToast(
-                    msg: "Success!",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 2,
-                    backgroundColor: Color.fromRGBO(91, 168, 144, 1),
-                    textColor: Colors.white,
-                    fontSize: 14);
-              });
+              }
             },
             color: Color.fromRGBO(62, 135, 148, 1),
-            child: Text("SUBMIT", style: TextStyle(color: Colors.white, fontSize: 18)),
+            child: Text("SUBMIT",
+                style: TextStyle(color: Colors.white, fontSize: 18)),
           ),
         ]).show();
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +156,7 @@ class _CustomerReviewScreenState extends State<CustomerReviewScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              _showReviewForm(context,UserProfile.dbUser, wid);
+              _showReviewForm(context, UserProfile.dbUser, wid);
             },
           ),
         ],

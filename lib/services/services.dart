@@ -144,7 +144,7 @@ static const url41 = 'https://goodjob-mobile-app.000webhostapp.com/worker_delete
   //  return parsed.map<Worker>((json) => Worker.fromJson(json)).toList();
  // }
 
-  static Future<void> addWorker(String joined,String lname, String fname, String bdate, String street, String brgy, String photo, String base64Photo,String front, String base64Front, String back, String base64Back, int docuId, String rqr, String base64Doc,String usrname, String eml, String pass, String uid) async{
+  static Future<void> addWorker(String joined,String lname, String fname, String bdate, String street, String brgy, String photo, String base64Photo,String front, String base64Front, String back, String base64Back, int docuId, String rqr, String base64Doc,String eml, String pass, String uid) async{
 
       print('muaagi sa dire');
     try{
@@ -167,7 +167,6 @@ static const url41 = 'https://goodjob-mobile-app.000webhostapp.com/worker_delete
       map["docId"] = docuId;
       map["workerdocu"] = rqr;
       map["docPic"] = base64Doc;
-      map["username"] = usrname;
       map["email"] = eml;
       map["password"] = pass;
       map["uid"] = uid;
@@ -193,7 +192,7 @@ static const url41 = 'https://goodjob-mobile-app.000webhostapp.com/worker_delete
     }
   }
 
-   static Future<void> addCustomer(String lname, String fname, String bdate, String street, String brgy, String usrname, String eml, String pass, String uid, String joined) async{
+   static Future<void> addCustomer(String lname, String fname, String bdate, String street, String brgy,String eml, String pass, String uid, String joined) async{
      try{
 
       var map = Map<String, dynamic>();
@@ -203,7 +202,6 @@ static const url41 = 'https://goodjob-mobile-app.000webhostapp.com/worker_delete
       map["birthdate"] = bdate;
       map["zone"] = street;
       map["barangay"] = brgy;
-      map["username"] = usrname;
       map["email"] = eml;
       map["password"] = pass;
       map["uid"] = uid;

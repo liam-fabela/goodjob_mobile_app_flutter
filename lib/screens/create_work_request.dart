@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../styles/style.dart';
@@ -246,15 +247,22 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                     bottom: 15,
                   ),
                   child: Form(
+                     key: formKey,
                     child: Column(
                       children: [
                         TextFormField(
+                           validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Date' : null;
+                          },
                           controller: _dateController,
                           decoration: inputDeco('Date:'),
                           readOnly: true,
                           onTap: _presentDatePicker,
                         ),
                         TextFormField(
+                           validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Time' : null;
+                          },
                           controller: _time1,
                           decoration: inputDeco(' Start Time:'),
                            readOnly: true,
@@ -263,6 +271,9 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                           },
                         ),
                         TextFormField(
+                           validator: (val) {
+                            return val.isEmpty ? 'Please Choose a Time' : null;
+                          },
                           controller: _time2,
                           decoration: inputDeco('End Time:'),
                            readOnly: true,
@@ -271,10 +282,16 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                           }
                         ),
                         TextFormField(
+                           validator: (val) {
+                            return val.isEmpty ? 'Please Enter Address' : null;
+                          },
                           controller: _location,
-                          decoration: inputDeco('Location:'),
+                          decoration: inputDeco('Complete Address:'),
                         ),
                         TextFormField(
+                           validator: (val) {
+                            return val.isEmpty ? 'Please Enter Details' : null;
+                          },
                           controller: _details,
                           maxLines: 3,
                           keyboardType: TextInputType.multiline,
@@ -284,6 +301,9 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                 validator: (val) {
+                            return val.isEmpty ? 'Please Enter Budget' : null;
+                          },
                                 controller: _budget,
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
@@ -392,6 +412,18 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                 alignment: Alignment.bottomRight,
                                 child: GestureDetector(
                                   onTap: () {
+                                     if (formKey.currentState.validate()) {
+                                      if (_choice2 == null) {
+                                        Fluttertoast.showToast(
+                                            msg: "Please choose a work type.",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.grey,
+                                            textColor: Colors.white,
+                                            fontSize: 14);
+                                            return;
+                                      }
                                     _sendRequest(
                                         widget.wid,
                                         widget.cid,
@@ -403,6 +435,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                         _details.text,
                                         _budget.text,
                                         _choice2);
+                                     }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
