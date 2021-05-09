@@ -1,4 +1,6 @@
 class WorkerChatroom{
+  String chid;
+  String chatId;
    String workerId;
   String lname;
   String fname;
@@ -7,6 +9,8 @@ class WorkerChatroom{
   String update;
 
   WorkerChatroom({
+    this.chid,
+    this.chatId,
     this.workerId,
     this.lname,
     this.fname,
@@ -17,6 +21,8 @@ class WorkerChatroom{
 
   factory WorkerChatroom.fromJson(Map<String, dynamic>jsonData){
     return WorkerChatroom(
+      chid: jsonData['chid'],
+      chatId: jsonData['chatId'],
       workerId: jsonData['id'],
       lname: jsonData['lname'],
       fname: jsonData['fname'],

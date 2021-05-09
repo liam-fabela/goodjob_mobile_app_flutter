@@ -41,7 +41,7 @@ class _RequestDetailsState extends State<RequestDetails> {
     //String user = id.toString();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => ChatScreen(name, uid, userId, profile, 1),
+        builder: (ctx) => ChatScreen(name, uid, userId, profile, 1,1),
       ),
     );
   }

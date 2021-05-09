@@ -70,7 +70,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
   void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
     String name = fname + ' ' + lname;
     int userId = int.parse(id);
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1),),);
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1,2),),);
   }
 
   void navigateReview(BuildContext context, String id){

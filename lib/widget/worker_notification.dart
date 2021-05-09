@@ -18,11 +18,23 @@ class WorkerNotification extends StatefulWidget {
 }
 
 class _WorkerNotificationState extends State<WorkerNotification> {
+  var _isLoading = false;
   formatTime(String time){
     //var format = DateFormat.jm();
     TimeOfDay _format = TimeOfDay(hour: int.parse(time.split(":")[0]),minute: int.parse(time.split(":")[1]));
     return _format;
      
+  }
+
+  
+  Future<void> _refreshData(int wid) async {
+    setState(() {
+      
+    });
+     Services.getWorkerRequest(wid);
+
+  
+    
   }
 
 
@@ -128,7 +140,7 @@ class _WorkerNotificationState extends State<WorkerNotification> {
                         SizedBox(height: 15),
                         GestureDetector(
                           onTap: () {
-                            //_refreshData(widget.id);
+                            _refreshData(widget.wid);
                           },
                           child: Container(
                             alignment: Alignment.center,

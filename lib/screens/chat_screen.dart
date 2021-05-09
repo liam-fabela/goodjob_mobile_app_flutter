@@ -20,8 +20,9 @@ class ChatScreen extends StatefulWidget {
   final int receiverId;
   final String profile;
   final int source;
+  final int root;
 
-  ChatScreen(this.name, this.uid, this.receiverId, this.profile, this.source);
+  ChatScreen(this.name, this.uid, this.receiverId, this.profile, this.source, this.root);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -70,7 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
     var sender = await SharedPrefUtils.getUser('userId');
     String s = sender.toString();
     int sen = int.parse(s);
-    Services.createChat(sen, widget.receiverId, firebaseMessageRoot)
+    Services.createChat(sen, widget.receiverId, firebaseMessageRoot, widget.root)
         .then((value) {
       print('chatroom created');
     });
@@ -109,6 +110,8 @@ class _ChatScreenState extends State<ChatScreen> {
         if (scrollController.hasClients) {
           setState(() {});
         }
+      }else{
+        return;
       }
     }).catchError((error) {
       // var errorCode = error.code;
@@ -312,7 +315,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           maxLines: null,
                           decoration: InputDecoration(
                               hintText: 'Type your message here...',
-                              border: OutlineInputBorder()),
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.white,
+                              filled: true,
+                              ),
+                              
                         ),
                       ),
                       IconButton(

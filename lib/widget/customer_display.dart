@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 //import 'package:shimmer/shimmer.dart';
 import 'dart:ui';
@@ -6,10 +8,17 @@ import '../models/cus_display_profile.dart';
 import '../styles/style.dart';
 import '../services/services.dart';
 
-class CustomerDisplay extends StatelessWidget {
+class CustomerDisplay extends StatefulWidget {
   final int id;
   CustomerDisplay(this.id);
 
+  @override
+  _CustomerDisplayState createState() => _CustomerDisplayState();
+}
+
+class _CustomerDisplayState extends State<CustomerDisplay> {
+  
+  
   Widget customerDisplayProfile(
       BuildContext context, CustomerProfile customerProfile) {
     return Stack(
@@ -43,6 +52,7 @@ class CustomerDisplay extends StatelessWidget {
                     image: DecorationImage(
                       image: NetworkImage(customerProfile.profile),
                       fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(1), BlendMode.dstATop)
                     ),
                   ),
                   width: MediaQuery.of(context).size.width * 0.2,
@@ -57,9 +67,9 @@ class CustomerDisplay extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(customerProfile.fname, style: profileName2()),
+                          Text(customerProfile.fname, style: profileName3()),
                           SizedBox(width: 5),
-                          Text(customerProfile.lname, style: profileName2()),
+                          Text(customerProfile.lname, style: profileName3()),
                         ],
                       ),
                       Column(
@@ -69,11 +79,11 @@ class CustomerDisplay extends StatelessWidget {
                             customerProfile.zone +
                                 " " +
                                 customerProfile.barangay,
-                            style: addressStyle2(),
+                            style: addressStyle3(),
                           ),
                           Text(
                             customerProfile.city,
-                            style: addressStyle2(),
+                            style: addressStyle3(),
                           ),
                         ],
                       ),
@@ -91,22 +101,23 @@ class CustomerDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CustomerProfile>>(
-        future: Services.getCustomerDisplay(id),
+        future: Services.getCustomerDisplay(widget.id),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<CustomerProfile> customerProfile = snapshot.data;
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                  itemCount: customerProfile.length,
-                  itemBuilder: (context, int currentIndex) {
-                    return customerDisplayProfile(
-                      context,
-                      customerProfile[currentIndex],
-                    );
-                  }),
-            );
+           
+                return Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    itemCount: customerProfile.length,
+                    itemBuilder: (context, int currentIndex) {
+                      return customerDisplayProfile(
+                        context,
+                        customerProfile[currentIndex],
+                      );
+                    }),
+              );
           } else if (snapshot.hasError) {
             return shimmerEffect(context);
           }

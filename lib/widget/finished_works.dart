@@ -18,34 +18,111 @@ class FinishedWorksPage extends StatefulWidget {
 class _FinishedWorksPageState extends State<FinishedWorksPage> {
   var _isLoading = false;
 
-  _deleteWork(int id) async {
-    ProgressDialog dialog = new ProgressDialog(context);
-    dialog.style(
-      message: 'Deleting...',
-    );
-    await dialog.show();
-    var _myTime = await NTP.now();
-    String updated = _myTime.toString();
-    print(updated);
-    await Services.deletWorkerWork(id, updated).then((val){
-      setState(() {
+  double _totalEarned(String time, String earning){
+    double earn = double.parse(earning);
+    double t = double.parse(time);
+    double hr =  t / 3600;
+    double m = earn * hr;
+    return m;
+
+  }
+
+  _deleteWork(int id, String status) async {
+    if (status != 'paid') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(
+            'Warning!',
+            style: TextStyle(color: Colors.black),
+          ),
+          content: SingleChildScrollView(
+              child: ListBody(
+            children: [
+              Text(
+                  'You can\'t delete unpaid work yet.'),
+            ],
+          )),
+          actions: <Widget>[
+            TextButton(
+              child: Center(
+                child: Text(
+                  'Okay',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    }else{
+       showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          'Delete.',
+          style: TextStyle(color: Colors.black),
+        ),
+        content: SingleChildScrollView(
+            child: ListBody(
+          children: [
+            Text('Are you sure you want to delete this?'),
+          ],
+        )),
+        actions: <Widget>[
+          TextButton(
+            child: Center(
+              child: Text(
+                'Yes',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () async {
+              ProgressDialog dialog = new ProgressDialog(context);
+              dialog.style(
+                message: 'Deleting...',
+              );
+              await dialog.show();
+              var _myTime = await NTP.now();
+              String updated = _myTime.toString();
+              print(updated);
+              await Services.deletWorkerWork(id, updated).then((val) {
+                setState(() {
                   _isLoading = false;
                 });
                 dialog.hide();
                 Navigator.pop(context);
                 Fluttertoast.showToast(
-                    msg:
-                        "Success!",
+                    msg: "Success!",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 2,
                     backgroundColor: Color.fromRGBO(91, 168, 144, 1),
                     textColor: Colors.white,
                     fontSize: 14);
-    });
+              });
+            },
+          ),
+          TextButton(
+            child: Center(
+              child: Text(
+                'No',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+    }
+   
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -85,100 +162,65 @@ class _FinishedWorksPageState extends State<FinishedWorksPage> {
                   return ListView.builder(
                       itemCount: workerFinished.length,
                       itemBuilder: (context, int currentIndex) {
-                         //List<WorkerFinishedRequests> workerFinished = snapshot.data;
-                        return Dismissible(
-      key: ValueKey(workerFinished[currentIndex]),
-      background: Container(
-        color: Theme.of(context).errorColor,
-        child: Icon(
-          Icons.delete,
-          color: Colors.white,
-          size: 40,
-        ),
-        alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20),
-        margin: EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 4,
-        ),
-      ),
-      direction: DismissDirection.endToStart,
-      confirmDismiss: (direction) {
-        return showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text(
-              'Do you want to delete work info?',
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('No'),
-                onPressed: () {
-                  Navigator.of(ctx).pop(false);
-                },
-              ),
-              FlatButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  Navigator.of(ctx).pop(true);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-      onDismissed: (direction) {
-       
-        //workerFinished[currentIndex].
-       
-        int id = int.parse(workerFinished[currentIndex].jobId);
-         _deleteWork(id).then((val){
-           setState((){
-
-           });
-            snapshot.data.removeAt(currentIndex);
-         });
-        
-        
-        
-      },
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundColor: Color.fromRGBO(75, 210, 178, 1),
-              child: Padding(
-                  padding: EdgeInsets.all(6),
-                  child: Icon(Icons.check_circle, size: 30)),
-            ),
-            title: Text("Work Request # " + workerFinished[currentIndex].jobId,
-                style: profileName()),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Customer Name: '),
-                Text(workerFinished[currentIndex].fname + " " + workerFinished[currentIndex].lname,
-                    style: addressStyle()),
-                Text('Category: '),
-                Text(workerFinished[currentIndex].category, style: addressStyle()),
-                Text('Finished on: '),
-                Text(workerFinished[currentIndex].updated, style: addressStyle()),
-                 Text('Earnings: '),
-                Text(workerFinished[currentIndex].budget, style: addressStyle()),
-                Text('Status: '),
-                Text(workerFinished[currentIndex].status == 'paid' ? 'PAID' : 'UNPAID',
-                    style:
-                        workerFinished[currentIndex].status == 'paid' ? done() : declined()),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                        return Card(
+                          elevation: 5,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: ListTile(
+                              onLongPress: () {
+                                int fid = int.parse(
+                                    workerFinished[currentIndex].jobId);
+                                _deleteWork(
+                                    fid, workerFinished[currentIndex].status);
+                              },
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundColor:
+                                    Color.fromRGBO(75, 210, 178, 1),
+                                child: Padding(
+                                    padding: EdgeInsets.all(6),
+                                    child: Icon(Icons.check_circle, size: 30)),
+                              ),
+                              title: Text(
+                                  "Work Request # " +
+                                      workerFinished[currentIndex].jobId,
+                                  style: profileName()),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Customer Name: '),
+                                  Text(
+                                      workerFinished[currentIndex].fname +
+                                          " " +
+                                          workerFinished[currentIndex].lname,
+                                      style: addressStyle()),
+                                  Text('Category: '),
+                                  Text(workerFinished[currentIndex].category,
+                                      style: addressStyle()),
+                                  Text('Finished on: '),
+                                  Text(workerFinished[currentIndex].updated,
+                                      style: addressStyle()),
+                                  Text('Earnings: '),
+                                  workerFinished[currentIndex].type == 'per hour' ?
+                                   Text(_totalEarned(workerFinished[currentIndex].time, workerFinished[currentIndex].budget).toStringAsFixed(2)) :
+                                  Text(workerFinished[currentIndex].budget,
+                                      style: addressStyle()),
+                                  Text('Status: '),
+                                  Text(
+                                      workerFinished[currentIndex].status ==
+                                              'paid'
+                                          ? 'PAID'
+                                          : 'UNPAID',
+                                      style:
+                                          workerFinished[currentIndex].status ==
+                                                  'paid'
+                                              ? done()
+                                              : declined()),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                       });
                 } else if (snapshot.hasError) {
                   return Column(

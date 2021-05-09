@@ -264,6 +264,7 @@ class _WorkerEditState extends State<WorkerEdit> {
                                           textColor: Colors.white,
                                           fontSize: 14);
                                     });
+                                    Navigator.pop(context);
                                   }
                                 },
                                 child: Container(

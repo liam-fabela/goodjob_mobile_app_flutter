@@ -42,6 +42,7 @@ class WorkerDisplay extends StatelessWidget {
                     image: DecorationImage(
                       image: NetworkImage(workerProfile.profile),
                       fit: BoxFit.cover,
+                       colorFilter: ColorFilter.mode(Colors.black.withOpacity(1), BlendMode.dstATop)
                     ),
                   ),
                   width: MediaQuery.of(context).size.width * 0.2,
@@ -56,9 +57,9 @@ class WorkerDisplay extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(workerProfile.fname, style: profileName2()),
+                          Text(workerProfile.fname, style: profileName3()),
                           SizedBox(width: 5),
-                          Text(workerProfile.lname, style: profileName2()),
+                          Text(workerProfile.lname, style: profileName3()),
                         ],
                       ),
                       Container(
@@ -69,15 +70,15 @@ class WorkerDisplay extends StatelessWidget {
                           children: [
                             Text(
                               workerProfile.zone,
-                              style: addressStyle2(),
+                              style: addressStyle3(),
                             ),
                             Text(
                               workerProfile.barangay,
-                              style: addressStyle2(),
+                              style: addressStyle3(),
                             ),
                             Text(
                               workerProfile.city,
-                              style: addressStyle2(),
+                              style: addressStyle3(),
                             ),
                           ],
                         ),

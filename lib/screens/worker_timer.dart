@@ -168,8 +168,33 @@ class _WorkerTimerState extends State<WorkerTimer> {
                         setState(() {
                           isActive = false;
                         });
+                          showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Log out.', style: TextStyle(color: Colors.black),),
+                content: SingleChildScrollView(child:ListBody(children: [
+                   Text('Are you sure you want to logout?.'),
+                ],)),
+                actions: <Widget>[
+                 
+                  TextButton(
+                    child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
                         _updateStatus(widget.jobId, secondsPassed);
                         print(secondsPassed);
+                      
+                    },
+                  ),
+                   TextButton(
+                    child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+                    onPressed: () {
+                       Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+          ),
+         );
+                       
                       }),
                 ),
               ],

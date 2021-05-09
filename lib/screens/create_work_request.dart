@@ -415,7 +415,7 @@ class _CreateWorkRequestState extends State<CreateWorkRequest> {
                                      if (formKey.currentState.validate()) {
                                       if (_choice2 == null) {
                                         Fluttertoast.showToast(
-                                            msg: "Please choose a work type.",
+                                            msg: "Please choose a budget type.",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 1,

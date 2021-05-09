@@ -43,6 +43,7 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
            }
          );
           },
+          
          leading: CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(customerNotification.profile), 
@@ -79,7 +80,7 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.person,
+                            Icons.notifications,
                             size: 50,
                             color: Colors.white,
                           ),

@@ -14,6 +14,7 @@ class WorkerFinishedRequests {
   String requested;
   String updated;
   String status;
+  String time;
 
   WorkerFinishedRequests ({
     this.jobId,
@@ -30,7 +31,8 @@ class WorkerFinishedRequests {
     this.profile,
     this.requested,
     this.updated,
-    this.status
+    this.status,
+    this.time,
   });
 
   factory WorkerFinishedRequests.fromJson(Map<String,dynamic>jsonData) {
@@ -50,6 +52,7 @@ class WorkerFinishedRequests {
        requested: jsonData['requested'],
        updated: jsonData['updated'],
        status: jsonData['status'],
+       time: jsonData['time'],
       
      );
    }

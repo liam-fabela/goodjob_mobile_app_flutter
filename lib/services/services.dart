@@ -71,6 +71,12 @@ static const url38 = 'https://goodjob-mobile-app.000webhostapp.com/get_customer_
 static const url39 = 'https://goodjob-mobile-app.000webhostapp.com/update_profile.php';
 static const url40 = 'https://goodjob-mobile-app.000webhostapp.com/update_profile2.php';
 static const url41 = 'https://goodjob-mobile-app.000webhostapp.com/worker_delete_chat.php';
+static const url42 = 'https://goodjob-mobile-app.000webhostapp.com/update_work_post.php';
+static const url43 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_post.php';
+static const url44 = 'https://goodjob-mobile-app.000webhostapp.com/update_work_request.php';
+static const url45 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_request.php';
+static const url46 = 'https://goodjob-mobile-app.000webhostapp.com/delete_customer_chat.php';
+
 
 
 
@@ -389,13 +395,14 @@ static getData()async{
  }
 
 
-static Future<void> createChat(int custId, int workId, String firebaseMessage) async{
+static Future<void> createChat(int custId, int workId, String firebaseMessage, int root) async{
 
  var map = Map<String, dynamic>();
  try{
    map["user1"] = custId;
    map["user2"] = workId;
    map["firebase"] = firebaseMessage;
+   map['root'] = root;
 
    final response = await http.post(url8, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get chatroom response: ${response.body}');
@@ -1152,15 +1159,120 @@ static Future<void> updateProfile2(int cid,String zone, String brgy) async{
   }
 }
 
-static Future<void> deletWorkerWorkChat(int id,String update) async{
+static Future<void> deleteWorkerChat(int id) async{
   try{
      var map = Map<String, dynamic>();
      map['id'] = id;
-     map['date'] = update;
+     
    final response = await http.post(url41, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get DELETE response: ${response.body}');
    if(response.statusCode == 200) {
     print('Deleted successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+
+static Future<void> updateWorkPost(int id, String date, String t1 ,String t2, String details,
+String add, String bud) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+     map['date'] = date;
+     map['t1'] = t1;
+      map['t2'] = t2;
+      map['details'] = details;
+    map['add'] = add;
+    map['bud'] = bud;
+   
+   final response = await http.post(url42, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> deleteWorkPost(int id) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+
+   final response = await http.post(url43, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> updateWorkRequest(int id, String date, String t1 ,String t2, String details,
+String add, String bud) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+     map['date'] = date;
+     map['t1'] = t1;
+      map['t2'] = t2;
+      map['details'] = details;
+    map['add'] = add;
+    map['bud'] = bud;
+   
+   final response = await http.post(url44, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> deleteWorkRequest(int id) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+
+   final response = await http.post(url45, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> deleteCustomerChat(int id) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+
+   final response = await http.post(url46, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
    }else{
      print("error");
    }

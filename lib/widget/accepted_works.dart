@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:location/location.dart';
@@ -6,8 +8,6 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:ntp/ntp.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-//import 'package:progress_dialog/progress_dialog.dart';
-//import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 import '../styles/style.dart';
 import '../services/services.dart';
@@ -33,7 +33,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
    void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
     String name = fname + ' ' + lname;
     int userId = int.parse(id);
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1),),);
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1,1),),);
   }
 
  
@@ -202,6 +202,11 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
        ],
      );
    }
+  }
+
+  _showTimer(int id){
+
+
   }
 
   appBarWidget(BuildContext context) {

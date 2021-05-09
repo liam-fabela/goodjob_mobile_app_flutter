@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:shimmer/shimmer.dart';
-
-//import '../models/cust_profile.dart';
 import '../models/widget_data.dart';
 import '../widget/cust_profile_grid.dart';
-//import '../models/cus_display_profile.dart';
 import '../widget/customer_display.dart';
-//import '../services/services.dart';
 import '../helper/shared_preferences.dart';
 import '../styles/style.dart';
 import '../helper/firebase_user.dart';

@@ -456,7 +456,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                                       }
                                       if(_choice2 == null){
                                          Fluttertoast.showToast(
-                                            msg: "Please choose a work type.",
+                                            msg: "Please choose a budget type.",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.CENTER,
                                             timeInSecForIosWeb: 1,
