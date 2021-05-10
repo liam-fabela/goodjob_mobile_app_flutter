@@ -228,6 +228,31 @@ class _CustomerRequestState extends State<CustomerRequest> {
             onPressed: () async {
               int id = int.parse(jid);
               if (formKey.currentState.validate()) {
+                if(formatted == null){
+                   ProgressDialog dialog = new ProgressDialog(context);
+                dialog.style(
+                  message: 'Updating post...',
+                );
+                await dialog.show();
+
+                await Services.updateWorkRequest(id, date, _time1.text,
+                        _time2.text, _det.text, _address.text, _budg.text)
+                    .then((val) {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  dialog.hide();
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                      msg: "Success!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                      textColor: Colors.white,
+                      fontSize: 14);
+                });
+                }
                 ProgressDialog dialog = new ProgressDialog(context);
                 dialog.style(
                   message: 'Updating post...',

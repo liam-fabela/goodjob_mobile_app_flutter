@@ -49,7 +49,9 @@ class _WorkerOwnRatingState extends State<WorkerOwnRating> {
                              return Row(
                                mainAxisAlignment: MainAxisAlignment.center,
                           children:[
-                            Text(totalRating[index].rating, style: largeFont()),
+                            totalRating[index].rating == null ? 
+                            Text(totalRating[index].rating, style: largeFont())
+                            : Text(totalRating[index].rating, style: largeFont()),
                             SizedBox(width: 10),
                             Icon(Icons.thumb_up_alt_rounded, size: 50, color: Colors.white),
                           ],
@@ -132,6 +134,7 @@ class _WorkerOwnRatingState extends State<WorkerOwnRating> {
                       ],
                     );
                   } else {
+                    
                     return ReviewList(customerReviews);
                   }
                 } else if (snapshot.hasError) {

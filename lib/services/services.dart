@@ -76,6 +76,7 @@ static const url43 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_p
 static const url44 = 'https://goodjob-mobile-app.000webhostapp.com/update_work_request.php';
 static const url45 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_request.php';
 static const url46 = 'https://goodjob-mobile-app.000webhostapp.com/delete_customer_chat.php';
+static const url47 = 'https://goodjob-mobile-app.000webhostapp.com/delete_request_notif.php';
 
 
 
@@ -1281,6 +1282,25 @@ static Future<void> deleteCustomerChat(int id) async{
     print(error);
   }
 }
+
+static Future<void> deleteRequestNotif(int id) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+
+   final response = await http.post(url47, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
 
 }
 

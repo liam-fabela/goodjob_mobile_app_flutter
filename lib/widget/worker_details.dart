@@ -343,7 +343,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                       // height: MediaQuery.of(context).size.height * 0.20,
                       width: MediaQuery.of(context).size.width * 0.80,
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                               child: Column(
@@ -371,6 +371,7 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                           )),
                           Expanded(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
                                   onTap: () {
@@ -384,14 +385,15 @@ class _WorkerDetailsState extends State<WorkerDetails> {
                                     color:
                                         const Color.fromRGBO(62, 135, 148, 1),
                                   )),
-                              Text(
-                                'Schedule Calendar',
+                             Text(
+                                'Schedule',
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontFamily: 'Raleway',
                                   color: const Color.fromRGBO(62, 135, 148, 1),
                                 ),
                               ),
+                           
                             ],
                           )),
                           Expanded(

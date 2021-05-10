@@ -8,7 +8,6 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:ntp/ntp.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
 import '../styles/style.dart';
 import '../services/services.dart';
 import '../models/wor_accepted.dart';
@@ -28,17 +27,17 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
   TextEditingController workHour = TextEditingController();
   PermissionStatus _permissionGranted;
   Location loc = new Location();
-  
 
-   void _sendMessage(BuildContext context, String lname, String fname, String uid, String id, String profile) {
+  void _sendMessage(BuildContext context, String lname, String fname,
+      String uid, String id, String profile) {
     String name = fname + ' ' + lname;
     int userId = int.parse(id);
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ChatScreen(name, uid, userId, profile,1,1),),);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => ChatScreen(name, uid, userId, profile, 1, 1),
+      ),
+    );
   }
-
- 
-
-  
 
   Future<void> _getCurrentUserLocation(
       BuildContext context, String location) async {
@@ -46,10 +45,10 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
       _isLoading = true;
     });
     _permissionGranted = await loc.requestPermission();
-    if(_permissionGranted != PermissionStatus.GRANTED){
-       setState(() {
-      _isLoading = false;
-    });
+    if (_permissionGranted != PermissionStatus.GRANTED) {
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
     final query = location;
@@ -73,8 +72,8 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
     });
   }
 
-  _showPerHour(BuildContext context, int jobId) async{
-     return await showDialog(
+  _showPerHour(BuildContext context, int jobId) async {
+    return await showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Text(
@@ -89,8 +88,9 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                 return value.isEmpty ? null : 'Please Enter Work hours';
               },
               keyboardType: TextInputType.numberWithOptions(),
-              decoration: InputDecoration(hintText: 'Please enter your work hours'),
-              controller:  workHour,
+              decoration:
+                  InputDecoration(hintText: 'Please enter your work hours'),
+              controller: workHour,
             ),
           ],
         )),
@@ -104,6 +104,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
             ),
             onPressed: () async {
               int amt = int.parse(workHour.text);
+              int amts = amt * 3600;
               ProgressDialog dialog = new ProgressDialog(context);
               dialog.style(
                 message: 'Updating Work Status...',
@@ -112,7 +113,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
               var _myTime = await NTP.now();
               String updated = _myTime.toString();
               await Services.updateAcceptRequest(
-                      jobId, 'done',amt,'n/a', updated)
+                      jobId, 'done', amts, 'n/a', updated)
                   .then((val) {
                 setState(() {
                   _isLoading = false;
@@ -120,8 +121,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                 dialog.hide();
                 Navigator.pop(context);
                 Fluttertoast.showToast(
-                    msg:
-                        "Success!",
+                    msg: "Success!",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIosWeb: 2,
@@ -148,7 +148,7 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
   }
 
   _updateStatus(int jobId) async {
-   try {
+    try {
       ProgressDialog dialog = new ProgressDialog(context);
       dialog.style(
         message: 'Updating Work Status...',
@@ -156,38 +156,42 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
       await dialog.show();
       var _myTime = await NTP.now();
       String updated = _myTime.toString();
-      await Services.updateAcceptRequest(jobId, 'done', 0 ,'n/a',updated).then((val) {
+      await Services.updateAcceptRequest(jobId, 'done', 0, 'n/a', updated)
+          .then((val) {
         setState(() {
           _isLoading = false;
         });
-       dialog.hide();
-       Navigator.pop(context);
-     });
+        dialog.hide();
+        Navigator.pop(context);
+      });
     } catch (error) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.wifi_off_outlined,
-           size: 50,
+            size: 50,
             color: Colors.white,
-         ),
-         SizedBox(height: 15),          Text(
-           'Connection error.',
-           style: TextStyle(
-             color: Color.fromRGBO(62, 135, 148, 1),
-             fontSize: 12,
-             fontFamily: 'Raleway',
-            fontWeight: FontWeight.bold,
-         ),            textAlign: TextAlign.center,
-         ),
-         SizedBox(height: 15),
-         GestureDetector(
-           onTap: () => () {}, //_refreshData(wid),
+          ),
+          SizedBox(height: 15),
+          Text(
+            'Connection error.',
+            style: TextStyle(
+              color: Color.fromRGBO(62, 135, 148, 1),
+              fontSize: 12,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 15),
+          GestureDetector(
+            onTap: () => () {}, //_refreshData(wid),
             child: Container(
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width * 0.3,
-              padding: EdgeInsets.symmetric(                vertical: 10,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
               ),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(62, 135, 148, 1),
@@ -196,17 +200,12 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
               child: Text(
                 'Try Again',
                 style: mediumTextStyle(),
-             ),
+              ),
             ),
           ),
-       ],
-     );
-   }
-  }
-
-  _showTimer(int id){
-
-
+        ],
+      );
+    }
   }
 
   appBarWidget(BuildContext context) {
@@ -241,116 +240,137 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
 
   listWidget(BuildContext context, WorkerAcceptedRequests workerRequest) {
     return Card(
-        elevation: 5,
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.6,
-          padding: EdgeInsets.only(
-            top: 30,
-            left: 10,
-            right: 10,
-          ),
-          color: Colors.white,
-          child: Column(
-            children: [
-              Expanded(
-                  flex: 65,
-                  child: Container(
-                  child: ListTile(
-                    
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(workerRequest.profile),
-                      backgroundColor: Color.fromRGBO(75, 210, 178, 1),
-                      child: Padding(
-                        padding: EdgeInsets.all(6),
-                      ),
+      elevation: 5,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        padding: EdgeInsets.only(
+          top: 30,
+          left: 10,
+          right: 10,
+        ),
+        color: Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 65,
+              child: Container(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(workerRequest.profile),
+                    backgroundColor: Color.fromRGBO(75, 210, 178, 1),
+                    child: Padding(
+                      padding: EdgeInsets.all(6),
                     ),
-                    title: Text(workerRequest.category, style: profileName()),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         Text("Customer: " + workerRequest.fname + " " + workerRequest.lname, style: addressStyle4()),
-                        Text("Date: " + workerRequest.date, style: addressStyle4()),
-                        Row(
-                          children: [
-                            Text("Time: ", style: addressStyle4()),
-                            Text(workerRequest.startTime, style:  addressStyle4()),
-                            Text(workerRequest.endTime == null ? " "
-                            : " - " + workerRequest.endTime,
+                  ),
+                  title: Text(workerRequest.category, style: profileName()),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "Customer: " +
+                              workerRequest.fname +
+                              " " +
+                              workerRequest.lname,
+                          style: addressStyle4()),
+                      Text("Date: " + workerRequest.date,
+                          style: addressStyle4()),
+                      Row(
+                        children: [
+                          Text("Time: ", style: addressStyle4()),
+                          Text(workerRequest.startTime, style: addressStyle4()),
+                          Text(
+                            workerRequest.endTime == null
+                                ? " "
+                                : " - " + workerRequest.endTime,
                             style: addressStyle4(),
-                            ),
-                          ],
-                        ),
-                        Text("Location: " +workerRequest.location, style: addressStyle4()),
-                        Text("Budget: " + workerRequest.budget + "/" + workerRequest.type,style: addressStyle4()),
-                        SizedBox(height: 5),
-                        Text("Details: ",style: addressStyle4()),
-                        Text(workerRequest.details, style: addressStyle4()),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      Text("Location: " + workerRequest.location,
+                          style: addressStyle4()),
+                      Text(
+                          "Budget: " +
+                              workerRequest.budget +
+                              "/" +
+                              workerRequest.type,
+                          style: addressStyle4()),
+                      SizedBox(height: 5),
+                      Text("Details: ", style: addressStyle4()),
+                      Text(workerRequest.details, style: addressStyle4()),
+                    ],
                   ),
                 ),
               ),
-              Divider(),
-              Expanded(
-                flex: 35,
-                child: Column(
-                  children:[
+            ),
+            Divider(),
+            Expanded(
+              flex: 35,
+              child: Column(
+                children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 25.0, left: 25.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:[
-                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: (){
-                              String id = widget.wid.toString();
-                              _sendMessage(context, workerRequest.lname, workerRequest.fname, workerRequest.uid, id, workerRequest.profile);
-                            },
-                             child: Icon(
-                                    Icons.messenger_outline,
-                                    size: MediaQuery.of(context).size.width * 0.08,
-                                    color: Color.fromRGBO(36, 121, 138, 1),
-                                  ),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  String id = widget.wid.toString();
+                                  _sendMessage(
+                                      context,
+                                      workerRequest.lname,
+                                      workerRequest.fname,
+                                      workerRequest.uid,
+                                      id,
+                                      workerRequest.profile);
+                                },
+                                child: Icon(
+                                  Icons.messenger_outline,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  color: Color.fromRGBO(36, 121, 138, 1),
                                 ),
-                                Text(
-                                  'Message',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'Raleway',
-                                    color: const Color.fromRGBO(62, 135, 148, 1),
-                                  ),
+                              ),
+                              Text(
+                                'Message',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Raleway',
+                                  color: const Color.fromRGBO(62, 135, 148, 1),
                                 ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap:(){
-                              _getCurrentUserLocation(context, workerRequest.location);
-                            },
-                           child: Icon(
-                                    Icons.map,
-                                    size: MediaQuery.of(context).size.width * 0.08,
-                                    color: Color.fromRGBO(36, 121, 138, 1),
-                                  ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _getCurrentUserLocation(
+                                      context, workerRequest.location);
+                                },
+                                child: Icon(
+                                  Icons.map,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  color: Color.fromRGBO(36, 121, 138, 1),
                                 ),
-                                Text(
-                                  'View Map',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'Raleway',
-                                    color: const Color.fromRGBO(62, 135, 148, 1),
-                                  ),
+                              ),
+                              Text(
+                                'View Map',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Raleway',
+                                  color: const Color.fromRGBO(62, 135, 148, 1),
                                 ),
-                        ],
-                      ),
-                      
-                    ]),
+                              ),
+                            ],
+                          ),
+                        ]),
                   ),
-                   Divider(),
-                   Row(
+                  Divider(),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -362,37 +382,55 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                           child: GestureDetector(
                             onTap: () {
                               int id = int.parse(workerRequest.jobId);
-
-                              showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                  title: Text('Work finished.', style: TextStyle(color: Colors.black),),
-                  content: SingleChildScrollView(child:ListBody(children: [
-                     Text('Are you sure you want to submit your work as done?'),
-                  ],)),
-                  actions: <Widget>[
-                   
-                    TextButton(
-                      child: Center(child: Text('Yes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                      onPressed: () {
-                       if(workerRequest.type == 'per work'){
-                                _updateStatus(id);
-                              }else{
+                              if (workerRequest.type == 'per hour') {
                                 _showPerHour(context, id);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: Text(
+                                      'Work finished.',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    content: SingleChildScrollView(
+                                        child: ListBody(
+                                      children: [
+                                        Text(
+                                            'Are you sure you want to submit your work as done?'),
+                                      ],
+                                    )),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Center(
+                                          child: Text(
+                                            'Yes',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          _updateStatus(id);
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Center(
+                                          child: Text(
+                                            'No',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }
-                             
-                        
-                      },
-                    ),
-                     TextButton(
-                      child: Center(child: Text('No', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-                      onPressed: () {
-                         Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-            ),
-           );
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -415,53 +453,57 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                           ),
                         ),
                       ),
-                    workerRequest.type == 'per hour' ?  Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 8.0),
-                        child: Container(
-                          //alignment: Alignment.bottomCenter,
-                          child: GestureDetector(
-                            onTap: () {
-               //               var route = MaterialPageRoute(
-              //  builder: (BuildContext context) =>
-              //    WorkerTimer(value: workerRequest),
-                 
-              //);
-              // Navigator.of(context).push(route);
-                              int id = int.parse(workerRequest.jobId);
-                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => WorkerTimer(id)));
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8,
+                      workerRequest.type == 'per hour'
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 8.0),
+                              child: Container(
+                                //alignment: Alignment.bottomCenter,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    //               var route = MaterialPageRoute(
+                                    //  builder: (BuildContext context) =>
+                                    //    WorkerTimer(value: workerRequest),
+
+                                    //);
+                                    // Navigator.of(context).push(route);
+                                    int id = int.parse(workerRequest.jobId);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) => WorkerTimer(id)));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(80, 152, 179, 1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      'Use timer',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(80, 152, 179, 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'Use timer',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ) : Container(),
+                            )
+                          : Container(),
                     ],
                   ),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ),
-         
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 
   @override
@@ -505,51 +547,51 @@ class _AcceptedWorksPageState extends State<AcceptedWorksPage> {
                     return listWidget(context, workerRequest[currentIndex]);
                   },
                 );
-              }else if (snapshot.hasError){
-            return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.wifi_off_outlined,
-                          size: 50,
-                          color: Colors.white,
+              } else if (snapshot.hasError) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.wifi_off_outlined,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      'Connection error.',
+                      style: TextStyle(
+                        color: Color.fromRGBO(62, 135, 148, 1),
+                        fontSize: 12,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15),
+                    GestureDetector(
+                      onTap: () {
+                        //_refreshData(widget.id);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
                         ),
-                        SizedBox(height: 15),
-                        Text(
-                          'Connection error.',
-                          style: TextStyle(
-                            color: Color.fromRGBO(62, 135, 148, 1),
-                            fontSize: 12,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(62, 135, 148, 1),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            //_refreshData(widget.id);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            padding: EdgeInsets.symmetric(
-                              vertical: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(62, 135, 148, 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              'Try Again',
-                              style: mediumTextStyle(),
-                            ),
-                          ),
+                        child: Text(
+                          'Try Again',
+                          style: mediumTextStyle(),
                         ),
-                      ],
-                    );
-         }
-         return Column(
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(

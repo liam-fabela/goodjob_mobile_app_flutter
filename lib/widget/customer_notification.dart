@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../services/services.dart';
 import '../models/customer_request_display.dart';
@@ -17,6 +19,7 @@ class CustomerNotifications extends StatefulWidget {
 
 class _CustomerNotificationsState extends State<CustomerNotifications> {
   DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
+  var _isLoading = false;
   formatTime(String time) {
     //var format = DateFormat.jm();
     TimeOfDay _format = TimeOfDay(
@@ -55,6 +58,70 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
       ),
     );
   }
+ _deletePost(int jid){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          'Delete.',
+          style: TextStyle(color: Colors.black),
+        ),
+        content: SingleChildScrollView(
+            child: ListBody(
+          children: [
+            Text('Are you sure you want to delete this?'),
+          ],
+        )),
+        actions: <Widget>[
+          TextButton(
+            child: Center(
+              child: Text(
+                'Yes',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () async {
+               ProgressDialog dialog = new ProgressDialog(context);
+                dialog.style(
+                  message: 'Deleting post...',
+                );
+              await Services.deleteRequestNotif(jid).then((val){
+                 setState(() {
+                    _isLoading = false;
+                  });
+                  dialog.hide();
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                      msg: "Success!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                      textColor: Colors.white,
+                      fontSize: 14);
+               
+               
+              });
+            },
+          ),
+          TextButton(
+            child: Center(
+              child: Text(
+                'No',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+
+  }
+
+
 
   Widget listWidget(BuildContext context, CustomerRequests customerRequests) {
     return Card(
@@ -74,14 +141,17 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
               );
               Navigator.of(context).push(route);
               // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUi(customerRequests)),);
-            } else if (customerRequests.status == 'declined') {
+            } else if (customerRequests.status == 'rejected') {
+              print('okay');
               _showMessage(context, customerRequests.reason);
             } else {
+              print('here');
               return;
             }
           },
           onLongPress: (){
-            print("working");
+            int id = int.parse(customerRequests.jobId);
+           _deletePost(id);
           },
           leading: CircleAvatar(
             radius: 30,
@@ -129,7 +199,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.person,
+                    Icons.notifications,
                     size: 50,
                     color: Colors.white,
                   ),
