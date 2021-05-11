@@ -77,6 +77,7 @@ static const url44 = 'https://goodjob-mobile-app.000webhostapp.com/update_work_r
 static const url45 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_request.php';
 static const url46 = 'https://goodjob-mobile-app.000webhostapp.com/delete_customer_chat.php';
 static const url47 = 'https://goodjob-mobile-app.000webhostapp.com/delete_request_notif.php';
+static const url48 = 'https://goodjob-mobile-app.000webhostapp.com/forgot_password.php';
 
 
 
@@ -1301,6 +1302,25 @@ static Future<void> deleteRequestNotif(int id) async{
   }
 }
 
+
+static Future<void> resetPassword(String email, String password) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['email'] = email;
+     map['pass'] = password;
+
+   final response = await http.post(url48, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
 
 }
 

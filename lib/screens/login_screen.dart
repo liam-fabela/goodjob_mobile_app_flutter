@@ -12,6 +12,8 @@ import 'worker_holding_screen.dart';
 import 'worker_categories_screen.dart';
 //import '../services/services.dart';
 import '../helper/shared_preferences.dart';
+import 'forgot_password.dart';
+
 
 class LoginScreen extends StatefulWidget {
   // static const routeName = '/login';
@@ -396,18 +398,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 8,
-                                    ),
-                                    child: Text(
-                                      'Forgot Password?',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        decoration: TextDecoration.underline,
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPasword()),);
+                                    },
+                                      child: Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 8,
+                                      ),
+                                      child: Text(
+                                        'Forgot Password?',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          decoration: TextDecoration.underline,
+                                        ),
                                       ),
                                     ),
                                   ),

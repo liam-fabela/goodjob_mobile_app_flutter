@@ -24,6 +24,7 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
   bool _isLoading;
   int wid;
    Future<int> tem;
+   int id;
   @override
   void initState() {
     tem = SharedPrefUtils.getUser('userId');
@@ -262,221 +263,221 @@ Future<String> _checkApp(BuildContext context,int wid)async{
     return RefreshIndicator(
            onRefresh: () async{
             _refreshData(wid);
+
           },
           child: Container(
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 50,
-              child: Center(
-                child: Card(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.1,
-                    bottom: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
+        child: FutureBuilder(
+                future: tem,
+	              builder: (context,snapshot){
+                  if(snapshot.connectionState != ConnectionState.done){
+                    return loadingScreen(context,'Loading contents...');
+        }
+               final cust = snapshot.data.toString();
+               final custId = int.parse(cust);
+              UserProfile.dbUser = custId;
+              id = custId;
+               return Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 50,
+                child: Center(
+                  child: Card(
+                    margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.1,
+                      bottom: MediaQuery.of(context).size.height * 0.03,
                     ),
-                  ),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.80,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(15),
                       ),
-                      color: Color.fromRGBO(111, 209, 204, 1),
                     ),
-                    child: FutureBuilder(
-                      future: tem,
-                        builder: (context, snapshot){
-                          if(snapshot.connectionState != ConnectionState.done){
-                             return Center(
-                              child: SpinKitSquareCircle(
-                                  color: Color.fromRGBO(62, 135, 148, 1),
-                                  size: 50.0),
-                            );
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        color: Color.fromRGBO(111, 209, 204, 1),
+                      ),
+                      child: FutureBuilder<List<WorkerEarning>>(
+                          future: Services.getEarning(id),
+                          builder:  (context, snapshot) {
+                            if (snapshot.hasData) {
+                            List<WorkerEarning> workerEarning = snapshot.data;
+                            if(workerEarning.isEmpty){
+                                return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('My Earnings', style: largeFont()),
+                              SizedBox(height: 10),
+                              Text('Php 0.00', style: largeFont()),
+                              SizedBox(height: 10),
+                            ],
+                          );
                           }
-                          final cust = snapshot.data.toString();
-                          final custId = int.parse(cust);
-                          UserProfile.dbUser = custId;
-                       return FutureBuilder<List<WorkerEarning>>(
-                        future: Services.getEarning(wid),
-                        builder:  (context, snapshot) {
-                          if (snapshot.hasData) {
-                          List<WorkerEarning> workerEarning = snapshot.data;
-                          if(workerEarning.isEmpty){
-                              return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('My Earnings', style: largeFont()),
-                            SizedBox(height: 10),
-                            Text('Php 0.00', style: largeFont()),
-                            SizedBox(height: 10),
-                          ],
-                        );
-                        }
-                          return ListView.builder(
-                                itemCount: workerEarning.length,
-                                itemBuilder:(context, int index){
-                            return  Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('My Earnings', style: largeFont()),
-                            SizedBox(height: 10),
-                            Text(workerEarning[index].earnings == null ? "Php 0.00"
-                            :"Php " + workerEarning[index].earnings, style: largeFont()),
-                            SizedBox(height: 10),
-                            Text(workerEarning[index].updated == null ? ""
-                            :"As of " + workerEarning[index].updated, style: tinyFont()),
-                          ],
-                        );
-                                  });
-                            
-                          }else if (snapshot.hasError) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.wifi_off_outlined,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Connection error.',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(62, 135, 148, 1),
-                                      fontSize: 12,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold,
+                            return ListView.builder(
+                                  itemCount: workerEarning.length,
+                                  itemBuilder:(context, int index){
+                              return  Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('My Earnings', style: largeFont()),
+                              SizedBox(height: 10),
+                              Text(workerEarning[index].earnings == null ? "Php 0.00"
+                              :"Php " + workerEarning[index].earnings, style: largeFont()),
+                              SizedBox(height: 10),
+                              Text(workerEarning[index].updated == null ? ""
+                              :"As of " + workerEarning[index].updated, style: tinyFont()),
+                            ],
+                          );
+                                    });
+                              
+                            }else if (snapshot.hasError) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.wifi_off_outlined,
+                                      size: 50,
+                                      color: Colors.white,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: 15),
-                                 
-                                ],
+                                    SizedBox(height: 15),
+                                    Text(
+                                      'Connection error.',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(62, 135, 148, 1),
+                                        fontSize: 12,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 15),
+                                   
+                                  ],
+                                );
+                              }
+                              return Center(
+                                child: SpinKitSquareCircle(
+                                    color: Color.fromRGBO(62, 135, 148, 1),
+                                    size: 50.0),
                               );
-                            }
-                            return Center(
-                              child: SpinKitSquareCircle(
-                                  color: Color.fromRGBO(62, 135, 148, 1),
-                                  size: 50.0),
-                            );
-                        },
-                      );
-                        }),
-                   
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            Divider(),
-            Expanded(
-              flex: 50,
-              child: Center(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Job Postings',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Raleway',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+              Divider(),
+              Expanded(
+                flex: 50,
+                child: Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Job Postings',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Raleway',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      FutureBuilder<List<DisplayPost>>(
-                        future: Services.getPost(wid),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<DisplayPost> displayPost = snapshot.data;
-                            if (displayPost.isEmpty) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/empty.png',
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                   // height: MediaQuery.of(context).size.height * 0.5,
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text('No work posts found',
-                                      style: addressStyle()),
-                                ],
-                              );
-                            } else {
+                        FutureBuilder<List<DisplayPost>>(
+                          future: Services.getPost(id),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
                               List<DisplayPost> displayPost = snapshot.data;
-                              return Container(
-                                height: MediaQuery.of(context).size.height * 0.4,
-                                child: ListView.builder(
-                                  itemCount: displayPost.length,
-                                  itemBuilder: (context, int index) {
-                                    return postWidget(context, displayPost[index]);
-                                  },
+                              if (displayPost.isEmpty) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/empty.png',
+                                      width:
+                                          MediaQuery.of(context).size.width * 0.8,
+                                     // height: MediaQuery.of(context).size.height * 0.5,
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text('No work posts found',
+                                        style: addressStyle()),
+                                  ],
+                                );
+                              } else {
+                                List<DisplayPost> displayPost = snapshot.data;
+                                return Container(
+                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  child: ListView.builder(
+                                    itemCount: displayPost.length,
+                                    itemBuilder: (context, int index) {
+                                      return postWidget(context, displayPost[index]);
+                                    },
+                                  ),
+                                );
+                              }
+                            } else if (snapshot.hasError) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 35.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.wifi_off_outlined,
+                                      size: 50,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(height: 15),
+                                    Text(
+                                      'Connection error.',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(62, 135, 148, 1),
+                                        fontSize: 12,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 15),
+                                    GestureDetector(
+                                      onTap: () {
+                                         _refreshData(wid);
+                                      },
+                                      child: Icon(Icons.refresh, size: 50, color: Colors.white),
+                                    )
+                                  ],
                                 ),
                               );
                             }
-                          } else if (snapshot.hasError) {
                             return Padding(
-                              padding: const EdgeInsets.only(top: 35.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.wifi_off_outlined,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    'Connection error.',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(62, 135, 148, 1),
-                                      fontSize: 12,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: 15),
-                                  GestureDetector(
-                                    onTap: () {
-                                       _refreshData(wid);
-                                    },
-                                    child: Icon(Icons.refresh, size: 50, color: Colors.white),
-                                  )
-                                ],
+                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2
                               ),
-                            );
-                          }
-                          return Padding(
-                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2
+                            child: Center(
+                              child: SpinKitSquareCircle(
+                                  color: Color.fromRGBO(62, 135, 148, 1),
+                                  size: 50.0),
                             ),
-                          child: Center(
-                            child: SpinKitSquareCircle(
-                                color: Color.fromRGBO(62, 135, 148, 1),
-                                size: 50.0),
-                          ),
-                          );
-                        },
-                      ),
-                    ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          );
+
+                }
+               
         ),
       ),
     );
