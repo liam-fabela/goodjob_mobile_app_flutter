@@ -111,6 +111,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 14);
             }
           } else {
+            if(data["deleted"] || data["deleted2"]){
+              Fluttertoast.showToast(
+                  msg: "Your account is deleted!",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.grey,
+                  textColor: Colors.white,
+                  fontSize: 14);
+            }
             utype = data["usertype"];
             valid = data["validate"];
             userId = data["uid"];

@@ -171,9 +171,9 @@ class _WorkerTimerState extends State<WorkerTimer> {
                           showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-                title: Text('Log out.', style: TextStyle(color: Colors.black),),
+                title: Text('Save time', style: TextStyle(color: Colors.black),),
                 content: SingleChildScrollView(child:ListBody(children: [
-                   Text('Are you sure you want to logout?.'),
+                   Text('Are you sure you want to submit work time?.'),
                 ],)),
                 actions: <Widget>[
                  

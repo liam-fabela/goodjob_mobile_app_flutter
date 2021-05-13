@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../styles/style.dart';
 import 'customer2_sign_up.dart';
@@ -38,6 +39,8 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
       });
     });
   }
+
+  
 
   void _customerSignUp(BuildContext context) {
     if (formKey.currentState.validate()) {
@@ -165,6 +168,25 @@ class _CustomerSignUpScreenState extends State<CustomerSignUpScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            if(formatted != null){
+                              var dateNow = DateTime.now();
+                            var dob = DateTime.parse(formatted);
+                            var diff = dateNow.difference(dob);
+                            var year = ((diff.inDays)/365).round();
+                            if(year < 18){
+                               Fluttertoast.showToast(
+                                  msg:
+                                      "Ages below 18 is not allowed to register",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.grey,
+                                  textColor: Colors.white,
+                                  fontSize: 14);
+                              return;
+                            }
+                            }
+                             
                             _customerSignUp(context);
                           },
                           child: Container(

@@ -85,6 +85,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
                 dialog.style(
                   message: 'Deleting post...',
                 );
+            await dialog.show();
               await Services.deleteRequestNotif(jid).then((val){
                  setState(() {
                     _isLoading = false;
@@ -145,6 +146,7 @@ class _CustomerNotificationsState extends State<CustomerNotifications> {
               print('okay');
               _showMessage(context, customerRequests.reason);
             } else {
+              print(customerRequests.status);
               print('here');
               return;
             }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import '../services/services.dart';
 import '../styles/style.dart';
@@ -17,8 +19,71 @@ class CustomerPostNotification extends StatefulWidget {
 
 class _CustomerPostNotificationState extends State<CustomerPostNotification> {
    DateFormat dateFormat = DateFormat('yyyy-MM-dd - kk:mm');
+    var _isLoading = false;
 
+   _deletePost(int wid, int pin){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          'Delete.',
+          style: TextStyle(color: Colors.black),
+        ),
+        content: SingleChildScrollView(
+            child: ListBody(
+          children: [
+            Text('Are you sure you want to delete this?'),
+          ],
+        )),
+        actions: <Widget>[
+          TextButton(
+            child: Center(
+              child: Text(
+                'Yes',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () async {
+               ProgressDialog dialog = new ProgressDialog(context);
+                dialog.style(
+                  message: 'Deleting notification...',
+                );
+            await dialog.show();
+              await Services.deletePostNotif(wid,pin).then((val){
+                 setState(() {
+                    _isLoading = false;
+                  });
+                  dialog.hide();
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(
+                      msg: "Success!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Color.fromRGBO(91, 168, 144, 1),
+                      textColor: Colors.white,
+                      fontSize: 14);
+               
+               
+              });
+            },
+          ),
+          TextButton(
+            child: Center(
+              child: Text(
+                'No',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
 
+  }
    Widget listWidget(BuildContext context, CustomerNotification customerNotification){
     return Card(
       elevation: 5,
@@ -43,7 +108,12 @@ class _CustomerPostNotificationState extends State<CustomerPostNotification> {
            }
          );
           },
-          
+          onLongPress: (){
+            int wid = int.parse(customerNotification.wid);
+            int pin = int.parse(customerNotification.pid);
+
+            _deletePost(wid, pin);
+          },
          leading: CircleAvatar(
                         radius: 30,
                         backgroundImage: NetworkImage(customerNotification.profile), 

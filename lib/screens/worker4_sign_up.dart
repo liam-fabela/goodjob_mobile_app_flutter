@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../styles/style.dart';
 import '../widget/image_input.dart';
@@ -115,7 +116,21 @@ class _Worker4SignUpState extends State<Worker4SignUp> {
                     ),
                    // SizedBox(height: 20),
                     GestureDetector(
-                              onTap: () => workerSignUp(context),
+                              onTap: (){
+                                if(filePhoto == null && base64Portrait == null){
+                                   Fluttertoast.showToast(
+                                  msg:
+                                      "Please attach required photo",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.grey,
+                                  textColor: Colors.white,
+                                  fontSize: 14);
+                              return;
+                                }
+                                workerSignUp(context);
+                              },
                               child: Container(
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 0.6,

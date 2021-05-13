@@ -66,7 +66,7 @@ class _WorkerMessagePageState extends State<WorkerMessagePage> {
             onPressed: () async {
                ProgressDialog dialog = new ProgressDialog(context);
                 dialog.style(
-                  message: 'Deleting post...',
+                  message: 'Deleting message...',
                 );
                 await dialog.show();
              

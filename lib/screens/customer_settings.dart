@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../styles/style.dart';
 import '../helper/firebase_user.dart';
 import '../widget/customer_edit.dart';
+import 'customer_report.dart';
 
 class CustomerSettings extends StatelessWidget {
   @override
@@ -11,6 +12,9 @@ class CustomerSettings extends StatelessWidget {
       switch(index){
         case 0:
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomerEdit(UserProfile.dbUser)));
+          break;
+         case 1:
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomerReport(UserProfile.dbUser)));
           break;
         default:
 
@@ -29,6 +33,10 @@ class CustomerSettings extends StatelessWidget {
               icon = Icon(Icons.edit);
               text = Text('Edit Profile');
                 break;
+              case 1:
+              icon = Icon(Icons.report);
+              text = Text('Report');
+                break;
               default:
              }
              return InkWell(
@@ -43,7 +51,7 @@ class CustomerSettings extends StatelessWidget {
 
            },
           separatorBuilder: (context, index) => Divider(color: Colors.green),
-          itemCount: 1,
+          itemCount: 2,
         ),
       ),
       

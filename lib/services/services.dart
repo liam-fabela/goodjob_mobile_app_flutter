@@ -78,6 +78,10 @@ static const url45 = 'https://goodjob-mobile-app.000webhostapp.com/delete_work_r
 static const url46 = 'https://goodjob-mobile-app.000webhostapp.com/delete_customer_chat.php';
 static const url47 = 'https://goodjob-mobile-app.000webhostapp.com/delete_request_notif.php';
 static const url48 = 'https://goodjob-mobile-app.000webhostapp.com/forgot_password.php';
+static const url49 = 'https://goodjob-mobile-app.000webhostapp.com/delete_worker_notif.php';
+static const url50 = 'https://goodjob-mobile-app.000webhostapp.com/delete_post_notif.php';
+static const url51 = 'https://goodjob-mobile-app.000webhostapp.com/insert_customer_complaints.php';
+
 
 
 
@@ -917,6 +921,30 @@ static Future<void> insertComplaints(int wid, String com, String date) async{
   }
 }
 
+static Future<void> insertComplaints2(int cid, String com, String date) async{
+ 
+  try{
+    //print("FORM SERVICES" + workPostId.toString());
+     var map = Map<String, dynamic>();
+    map['cid'] = cid;
+     map['comp'] = com;
+     map['date'] = date;
+
+   final response = await http.post(url51, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get insert response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('complaint sent successfully');
+   }else{
+     print("error");
+   }
+
+
+
+  }catch(error){
+    throw(error);
+  }
+}
+
 
 static Future<List<WorkerEdits>> getWorkerEdit(int wid) async{
   try{
@@ -1310,6 +1338,43 @@ static Future<void> resetPassword(String email, String password) async{
      map['pass'] = password;
 
    final response = await http.post(url48, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> deleteWorkerNotif(int id) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['id'] = id;
+
+   final response = await http.post(url49, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
+   print('Get UPDATE response: ${response.body}');
+   if(response.statusCode == 200) {
+    print('Updated successfully');
+   }else{
+     print("error");
+   }
+
+  }catch(error){
+    print(error);
+  }
+}
+
+static Future<void> deletePostNotif(int id, int pin) async{
+  try{
+     var map = Map<String, dynamic>();
+     map['wid'] = id;
+     map['pin'] = pin;
+
+   final response = await http.post(url50, body:jsonEncode(map), headers: {'Content-type': 'application/json'});
    print('Get UPDATE response: ${response.body}');
    if(response.statusCode == 200) {
     print('Updated successfully');

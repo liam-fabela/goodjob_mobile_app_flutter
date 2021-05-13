@@ -65,7 +65,7 @@ class _CustomerMessagePageState extends State<CustomerMessagePage> {
             onPressed: () async {
                ProgressDialog dialog = new ProgressDialog(context);
                 dialog.style(
-                  message: 'Deleting post...',
+                  message: 'Deleting message...',
                 );
                 await dialog.show();
              

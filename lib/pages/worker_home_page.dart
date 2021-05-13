@@ -54,7 +54,7 @@ Future<void> _refreshData(int wid) async {
    
   }
 
-Future<String> _checkApp(BuildContext context,int wid)async{
+Future<String> _checkApp(BuildContext context,int wid, int wip)async{
      try {
         setState(() {
           _isLoading = true;
@@ -62,6 +62,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
         print("gisulod dne");
         var map = Map<String, dynamic>();
         map["wid"] = wid;
+        map["wip"] = wip;
 
         http.Response response = await http.post(url,
             body: jsonEncode(map),
@@ -71,7 +72,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
         if (200 == response.statusCode) {
           print(response.body);
           var data = json.decode(response.body);
-          if(data["status"] == 'Success!'){
+          if(data["status"] == 'ok'){
            return data["status"];
             //('ok');
           }else{
@@ -87,7 +88,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
     } 
 
 
-  _notifyCustomer(BuildContext context , int id, int cid, int wid) async{
+  _notifyCustomer(BuildContext context , int id, int cid, int wid, int wip) async{
     return await showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -112,7 +113,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
               await dialog.show();
               var _myTime = await NTP.now();
               String updated = _myTime.toString();
-             _checkApp(context,wid).then((val){
+             _checkApp(context,wid,wip).then((val){
                if(val.toString() == 'ok'){
                  Services.insertNotif(id,cid, wid, updated).then((val){
 
@@ -180,8 +181,13 @@ Future<String> _checkApp(BuildContext context,int wid)async{
       ),
      
       child: Container(
-         height: MediaQuery.of(context).size.height * 0.4,
-        padding: EdgeInsets.all(15),
+         height: MediaQuery.of(context).size.height * 0.5,
+        padding: EdgeInsets.all(20),
+         decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                     ),
         child: Column(
           children: [
             ListTile(
@@ -230,7 +236,8 @@ Future<String> _checkApp(BuildContext context,int wid)async{
                                 int id = int.parse(displayPost.workPostId);
                                 print("FROM ON TAP" +id.toString());
                                 int cid = int.parse(displayPost.customerId);
-                                _notifyCustomer(context, id,cid, wid);
+                                int wip = int.parse(displayPost.workPostId);
+                                _notifyCustomer(context, id,cid, wid, wip);
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -281,7 +288,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                flex: 50,
+                flex: 45,
                 child: Center(
                   child: Card(
                     margin: EdgeInsets.only(
@@ -377,10 +384,16 @@ Future<String> _checkApp(BuildContext context,int wid)async{
                 ),
               Divider(),
               Expanded(
-                flex: 50,
+                flex: 55,
                 child: Center(
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.5,
+                    padding: EdgeInsets.only(left: 25, right: 25),
+                     decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                     ),
                     child: Column(
                       children: [
                         Text(
@@ -392,6 +405,7 @@ Future<String> _checkApp(BuildContext context,int wid)async{
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        SizedBox(height: 5),
                         FutureBuilder<List<DisplayPost>>(
                           future: Services.getPost(id),
                           builder: (context, snapshot) {

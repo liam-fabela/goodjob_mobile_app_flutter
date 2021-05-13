@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../styles/style.dart';
@@ -42,6 +43,9 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
 
   void _workerSignUp(BuildContext context) {
     if (formKey.currentState.validate()) {
+      print("something went wrong");
+
+      print("zach does not like u");
       Navigator.of(context).pushNamed(Worker2SignUp.routeName, arguments: {
         'lname': _lastName.text,
         'fname': _firstName.text,
@@ -166,7 +170,29 @@ class _WorkerSignUpState extends State<WorkerSignUp> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => _workerSignUp(context),
+                          onTap: () {
+                            if(formatted!= null){
+                              var dateNow = DateTime.now();
+                            var dob = DateTime.parse(formatted);
+                            var diff = dateNow.difference(dob);
+                            var year = ((diff.inDays)/365).round();
+                            if(year < 18){
+                               Fluttertoast.showToast(
+                                  msg:
+                                      "Ages below 18 is not allowed to register",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.grey,
+                                  textColor: Colors.white,
+                                  fontSize: 14);
+                              return;
+                            }
+                            }
+                             
+                            _workerSignUp(context);
+                          },
+
                           child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width * 0.6,

@@ -9,6 +9,7 @@ class CustomerNotification{
   String catType;
   String catId;
   String uid;
+  String pid;
 
   CustomerNotification({
     this.wid,
@@ -21,6 +22,7 @@ class CustomerNotification{
     this.catType,
     this.catId,
     this.uid,
+    this.pid,
   });
 
   factory CustomerNotification.fromJson(Map<String, dynamic>jsonData){
@@ -34,6 +36,7 @@ class CustomerNotification{
       profile: "https://goodjob-mobile-app.000webhostapp.com/worker_profile/"+jsonData['profile'],
       catType: jsonData['catType'],
       catId: jsonData['catId'],
+      pid: jsonData['pid'],
     );
 }
 }
